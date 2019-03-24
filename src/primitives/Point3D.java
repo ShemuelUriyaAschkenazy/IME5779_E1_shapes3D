@@ -1,6 +1,9 @@
 package primitives;
 
 import  primitives.Coordinate;
+
+import java.util.Vector;
+
 import static primitives.Util.*;
 
 public final class Point3D {
@@ -53,17 +56,15 @@ public final class Point3D {
         return new Point3D(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z));
     }
 
-    public Point3D add(Point3D other) {
+    public Point3D add(Vector other) {
         return new Point3D(_x.add(other._x), _y.add(other._y), _z.add(other._z));
     }
 
-    public Point3D scale(double num) {
-        return new Point3D(_x.scale(num),_y.scale(num),_z.scale(num));
+    public double distance (Point3D p1, Point3D p2){
+        return Math.sqrt(((p1._x).subtract(p2._x))._coord   *((p1._x).subtract(p2._x)._coord + ((p1._y).subtract(p2._y))._coord  *   ((p1._y).subtract(p2._y))._coord + ((p1._z).subtract(p2._z))._coord*((p1._z).subtract(p2._z))._coord));
+        
     }
-
-    public Point3D multiply(Coordinate other) {
-        return new Coordinate(uscale(_coord, other._coord));
-    }
+        
 
 }
 
