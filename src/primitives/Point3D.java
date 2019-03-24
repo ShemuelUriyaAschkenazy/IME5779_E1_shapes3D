@@ -1,8 +1,8 @@
 package primitives;
 
 import  primitives.Coordinate;
+import  primitives.Vector;
 
-import java.util.Vector;
 
 import static primitives.Util.*;
 
