@@ -1,5 +1,7 @@
 package primitives;
 
+import primitives.Coordinate;
+
 public class Vector {
     Coordinate _x;
     Coordinate _y;
@@ -28,7 +30,31 @@ public class Vector {
     public Coordinate getZ() {
         return new Coordinate(_z);
     }
-    public Coordinate scale(double num) {
-        return new Vector(new Coordinate(uscale(_x._coord, num)),new Coordinate(uscale(_y, num)),new Coordinate(uscale(_z, num)));
+
+    /************** Operations ***************/
+
+    public Vector scale(double num) {
+        return new Vector(_x.scale(num),_y.scale(num),_z.scale(num));
     }
+
+    public Vector dotProduct(Vector other){
+        return
+    }
+
+    public Vector crossProduct(Vector other){
+    return
+    }
+
+    public double distance (){
+        return Math.sqrt();
+    }
+
+    public Vector normalize (){
+
+    }
+
+
+
+
+
 }

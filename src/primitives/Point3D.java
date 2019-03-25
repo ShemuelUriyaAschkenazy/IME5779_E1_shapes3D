@@ -52,8 +52,8 @@ public final class Point3D {
     }
 
     /************** Operations ***************/
-    public Point3D subtract(Point3D other) {
-        return new Point3D(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z));
+    public Vector subtract(Point3D other) {
+        return new Vector(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z));
     }
 
     public Point3D add(Vector other) {
