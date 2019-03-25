@@ -61,7 +61,12 @@ public class Vector {
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "_x=" + _x +
+                ", _y=" + _y +
+                ", _z=" + _z +
+                '}';
+    }
 }
