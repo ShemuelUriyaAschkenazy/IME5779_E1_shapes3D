@@ -4,7 +4,7 @@ package main;
 import primitives.Coordinate;
 import primitives.Vector;
 public class Main {
-    public static void Main() {
+    public static void main(String[] args) {
         Coordinate a = new Coordinate(2);
         Coordinate b = new Coordinate(4);
         Coordinate c = new Coordinate(5);

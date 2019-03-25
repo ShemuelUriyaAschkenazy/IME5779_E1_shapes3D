@@ -14,6 +14,7 @@ public final class Coordinate {
         _coord = alignZero(coord);
     }
 
+
     public Coordinate(Coordinate other) {
         _coord = other._coord;
     }
