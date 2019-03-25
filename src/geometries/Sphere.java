@@ -1,4 +1,27 @@
 package geometries;
 
-public class Sphere {
+
+import primitives.Point3D;
+
+public class Sphere extends RadialGeometry {
+
+
+
+    Point3D center;
+
+    /********** Constructors ***********/
+    public Sphere (double radius, Point3D p){
+        super(radius);
+    }
+
+    /************** Getters/Setters *******/
+
+    public Point3D getCenter() {
+        return center;
+    }
+
+
+
+
+
 }

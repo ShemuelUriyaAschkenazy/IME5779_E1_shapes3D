@@ -11,9 +11,10 @@ public  RadialGeometry(RadialGeometry radius){
     _radius = radius._radius;
 }
     /************** Getters/Setters *******/
-    public double get() {
+    public double get_radius() {
         return _radius;
     }
+
 
 
 

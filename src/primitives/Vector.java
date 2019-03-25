@@ -1,6 +1,5 @@
 package primitives;
 
-import primitives.Coordinate;
 
 public class Vector {
     Coordinate _x;

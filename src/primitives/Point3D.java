@@ -1,10 +1,6 @@
 package primitives;
 
-import  primitives.Coordinate;
-import  primitives.Vector;
 
-
-import static primitives.Util.*;
 
 public final class Point3D {
 
