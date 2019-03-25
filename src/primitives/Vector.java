@@ -37,20 +37,27 @@ public class Vector {
         return new Vector(_x.scale(num),_y.scale(num),_z.scale(num));
     }
 
-    public Vector dotProduct(Vector other){
-        return
+    public double dotProduct(Vector other){
+        return _x._coord*other._x._coord+ _y._coord*other._y._coord+ _z._coord*other._z._coord;
     }
 
     public Vector crossProduct(Vector other){
-    return
+    Coordinate a= new Coordinate((_y._coord*other._z._coord)-(other._y._coord*_z._coord));
+        Coordinate b= new Coordinate((other._x._coord*_z._coord)-(_x._coord*other._z._coord));
+        Coordinate c= new Coordinate((_x._coord*other._y._coord)-(_y._coord*other._x._coord));
+    return new Vector(a,b,c);
     }
 
-    public double distance (){
-        return Math.sqrt();
+    public double length (){
+        return Math.sqrt(_x._coord*_x._coord  + _y._coord*_y._coord + _z._coord*_z._coord);
     }
 
     public Vector normalize (){
-
+    double length= this.length();
+    Coordinate x=new Coordinate(_x._coord/length);
+    Coordinate y=new Coordinate(_y._coord/length);
+    Coordinate z=new Coordinate(_z._coord/length);
+    return new Vector(x,y,z);
     }
 
 
