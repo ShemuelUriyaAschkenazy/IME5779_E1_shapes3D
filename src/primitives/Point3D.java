@@ -48,7 +48,7 @@ public final class Point3D {
     }
 
     /************** Operations ***************/
-    public Vector subtract(Point3D other) {
+    public Vector subtract(Point3D other) throws Exception{
         return new Vector(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z));
     }
 

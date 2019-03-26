@@ -1,4 +1,5 @@
 package primitives;
+import java.text.DecimalFormat;
 
 import static primitives.Util.*;
 
@@ -33,9 +34,12 @@ public final class Coordinate {
         return usubtract(_coord, ((Coordinate)obj)._coord) == 0.0;
     }
 
+    //uses for presenting formatting double in the toStrong function
+    private static DecimalFormat df2 = new DecimalFormat(".##");
     @Override
+
     public String toString() {
-        return "" + _coord;
+        return "" + df2.format(_coord);
     }
 
     /************** Operations ***************/
@@ -56,3 +60,5 @@ public final class Coordinate {
     }
 
 }
+
+
