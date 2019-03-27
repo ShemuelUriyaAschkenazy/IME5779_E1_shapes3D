@@ -1,29 +1,23 @@
 package primitives;
 
 
-
 public class Vector {
     Coordinate _x;
     Coordinate _y;
     Coordinate _z;
 
-    public Vector(Coordinate x, Coordinate y,Coordinate z) throws Exception{
-        if (x._coord==Coordinate.ZERO._coord
-                &&y._coord==Coordinate.ZERO._coord
-                &&z._coord==Coordinate.ZERO._coord)
-            throw new MyException("zero vector is not valid");
-
+    public Vector(Coordinate x, Coordinate y,Coordinate z) {
         _x=new Coordinate(x);
         _y=new Coordinate(y);
         _z=new Coordinate(z);
 
     }
 
-    public Vector(Vector other) throws Exception{
-        if (other._x._coord==Coordinate.ZERO._coord
-        &&other._y._coord==Coordinate.ZERO._coord
-        &&other._z._coord==Coordinate.ZERO._coord)
-            throw new MyException("zero vector is not valid");
+    public Vector(Vector other) throws  Exception{
+        if (_x._coord==Coordinate.ZERO._coord
+        &&_y._coord==Coordinate.ZERO._coord
+        &&_z._coord==Coordinate.ZERO._coord)
+            throw new MyException("veotor 0 is not b");
 
         _x=other.getX();
         _y=other.getY();
@@ -43,7 +37,7 @@ public class Vector {
 
     /************** Operations ***************/
 
-    public Vector scale(double num) throws Exception{
+    public Vector scale(double num) {
         return new Vector(_x.scale(num),_y.scale(num),_z.scale(num));
     }
 
@@ -51,18 +45,33 @@ public class Vector {
         return _x._coord*other._x._coord+ _y._coord*other._y._coord+ _z._coord*other._z._coord;
     }
 
-    public Vector crossProduct(Vector other) throws Exception{
+    public Vector crossProduct(Vector other){
     Coordinate a= new Coordinate((_y._coord*other._z._coord)-(other._y._coord*_z._coord));
         Coordinate b= new Coordinate((other._x._coord*_z._coord)-(_x._coord*other._z._coord));
         Coordinate c= new Coordinate((_x._coord*other._y._coord)-(_y._coord*other._x._coord));
     return new Vector(a,b,c);
     }
 
+    public Vector substract(Vector other){
+        Coordinate a= new Coordinate((_x._coord)-(other._x._coord));
+        Coordinate b= new Coordinate((_y._coord)-(other._y._coord));
+        Coordinate c= new Coordinate((_z._coord)-(other._z._coord));
+        return new Vector(a,b,c);
+    }
+
+    public Vector add(Vector other){
+        Coordinate a= new Coordinate((_x._coord)+(other._x._coord));
+        Coordinate b= new Coordinate((_y._coord)+(other._y._coord));
+        Coordinate c= new Coordinate((_z._coord)+(other._z._coord));
+        return new Vector(a,b,c);
+    }
+
+
     public double length (){
         return Math.sqrt(_x._coord*_x._coord  + _y._coord*_y._coord + _z._coord*_z._coord);
     }
 
-    public Vector normalize () throws Exception{
+    public Vector normalize (){
     double length= this.length();
     Coordinate x=new Coordinate(_x._coord/length);
     Coordinate y=new Coordinate(_y._coord/length);
@@ -72,21 +81,15 @@ public class Vector {
 
 
     @Override
+
     public String toString() {
-        return "Vector{" +
-                "_x=" + _x +
-                ", _y=" + _y +
-                ", _z=" + _z +
-                '}';
+        return String.format("Vector: (" +
+                _x +
+                ",  " + _y +
+                ",  " + _z +
+                ')');
     }
-
-
-
 }
-
-
-
-
 
 class MyException extends Exception {
     public MyException(String str)

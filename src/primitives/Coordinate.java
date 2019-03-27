@@ -35,7 +35,7 @@ public final class Coordinate {
     }
 
     //uses for presenting formatting double in the toStrong function
-    private static DecimalFormat df2 = new DecimalFormat(".##");
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
     @Override
 
     public String toString() {
