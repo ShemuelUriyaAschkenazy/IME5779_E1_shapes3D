@@ -51,11 +51,11 @@ public final class Point3D {
 
     /************** Operations ***************/
     public Vector subtract(Point3D other) throws Exception {
-        return new Vector(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z));
+        return new Vector(new Point3D(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z)));
     }
 
-    public Point3D add(Vector other) {
-        return new Point3D(_x.add(other._x), _y.add(other._y), _z.add(other._z));
+    public Point3D add(Vector vector) {
+        return new Point3D(_x.add(vector._head._x), _y.add(vector._head._y), _z.add(vector._head._z));
     }
 
     public double distance(Point3D p2) {

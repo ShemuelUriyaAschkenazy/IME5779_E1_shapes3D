@@ -21,8 +21,8 @@ public class Main {
         Point3D p1= new Point3D(a,b,c);
         Point3D p2= new Point3D(e,e,f);
 
-        Vector vector1 = new Vector(a, b, c);
-        Vector vector2 = new Vector(d, e, f);
+        Vector vector1 = new Vector(p1);
+        Vector vector2 = new Vector(new Point3D(d, e, f));
 
 
         System.out.println("substract of "+p1+" by "+p2+" :");
@@ -36,9 +36,6 @@ public class Main {
 
         System.out.println("normalize of "+vector1+" :");
         System.out.println(vector1.normalize()+"\n");
-
-        System.out.println("cross product of "+vector1+" and "+vector2+" :");
-        System.out.println(vector1.crossProduct(vector2)+"\n");
 
         System.out.println("substract of "+vector1+" by "+vector2+" :");
         System.out.println(vector1.substract(vector2)+"\n");

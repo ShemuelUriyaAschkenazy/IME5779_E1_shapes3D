@@ -55,8 +55,8 @@ public final class Coordinate {
         return new Coordinate(uscale(_coord, num));
     }
 
-    public Coordinate multiply(Coordinate other) {
-        return new Coordinate(uscale(_coord, other._coord));
+    public double multiply(Coordinate other) {
+        return _coord*other._coord;
     }
 
 }

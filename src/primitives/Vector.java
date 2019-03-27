@@ -1,92 +1,87 @@
 package primitives;
-
+import primitives.Coordinate;
 
 public class Vector {
-    Coordinate _x;
-    Coordinate _y;
-    Coordinate _z;
 
-    public Vector(Coordinate x, Coordinate y,Coordinate z) {
-        _x=new Coordinate(x);
-        _y=new Coordinate(y);
-        _z=new Coordinate(z);
+
+    Point3D _head;
+
+    public Vector(Point3D head) throws Exception {
+        if (head._x.subtract(Coordinate.ZERO)==Coordinate.ZERO
+            &&head._y.subtract(Coordinate.ZERO)==Coordinate.ZERO
+            &&head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
+            throw new MyException("vector 0 is not valid");
+
+
+        _head=head;
 
     }
 
     public Vector(Vector other) throws  Exception{
-        if (_x._coord==Coordinate.ZERO._coord
-        &&_y._coord==Coordinate.ZERO._coord
-        &&_z._coord==Coordinate.ZERO._coord)
-            throw new MyException("veotor 0 is not b");
+        if (other._head._x.subtract(Coordinate.ZERO)==Coordinate.ZERO
+                &&other._head._y.subtract(Coordinate.ZERO)==Coordinate.ZERO
+                &&other._head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
+            throw new MyException("vector 0 is not valid");
 
-        _x=other.getX();
-        _y=other.getY();
-        _z=other.getZ();
+        _head=other._head;
     }
 
     /************** Getters/Setters *******/
-    public Coordinate getX() {
-        return new Coordinate(_x);
+    public Point3D get_head() {
+        return new Point3D(_head._x,_head._y,_head._z);
     }
-    public Coordinate getY() {
-        return new Coordinate(_y);
-    }
-    public Coordinate getZ() {
-        return new Coordinate(_z);
-    }
+
 
     /************** Operations ***************/
 
-    public Vector scale(double num) {
-        return new Vector(_x.scale(num),_y.scale(num),_z.scale(num));
+    public Vector scale(double num) throws Exception {
+        return new Vector(new Point3D(_head._x.scale(num),_head._y.scale(num),_head._z.scale(num)));
     }
 
     public double dotProduct(Vector other){
-        return _x._coord*other._x._coord+ _y._coord*other._y._coord+ _z._coord*other._z._coord;
+        return _head._x.multiply(other._head._x)
+              + _head._y.multiply(other._head._y)
+                +_head._z.multiply(other._head._z);
     }
 
-    public Vector crossProduct(Vector other){
-    Coordinate a= new Coordinate((_y._coord*other._z._coord)-(other._y._coord*_z._coord));
-        Coordinate b= new Coordinate((other._x._coord*_z._coord)-(_x._coord*other._z._coord));
-        Coordinate c= new Coordinate((_x._coord*other._y._coord)-(_y._coord*other._x._coord));
-    return new Vector(a,b,c);
+    public Vector crossProduct(Vector other) throws Exception{
+    Coordinate a= new Coordinate((_head._y.multiply(other._head._z))-(other._head._y.multiply(_head._z)));
+        Coordinate b= new Coordinate((other._head._x.multiply(_head._z))-(_head._x.multiply(other._head._z)));
+        Coordinate c= new Coordinate((_head._x.multiply(other._head._y))-(_head._y.multiply(other._head._x)));
+
+    return new Vector(new Point3D(a,b,c));
     }
 
-    public Vector substract(Vector other){
-        Coordinate a= new Coordinate((_x._coord)-(other._x._coord));
-        Coordinate b= new Coordinate((_y._coord)-(other._y._coord));
-        Coordinate c= new Coordinate((_z._coord)-(other._z._coord));
-        return new Vector(a,b,c);
+    public Vector substract(Vector other) throws Exception{
+        Coordinate a= new Coordinate((_head._x.subtract(other._head._x)));
+        Coordinate b= new Coordinate((_head._y.subtract(other._head._y)));
+        Coordinate c= new Coordinate((_head._z.subtract(other._head._z)));
+        return new Vector(new Point3D(a,b,c));
     }
 
-    public Vector add(Vector other){
-        Coordinate a= new Coordinate((_x._coord)+(other._x._coord));
-        Coordinate b= new Coordinate((_y._coord)+(other._y._coord));
-        Coordinate c= new Coordinate((_z._coord)+(other._z._coord));
-        return new Vector(a,b,c);
+    public Vector add(Vector other) throws Exception{
+        Coordinate a= new Coordinate((_head._x.add(other._head._x)));
+        Coordinate b= new Coordinate((_head._y.add(other._head._y)));
+        Coordinate c= new Coordinate((_head._z.add(other._head._z)));
+        return new Vector(new Point3D(a,b,c));
     }
 
 
     public double length (){
-        return Math.sqrt(_x._coord*_x._coord  + _y._coord*_y._coord + _z._coord*_z._coord);
+        return Math.sqrt(_head._x.multiply(_head._x)  + _head._y.multiply(_head._y) + _head._z.multiply(_head._z));
     }
 
-    public Vector normalize (){
-    double length= this.length();
-    Coordinate x=new Coordinate(_x._coord/length);
-    Coordinate y=new Coordinate(_y._coord/length);
-    Coordinate z=new Coordinate(_z._coord/length);
-    return new Vector(x,y,z);
+    public Vector normalize() throws Exception{
+    return this.scale(1/length());
     }
 
 
     @Override
-
     public String toString() {
         return String.format("Vector: (" +
-                _x +
-                ",  " + _y +
-                ",  " + _z +
+                _head._x +
+                ",  " + _head._y +
+                ",  " + _head._z +
                 ')');
     }
 }
