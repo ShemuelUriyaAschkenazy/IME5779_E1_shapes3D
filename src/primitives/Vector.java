@@ -3,7 +3,6 @@ import primitives.Coordinate;
 
 public class Vector {
 
-
     Point3D _head;
 
     public Vector(Point3D head) throws Exception {
@@ -11,16 +10,13 @@ public class Vector {
             &&head._y.subtract(Coordinate.ZERO)==Coordinate.ZERO
             &&head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
             throw new MyException("vector 0 is not valid");
-
-
         _head=head;
-
     }
 
     public Vector(Vector other) throws  Exception{
         if (other._head._x.subtract(Coordinate.ZERO)==Coordinate.ZERO
                 &&other._head._y.subtract(Coordinate.ZERO)==Coordinate.ZERO
-                &&other._head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
+              &&other._head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
             throw new MyException("vector 0 is not valid");
 
         _head=other._head;

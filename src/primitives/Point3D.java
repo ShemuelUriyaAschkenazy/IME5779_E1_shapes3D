@@ -1,8 +1,11 @@
 package primitives;
 
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public final class Point3D {
+
+    final public static Point3D ZERO= new Point3D(new Coordinate(0),new Coordinate(0), new Coordinate(0));
 
     Coordinate _x;
     Coordinate _y;
