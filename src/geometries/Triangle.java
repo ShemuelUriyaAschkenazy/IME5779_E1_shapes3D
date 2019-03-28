@@ -1,20 +1,26 @@
 package geometries;
 
 import primitives.Point3D;
+import primitives.Vector;
 
-public class Triangle {
+public class Triangle extends Plane{
 
     Point3D p1;
     Point3D p2;
     Point3D p3;
 
-    /********** Constructors ***********/
 
-    public Triangle(Point3D p1, Point3D p2, Point3D p3) {
+    /********** Constructors ***********/
+    public Triangle(Point3D point, Vector vector, Point3D p1, Point3D p2, Point3D p3) {
+        super(point, vector);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
     }
+
+
+
+
 
     /************** Getters/Setters *******/
     public Point3D getP1() {
