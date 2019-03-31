@@ -7,13 +7,13 @@ import primitives.Ray;
 public class Tube extends RadialGeometry{
     Ray _ray;
     /********** Constructors ***********/
-    public  Tube(Ray ray, double radius){
+    public  Tube(Ray ray, double radius) throws Exception{
         super(radius);
         this._ray = ray;
     }
 
     /************** Getters/Setters *******/
-    public Ray get_ray() {
+    public Ray getRay() {
         return _ray;
     }
     @Override

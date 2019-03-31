@@ -10,9 +10,9 @@ public class Plane {
 
     /********** Constructors ***********/
 
-    public Plane(Point3D point, Vector vector) {
+    public Plane(Point3D point, Vector vector) throws Exception {
         this.point = point;
-        this.vector = vector;
+        this.vector = vector.normalize();
     }
 
     /************** Getters/Setters *******/

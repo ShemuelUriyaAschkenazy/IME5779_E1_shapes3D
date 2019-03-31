@@ -39,8 +39,8 @@ public class Main {
         System.out.println("normalize of "+vector1+" :");
         System.out.println(vector1.normalize()+"\n");
 
-        System.out.println("substract of "+vector1+" by "+vector2+" :");
-        System.out.println(vector1.substract(vector2)+"\n");
+        System.out.println("subtract of "+vector1+" by "+vector2+" :");
+        System.out.println(vector1.subtract(vector2)+"\n");
 
         System.out.println("add of "+vector1+" and "+vector2+" :");
         System.out.println(vector1.add(vector2)+"\n");

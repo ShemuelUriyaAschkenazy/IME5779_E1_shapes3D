@@ -10,7 +10,7 @@ public class Sphere extends RadialGeometry {
     Point3D center;
 
     /********** Constructors ***********/
-    public Sphere (double radius, Point3D p){
+    public Sphere (double radius, Point3D p) throws Exception{
         super(radius);
     }
 

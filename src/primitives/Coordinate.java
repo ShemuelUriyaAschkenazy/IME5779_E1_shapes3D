@@ -1,6 +1,5 @@
 package primitives;
 import java.text.DecimalFormat;
-
 import static primitives.Util.*;
 
 public final class Coordinate {
@@ -42,19 +41,36 @@ public final class Coordinate {
         return "" + df2.format(_coord);
     }
 
-    /************** Operations ***************/
+    /************** Operations***************/
+
+
+    /** * @param other- another coordinate
+     * @return the result of substract one coordinate from another
+     **/
     public Coordinate subtract(Coordinate other) {
         return new Coordinate(usubtract(_coord, other._coord));
     }
 
+    /**
+     * @param other- another coordinate
+     * @return the result of adding the two coordinates
+     */
     public Coordinate add(Coordinate other) {
         return new Coordinate(uadd(_coord, other._coord));
     }
 
+    /**
+     * @param num
+     * @return result of scaling the coordinate by a number
+     */
     public Coordinate scale(double num) {
         return new Coordinate(uscale(_coord, num));
     }
 
+    /**
+     * @param other- other coordinate
+     * @return number (double) from multiply the two coordinates. (uses for vector multiply).
+     */
     public double multiply(Coordinate other) {
         return _coord*other._coord;
     }
