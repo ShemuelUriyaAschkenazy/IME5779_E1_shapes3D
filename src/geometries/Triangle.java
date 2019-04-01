@@ -11,8 +11,9 @@ public class Triangle extends Plane{
 
 
     /********** Constructors ***********/
-    public Triangle(Vector vector, Point3D p1, Point3D p2, Point3D p3) throws Exception{
-        super(p1, vector);
+
+    public Triangle(Point3D p1, Point3D p2, Point3D p3) throws Exception{
+        super(p1, p2 ,p3);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;

@@ -1,12 +1,9 @@
 package geometries;
 
-import primitives.Coordinate;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Util;
+import primitives.*;
 
 
-public class Cylinder extends Tube {
+public class Cylinder extends Tube implements Geometry {
     double _height;
 
 
@@ -34,6 +31,15 @@ public class Cylinder extends Tube {
                 ", _ray=" + _ray +
                 ", _radius=" + _radius +
                 '}';
+    }
+
+    @Override
+
+    public Vector getNormal(Point3D point3D) throws Exception {
+        Point3D O = new Point3D( this._ray.get_point().add(this._ray.get_vector().crossProduct(this._ray.get_vector().crossProduct(point3D.subtract(this._ray.get_point())))));
+        Vector vectorNormal = new Vector(point3D.subtract(O));
+        return vectorNormal.normalize();
+
     }
 }
 

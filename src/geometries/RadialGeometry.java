@@ -2,7 +2,7 @@ package geometries;
 import primitives.Util;
 
 
-public abstract class RadialGeometry {
+public abstract class RadialGeometry{
     protected  double _radius;
 
     /********** Constructors ***********/
