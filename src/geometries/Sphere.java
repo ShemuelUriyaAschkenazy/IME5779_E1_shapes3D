@@ -18,7 +18,7 @@ public class Sphere extends RadialGeometry implements Geometry{
     /************** Getters/Setters *******/
 
     public Point3D getCenter() {
-        return center;
+        return new Point3D(center);
     }
 
 

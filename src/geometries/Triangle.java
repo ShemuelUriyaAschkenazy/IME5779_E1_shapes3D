@@ -17,6 +17,7 @@ public class Triangle extends Plane{
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
+
     }
 
 
