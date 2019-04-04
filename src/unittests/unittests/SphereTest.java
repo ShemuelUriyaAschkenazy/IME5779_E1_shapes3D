@@ -23,7 +23,7 @@ public class SphereTest {
         Sphere mySphere= new Sphere(radius,centerPoint);
         Point3D result= mySphere.getCenter();
         Point3D expResult= new Point3D(centerPoint);
-        org.junit.Assert.assertEquals(result,expResult);
+        assertEquals(result,expResult);
 
     }
 
