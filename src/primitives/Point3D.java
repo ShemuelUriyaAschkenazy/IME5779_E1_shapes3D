@@ -44,7 +44,7 @@ public final class Point3D {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (!(obj instanceof Coordinate)) return false;
+        if (!(obj instanceof Point3D)) return false;
         return _x.equals(((Point3D) obj)._x)
                 && _y.equals(((Point3D) obj)._y)
                 && _z.equals(((Point3D) obj)._z);

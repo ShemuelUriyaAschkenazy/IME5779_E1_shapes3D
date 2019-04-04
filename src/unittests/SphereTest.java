@@ -18,14 +18,19 @@ public class SphereTest {
         Coordinate y=new Coordinate(3);
         Coordinate z=new Coordinate(4);
         Point3D centerPoint=new Point3D(x,y,z);
-        Sphere mySphere= new Sphere(2,centerPoint);
-        Point3D result= mySphere.getCenter();
+        double radius=2;
+        Sphere mySphere= new Sphere(radius,centerPoint);
+       Point3D result= mySphere.getCenter();
         Point3D expResult= new Point3D(centerPoint);
-        org.junit.Assert.assertNotEquals(result,expResult);
+       org.junit.Assert.assertEquals(result,expResult);
+
     }
 
    @Test
     public void getNormal() {
+
         assertEquals(1,1);
     }
+
+
 }

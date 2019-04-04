@@ -13,12 +13,14 @@ public class Sphere extends RadialGeometry implements Geometry{
     /********** Constructors ***********/
     public Sphere (double radius, Point3D p) throws Exception{
         super(radius);
+        center=new Point3D(p);
     }
 
     /************** Getters/Setters *******/
 
     public Point3D getCenter() {
-        return new Point3D(center);
+        Point3D centerPoint=new Point3D(center);
+        return centerPoint;
     }
 
 
