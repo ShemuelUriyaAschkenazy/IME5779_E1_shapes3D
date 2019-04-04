@@ -1,6 +1,8 @@
 package primitives;
 import primitives.Coordinate;
 
+import java.util.Objects;
+
 public class Vector {
 
     Point3D _head;
@@ -112,7 +114,19 @@ public class Vector {
                 ",  " + _head._z +
                 ')';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Vector vector = (Vector) obj;
+        return _head.equals(vector._head);
+    }
+
+
 }
+
+
 
 //exception that thrown when the vector is zero vector
 class VectorZeroException extends Exception {
