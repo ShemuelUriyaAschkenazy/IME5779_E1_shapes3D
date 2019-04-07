@@ -19,11 +19,11 @@ public class Ray {
         this._vector = _vector;
     }
     /************** Getters/Setters *******/
-    public Point3D get_point() {
+    public Point3D getPoint() {
         return _point;
     }
 
-    public Vector get_vector() {
+    public Vector getVector() {
         return _vector;
     }
 
