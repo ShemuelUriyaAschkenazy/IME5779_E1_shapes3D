@@ -1,7 +1,4 @@
 package primitives;
-import primitives.Coordinate;
-
-import java.util.Objects;
 
 public class Vector {
 
