@@ -1,7 +1,11 @@
 package geometries;
 
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Triangle extends Plane{
 
@@ -19,7 +23,6 @@ public class Triangle extends Plane{
         this.p3 = p3;
 
     }
-
 
 
 
@@ -46,4 +49,33 @@ public class Triangle extends Plane{
                 ", p3=" + p3 +
                 '}';
     }
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray) throws Exception {
+        Point3D intersectsPlane;
+        List<Point3D> intersectionsWithPlane =  super.findIntersections(ray);
+        if (intersectionsWithPlane==null||intersectionsWithPlane.isEmpty())
+            return null;
+        else
+            intersectsPlane=intersectionsWithPlane.get(0);
+        Vector v1= p1.subtract(ray.getPoint());
+        Vector v2= p2.subtract(ray.getPoint());
+        Vector v3= p3.subtract(ray.getPoint());
+
+        Vector n1=v1.crossProduct(v2).normalize();
+        Vector n2=v2.crossProduct(v3).normalize();
+        Vector n3=v3.crossProduct(v1).normalize();
+
+        Vector temp= intersectsPlane.subtract(ray.getPoint());
+        if ((n1.dotProduct(temp)>0
+                &&n2.dotProduct(temp)>0
+                &&n3.dotProduct(temp)>0)
+        ||(n1.dotProduct(temp)<0
+                &&n2.dotProduct(temp)<0
+                &&n3.dotProduct(temp)<0))
+        return intersectionsWithPlane;
+        else return null;
+    }
+
+
 }
