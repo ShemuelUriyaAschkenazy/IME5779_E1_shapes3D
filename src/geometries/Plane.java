@@ -1,8 +1,6 @@
 package geometries;
 
-import primitives.Coordinate;
-import primitives.Point3D;
-import primitives.Ray;
+import primitives.*;
 import primitives.Vector;
 
 import java.util.*;
@@ -42,14 +40,16 @@ public class Plane implements Geometry {
         List<Point3D> intersectionsList= new ArrayList<Point3D>();
 
         //ray is parallel to the plane:
-        if (ray.getVector().dotProduct(this._normal)==0)
+        if (Util.usubtract(ray.getVector().dotProduct(this._normal),0)==0)
             return null;
 
         //ray is orthogonal to the plane
         if (ray.getVector().equals(this._normal))
             return null;
 
+        //System.out.println(_normal);
         double scaleNum= this._normal.dotProduct(this._point.subtract(ray.getPoint()))/(_normal.dotProduct(ray.getVector()));
+        //System.out.println(scaleNum);
         intersectionsList.add(ray.getPoint().add(ray.getVector().scale(scaleNum)));
         return intersectionsList;
     }

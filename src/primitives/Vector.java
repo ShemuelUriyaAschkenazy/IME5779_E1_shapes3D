@@ -74,24 +74,24 @@ public class Vector {
         double scaleNum;
         if(v2._head._x.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
             scaleNum = (_head._x._coord / v2._head._x._coord);
-            if (_head._y.subtract(v2._head._y.scale(scaleNum)) != Coordinate.ZERO
-                    ||_head._z.subtract(v2._head._z.scale(scaleNum)) != Coordinate.ZERO)
+            if (_head._y.subtract(v2._head._y.scale(scaleNum)) == Coordinate.ZERO
+                    &&_head._z.subtract(v2._head._z.scale(scaleNum)) == Coordinate.ZERO)
                 return true;
             else
                 return false;
         }
         else if (v2._head._y.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
             scaleNum = (_head._y._coord / v2._head._y._coord);
-            if (_head._x.subtract(v2._head._x.scale(scaleNum)) != Coordinate.ZERO
-                    || _head._z.subtract(v2._head._z.scale(scaleNum)) != Coordinate.ZERO)
+            if (_head._x.subtract(v2._head._x.scale(scaleNum)) == Coordinate.ZERO
+                    && _head._z.subtract(v2._head._z.scale(scaleNum)) == Coordinate.ZERO)
                 return true;
             else
                 return false;
         }
         else if (v2._head._z.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
             scaleNum = (_head._z._coord / v2._head._z._coord);
-            if (_head._x.subtract(v2._head._x.scale(scaleNum)) != Coordinate.ZERO
-                    || _head._y.subtract(v2._head._y.scale(scaleNum)) != Coordinate.ZERO)
+            if (_head._x.subtract(v2._head._x.scale(scaleNum)) == Coordinate.ZERO
+                    && _head._y.subtract(v2._head._y.scale(scaleNum)) == Coordinate.ZERO)
                 return true;
             else
                 return false;
