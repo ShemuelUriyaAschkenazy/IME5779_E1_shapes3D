@@ -2,6 +2,8 @@ package geometries;
 
 import primitives.*;
 
+import java.util.List;
+
 
 public class Cylinder extends Tube implements Geometry {
     double _height;
@@ -36,10 +38,16 @@ public class Cylinder extends Tube implements Geometry {
     @Override
 
     public Vector getNormal(Point3D point3D) throws Exception {
-        Point3D O = new Point3D( this._ray.get_point().add(this._ray.get_vector().crossProduct(this._ray.get_vector().crossProduct(point3D.subtract(this._ray.get_point())))));
+        Point3D O = new Point3D( this._ray.getPoint().add(this._ray.getVector().crossProduct(this._ray.getVector().crossProduct(point3D.subtract(this._ray.getPoint())))));
         Vector vectorNormal = new Vector(point3D.subtract(O));
         return vectorNormal.normalize();
 
+    }
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray) throws Exception {
+
+        return null;
     }
 }
 

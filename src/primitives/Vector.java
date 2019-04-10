@@ -5,9 +5,9 @@ public class Vector {
     Point3D _head;
 
     public Vector(Point3D head) throws Exception {
-        if (head._x.subtract(Coordinate.ZERO)==Coordinate.ZERO
-            &&head._y.subtract(Coordinate.ZERO)==Coordinate.ZERO
-            &&head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
+        if (head._x.subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
+            &&head._y.subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
+            &&head._z.subtract(Coordinate.ZERO).equals(Coordinate.ZERO))
             throw new VectorZeroException("vector 0 is not valid");
         _head=head;
     }
@@ -54,13 +54,53 @@ public class Vector {
      * @throws Exception
      */
     public Vector crossProduct(Vector other) throws Exception{
-    Coordinate a= new Coordinate((_head._y.multiply(other._head._z))-(other._head._y.multiply(_head._z)));
+        
+        if (this.isSameDirection(other))
+            throw new VectorZeroException("the two vectors have the same direction");
+
+        Coordinate a= new Coordinate((_head._y.multiply(other._head._z))-(other._head._y.multiply(_head._z)));
         Coordinate b= new Coordinate((other._head._x.multiply(_head._z))-(_head._x.multiply(other._head._z)));
         Coordinate c= new Coordinate((_head._x.multiply(other._head._y))-(_head._y.multiply(other._head._x)));
 
     return new Vector(new Point3D(a,b,c));
     }
 
+    /**
+     * @param v2 -other vector
+     * @return true if the vectors have the same direction, or false if they doesn't
+     * @throws Exception
+     */
+    boolean isSameDirection(Vector v2) throws Exception{
+        double scaleNum;
+        if(v2._head._x.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
+            scaleNum = (_head._x._coord / v2._head._x._coord);
+            if (_head._y.subtract(v2._head._y.scale(scaleNum)) != Coordinate.ZERO
+                    ||_head._z.subtract(v2._head._z.scale(scaleNum)) != Coordinate.ZERO)
+                return true;
+            else
+                return false;
+        }
+        else if (v2._head._y.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
+            scaleNum = (_head._y._coord / v2._head._y._coord);
+            if (_head._x.subtract(v2._head._x.scale(scaleNum)) != Coordinate.ZERO
+                    || _head._z.subtract(v2._head._z.scale(scaleNum)) != Coordinate.ZERO)
+                return true;
+            else
+                return false;
+        }
+        else if (v2._head._z.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
+            scaleNum = (_head._z._coord / v2._head._z._coord);
+            if (_head._x.subtract(v2._head._x.scale(scaleNum)) != Coordinate.ZERO
+                    || _head._y.subtract(v2._head._y.scale(scaleNum)) != Coordinate.ZERO)
+                return true;
+            else
+                return false;
+        }
+        else
+            throw new VectorZeroException("zero vector is not valid");
+    }
+    
+    
 
     /**
      * @param other -onother vector

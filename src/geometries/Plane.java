@@ -21,8 +21,9 @@ public class Plane implements Geometry {
     public Plane(Point3D p1, Point3D p2, Point3D p3) throws Exception {
         Vector v1 = new Vector(p2.subtract(p1));
         Vector v2 = new Vector(p3.subtract(p1));
-        Vector n = new Vector(v1.crossProduct(v2));
-        _normal = n.normalize();
+        Vector normal = new Vector(v1.crossProduct(v2));
+
+        _normal = normal.normalize();
         _point = p1;
     }
     /************** Getters/Setters *******/
