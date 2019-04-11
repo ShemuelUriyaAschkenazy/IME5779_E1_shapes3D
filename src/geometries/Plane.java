@@ -51,11 +51,14 @@ public class Plane implements Geometry {
         //ray is orthogonal to the plane
         if (ray.getVector().equals(this._normal))
             return null;
+        ///////////////גם אם בכיוון הפוך
 
-        //System.out.println(_normal);
+        System.out.println(_normal);
         double scaleNum= this._normal.dotProduct(this._point.subtract(ray.getPoint()))/(_normal.dotProduct(ray.getVector()));
-        //System.out.println(scaleNum);
-        intersectionsList.add(ray.getPoint().add(ray.getVector().scale(scaleNum)));
+        if (Util.usubtract(scaleNum,0)!=0)
+            intersectionsList.add(ray.getPoint().add(ray.getVector().scale(scaleNum)));
+        else
+            intersectionsList.add(ray.getPoint());
         return intersectionsList;
     }
 }

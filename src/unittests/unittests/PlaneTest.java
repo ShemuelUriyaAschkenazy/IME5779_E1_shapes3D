@@ -33,10 +33,10 @@ public class PlaneTest {
         Point3D p2= new Point3D(new Coordinate(5), new Coordinate(6), new Coordinate(0));
         Point3D p3= new Point3D(new Coordinate(7), new Coordinate(8), new Coordinate(0));
         Plane plane= new Plane(p1,p2,p3);
-        //System.out.println(ray);
+        System.out.println(ray);
         List<Point3D> result= plane.findIntersections(ray);
         List<Point3D> expectedResult= new ArrayList<Point3D>();
-        expectedResult.add(new Point3D(new Coordinate(-1), new Coordinate(0), new Coordinate(1)));
+        expectedResult.add(new Point3D(new Coordinate(0), new Coordinate(0), new Coordinate(0)));
 
         assertEquals(expectedResult,result);
 
