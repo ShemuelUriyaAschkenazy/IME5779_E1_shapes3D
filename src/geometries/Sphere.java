@@ -40,6 +40,9 @@ public class Sphere extends RadialGeometry implements Geometry{
         double uLength= u.length();
         double DistTilHalf= ray.getVector().dotProduct(u);
         double d=Math.sqrt(uLength*uLength - (DistTilHalf*DistTilHalf));
+        if (d>_radius)
+            return null;
+
         double halfChord=Math.sqrt(_radius*_radius-(d*d));
 
         double t1=DistTilHalf+halfChord;
