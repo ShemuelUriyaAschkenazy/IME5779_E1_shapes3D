@@ -34,6 +34,11 @@ public class Sphere extends RadialGeometry implements Geometry{
         return vectorNormal.normalize();
     }
 
+    /**
+     * @param ray from the camera
+     * @return list of Intersections points between the ray and the sphere
+     * @throws Exception
+     */
     @Override
     public List<Point3D> findIntersections(Ray ray) throws Exception {
         Vector u= center.subtract(ray.getPoint());
