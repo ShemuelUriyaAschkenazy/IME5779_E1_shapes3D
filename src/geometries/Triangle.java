@@ -50,6 +50,11 @@ public class Triangle extends Plane{
                 '}';
     }
 
+    /**
+     * @param ray from the camera
+     * @return list of Intersections points between the ray and the triangle
+     * @throws Exception
+     */
     @Override
     public List<Point3D> findIntersections(Ray ray) throws Exception {
         Point3D intersectsPlane;

@@ -35,6 +35,11 @@ public class Plane implements Geometry {
         return _normal;
     }
 
+    /**
+     * @param ray from the camera
+     * @return list of Intersections points between the ray and the plane
+     * @throws Exception
+     */
     @Override
     public List<Point3D> findIntersections(Ray ray) throws Exception{
         List<Point3D> intersectionsList= new ArrayList<Point3D>();
