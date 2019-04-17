@@ -2,7 +2,7 @@ package primitives;
 
 public class Vector {
 
-    Point3D _head;
+    private Point3D _head;
 
     public Vector(Point3D head) {
         if (head._x.subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
@@ -142,7 +142,11 @@ public class Vector {
      * @return the length of the vector
      */
     public double length (){
-        return Math.sqrt(_head._x.multiply(_head._x)  + _head._y.multiply(_head._y) + _head._z.multiply(_head._z));
+        return Math.sqrt(length2());
+    }
+
+    public double length2 (){
+        return _head._x.multiply(_head._x)  + _head._y.multiply(_head._y) + _head._z.multiply(_head._z);
     }
 
     /**

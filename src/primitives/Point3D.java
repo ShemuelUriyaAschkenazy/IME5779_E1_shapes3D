@@ -7,9 +7,9 @@ public final class Point3D {
 
     final public static Point3D ZERO= new Point3D(new Coordinate(0),new Coordinate(0), new Coordinate(0));
 
-    Coordinate _x;
-    Coordinate _y;
-    Coordinate _z;
+    private Coordinate _x;
+    private Coordinate _y;
+    private Coordinate _z;
 
     /* ********* Constructors ********** */
     public Point3D(Coordinate x, Coordinate y, Coordinate z) {
@@ -27,8 +27,8 @@ public final class Point3D {
 
     public Point3D(Point3D other) {
         _x = new Coordinate(other._x);
-        _y = other.getY();
-        _z = other.getZ();
+        _y = new Coordinate(other._y);
+        _z = new Coordinate(other._z);
     }
 
 
@@ -42,11 +42,11 @@ public final class Point3D {
     }
 
     public Coordinate getY() {
-        return new Coordinate(_y);
+        return _y;
     }
 
     public Coordinate getZ() {
-        return new Coordinate(_z);
+        return _z;
     }
 
     /*************** Admin *****************/
@@ -81,7 +81,7 @@ public final class Point3D {
      * @return the point received when adding the vector to the point
      */
     public Point3D add(Vector vector) {
-        return new Point3D(_x.add(vector._head._x), _y.add(vector._head._y), _z.add(vector._head._z));
+        return new Point3D(_x.add(vector.getHead()._x), _y.add(vector.getHead()._y), _z.add(vector.getHead()._z));
     }
 
     /**
