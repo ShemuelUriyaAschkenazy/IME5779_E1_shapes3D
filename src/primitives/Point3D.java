@@ -5,7 +5,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public final class Point3D {
 
-    final public static Point3D ZERO= new Point3D(new Coordinate(0),new Coordinate(0), new Coordinate(0));
+    final public static Point3D ZERO = new Point3D(new Coordinate(0), new Coordinate(0), new Coordinate(0));
 
     private Coordinate _x;
     private Coordinate _y;
@@ -16,10 +16,9 @@ public final class Point3D {
         _x = new Coordinate(x);
         _y = new Coordinate(y);
         _z = new Coordinate(z);
-
     }
 
-    public Point3D(double x, double y, double z){
+    public Point3D(double x, double y, double z) {
         _x = new Coordinate(x);
         _y = new Coordinate(y);
         _z = new Coordinate(z);
@@ -33,8 +32,10 @@ public final class Point3D {
 
 
     /* ************* Getters/Setters ****** */
+
     /**
      * asd asdf sdf dsf
+     *
      * @return fdd vf
      */
     public Coordinate getX() {
@@ -55,7 +56,7 @@ public final class Point3D {
         if (this == obj) return true;
         if (obj == null) return false;
         if (!(obj instanceof Point3D)) return false;
-        Point3D other = (Point3D)obj;
+        Point3D other = (Point3D) obj;
         return _x.equals(other._x) && _y.equals(other._y) && _z.equals(other._z);
     }
 
@@ -70,10 +71,10 @@ public final class Point3D {
      * @param other- another point
      * @return the vector received from subtract a point from our point
      * @throws Exception
-    **/
+     **/
 
     public Vector subtract(Point3D other) {
-        return new Vector(new Point3D(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z)));
+        return new Vector(_x.subtract(other._x), _y.subtract(other._y), _z.subtract(other._z));
     }
 
     /**
@@ -89,22 +90,20 @@ public final class Point3D {
      * @return the distane between the points
      */
     public double distance(Point3D p2) {
-        double x=_x.subtract(p2._x)._coord;
-        double y= _y.subtract(p2._y)._coord;
-        double z= _z.subtract(p2._z)._coord;
-        return Math.sqrt((x*x)+(y*y)+(z*z));
+        return Math.sqrt(distanceInSquare(p2));
     }
 
     /**
      * The function calculates squared distance to other point
+     *
      * @param p2- other point
      * @return the squared distance
      */
     public double distanceInSquare(Point3D p2) {
-        double x=_x.subtract(p2._x)._coord;
-        double y= _y.subtract(p2._y)._coord;
-        double z= _z.subtract(p2._z)._coord;
-        return (x*x)+(y*y)+(z*z);
+        double x = _x.subtract(p2._x).getCoordinate();
+        double y = _y.subtract(p2._y).getCoordinate();
+        double z = _z.subtract(p2._z).getCoordinate();
+        return (x * x) + (y * y) + (z * z);
     }
 }
 

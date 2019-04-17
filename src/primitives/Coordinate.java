@@ -20,7 +20,7 @@ public final class Coordinate {
     }
 
     /************** Getters/Setters *******/
-    public double get() {
+    public double getCoordinate() {
         return _coord;
     }
 

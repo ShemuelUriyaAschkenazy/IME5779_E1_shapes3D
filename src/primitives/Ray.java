@@ -1,8 +1,8 @@
 package primitives;
 
 public class Ray {
-    Point3D _point;
-    Vector _vector;
+    private Point3D _point;
+    private Vector _vector;
 
     @Override
     public String toString() {
@@ -13,11 +13,16 @@ public class Ray {
     }
 
     /********** Constructors ***********/
-    public  Ray(Point3D _point, Vector _vector){
-
+    public Ray(Point3D _point, Vector _vector) {
         this._point = _point;
         this._vector = _vector.normalize();
     }
+
+    public Ray(Ray ray) {
+        _point = new Point3D(ray.getPoint());
+        _vector = new Vector(ray.getVector());
+    }
+
     /************** Getters/Setters *******/
     public Point3D getPoint() {
         return _point;
