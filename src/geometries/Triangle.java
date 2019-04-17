@@ -53,7 +53,7 @@ public class Triangle extends Plane{
      * @throws Exception
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) throws Exception {
+    public List<Point3D> findIntersections(Ray ray) {
         Point3D intersectsPlane;
         List<Point3D> intersectionsWithPlane =  super.findIntersections(ray);
         if (intersectionsWithPlane==null||intersectionsWithPlane.isEmpty())

@@ -11,7 +11,7 @@ import java.util.List;
 public class Sphere extends RadialGeometry implements Geometry {
 
 
-    Point3D center;
+    private Point3D center;
 
     /********** Constructors ***********/
     public Sphere(double radius, Point3D p) throws Exception {
@@ -28,8 +28,8 @@ public class Sphere extends RadialGeometry implements Geometry {
 
 
     @Override
-    public Vector getNormal(Point3D point3D) throws Exception {
-         return point3D.subtract(this.center).normalize();
+    public Vector getNormal(Point3D point3D) {
+        return point3D.subtract(this.center).normalize();
     }
 
     /**
@@ -38,15 +38,15 @@ public class Sphere extends RadialGeometry implements Geometry {
      * @throws Exception
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) throws Exception {
+    public List<Point3D> findIntersections(Ray ray) {
         Vector u = center.subtract(ray.getPoint());
         double uLength = u.length();
         double DistTilHalf = ray.getVector().dotProduct(u);
         double d = Math.sqrt(uLength * uLength - (DistTilHalf * DistTilHalf));
-        if (d > _radius)
+        if (d > getRadius())
             return null;
 
-        double halfChord = Math.sqrt(_radius * _radius - (d * d));
+        double halfChord = Math.sqrt(getRadius() * getRadius() - (d * d));
 
         double t1 = DistTilHalf + halfChord;
         double t2 = DistTilHalf - halfChord;
