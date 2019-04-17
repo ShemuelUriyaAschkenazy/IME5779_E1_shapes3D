@@ -1,6 +1,7 @@
 package unittests;
 
 
+import javafx.scene.effect.Effect;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Util;
@@ -70,4 +71,43 @@ public class VectorTest {
         Vector expResult= new Vector(new Point3D(new Coordinate (0/5.0),new Coordinate (3/5.0),new Coordinate (4/5.0)));
         assertEquals(expResult,result);
     }
+
+
+    /*
+        /**
+     * @param v2 -other vector
+     * @return true if the vectors have the same direction, or false if they doesn't
+     * @throws Exception
+
+    boolean isSameDirection(Vector v2) {
+        double scaleNum;
+        if(v2._head._x.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
+            scaleNum = (_head._x._coord / v2._head._x._coord);
+            if (_head._y.subtract(v2._head._y.scale(scaleNum)) == Coordinate.ZERO
+                    &&_head._z.subtract(v2._head._z.scale(scaleNum)) == Coordinate.ZERO)
+                return true;
+            else
+                return false;
+        }
+        else if (v2._head._y.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
+            scaleNum = (_head._y._coord / v2._head._y._coord);
+            if (_head._x.subtract(v2._head._x.scale(scaleNum)) == Coordinate.ZERO
+                    && _head._z.subtract(v2._head._z.scale(scaleNum)) == Coordinate.ZERO)
+                return true;
+            else
+                return false;
+        }
+        else if (v2._head._z.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
+            scaleNum = (_head._z._coord / v2._head._z._coord);
+            if (_head._x.subtract(v2._head._x.scale(scaleNum)) == Coordinate.ZERO
+                    && _head._y.subtract(v2._head._y.scale(scaleNum)) == Coordinate.ZERO)
+                return true;
+            else
+                return false;
+        }
+        else
+            throw new IllegalArgumentException("zero vector is not valid");
+    }
+     */
+    
 }
