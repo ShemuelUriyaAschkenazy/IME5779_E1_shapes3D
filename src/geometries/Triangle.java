@@ -24,9 +24,6 @@ public class Triangle extends Plane{
 
     }
 
-
-
-
     /************** Getters/Setters *******/
     public Point3D getP1() {
         return p1;

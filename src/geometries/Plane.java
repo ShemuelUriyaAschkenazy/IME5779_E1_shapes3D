@@ -51,7 +51,6 @@ public class Plane implements Geometry {
         //ray is orthogonal to the plane
         if (ray.getVector().equals(this._normal))
             return null;
-        ///////////////גם אם בכיוון הפוך
 
         System.out.println(_normal);
         double scaleNum= this._normal.dotProduct(this._point.subtract(ray.getPoint()))/(_normal.dotProduct(ray.getVector()));
