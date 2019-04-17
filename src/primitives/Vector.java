@@ -49,7 +49,7 @@ public class Vector {
      * @throws Exception
     **/
     public Vector scale(double num) {
-        return new Vector(new Point3D(_head._x.scale(num),_head._y.scale(num),_head._z.scale(num)));
+        return new Vector(_head.getX().scale(num),_head.getY().scale(num),_head.getZ().scale(num));
     }
 
     /**
