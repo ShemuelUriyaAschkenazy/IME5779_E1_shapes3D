@@ -1,18 +1,28 @@
 package geometries;
 
+import primitives.Point3D;
+import primitives.Ray;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class Geometries {
+public class Geometries implements Intersectable {
 
-    List<Intersectable> intersectableList;
+    List<Intersectable> intersectableList = new ArrayList<>();
 
-/**********constructor*******/
-    public Geometries(Intersectable... geometries){
+    /**********constructor*******/
+    public Geometries(Intersectable... geometries) {
         for (Intersectable g : geometries)
-        intersectableList.add(g);
+            intersectableList.add(g);
     }
 
-    public void add(Intersectable geometry){
+    public void add(Intersectable geometry) {
         intersectableList.add(geometry);
+    }
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray) throws Exception {
+        // TODO
+        return null;
     }
 }

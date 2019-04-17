@@ -16,7 +16,7 @@ public class Ray {
     public  Ray(Point3D _point, Vector _vector){
 
         this._point = _point;
-        this._vector = _vector;
+        this._vector = _vector.normalize();
     }
     /************** Getters/Setters *******/
     public Point3D getPoint() {
