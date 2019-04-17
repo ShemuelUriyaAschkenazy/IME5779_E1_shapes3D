@@ -5,17 +5,17 @@ public class Vector {
     private Point3D _head;
 
     public Vector(Point3D head) {
-        if (head._x.subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
-            &&head._y.subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
-            &&head._z.subtract(Coordinate.ZERO).equals(Coordinate.ZERO))
+        if (head.getX().subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
+            &&head.getY().subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
+            &&head.getZ().subtract(Coordinate.ZERO).equals(Coordinate.ZERO))
             throw new IllegalArgumentException("vector 0 is not valid");
         _head=head;
     }
 
     public Vector(Vector other) {
-        if (other._head._x.subtract(Coordinate.ZERO)==Coordinate.ZERO
-                &&other._head._y.subtract(Coordinate.ZERO)==Coordinate.ZERO
-              &&other._head._z.subtract(Coordinate.ZERO)==Coordinate.ZERO)
+        if (other._head.getX().subtract(Coordinate.ZERO)==Coordinate.ZERO
+                &&other._head.getY().subtract(Coordinate.ZERO)==Coordinate.ZERO
+              &&other._head.getZ().subtract(Coordinate.ZERO)==Coordinate.ZERO)
             throw new IllegalArgumentException("vector 0 is not valid");
 
         _head=other._head;
@@ -57,9 +57,9 @@ public class Vector {
      * @return the numeral result of dot product of the two vectors
      */
     public double dotProduct(Vector other){
-        return _head._x.multiply(other._head._x)
-              + _head._y.multiply(other._head._y)
-                +_head._z.multiply(other._head._z);
+        return _head.getX().multiply(other._head.getX())
+              + _head.getY().multiply(other._head.getY())
+                +_head.getZ().multiply(other._head.getZ());
     }
 
     /**
@@ -68,51 +68,12 @@ public class Vector {
      * @throws Exception
      */
     public Vector crossProduct(Vector other) {
-        
-        if (this.isSameDirection(other))
-            throw new IllegalArgumentException("the two vectors have the same direction");
-
-        Coordinate a= new Coordinate((_head._y.multiply(other._head._z))-(other._head._y.multiply(_head._z)));
-        Coordinate b= new Coordinate((other._head._x.multiply(_head._z))-(_head._x.multiply(other._head._z)));
-        Coordinate c= new Coordinate((_head._x.multiply(other._head._y))-(_head._y.multiply(other._head._x)));
-
-    return new Vector(new Point3D(a,b,c));
+        double a= _head.getY().multiply(other._head.getZ())-(other._head.getY().multiply(_head.getZ()));
+        double b= other._head.getY().multiply(_head.getZ())-(_head.getX().multiply(other._head.getZ()));
+        double c= _head.getX().multiply(other._head.getY())-(_head.getY().multiply(other._head.getX()));
+        return new Vector(a,b,c);
     }
 
-    /**
-     * @param v2 -other vector
-     * @return true if the vectors have the same direction, or false if they doesn't
-     * @throws Exception
-     */
-    boolean isSameDirection(Vector v2) {
-        double scaleNum;
-        if(v2._head._x.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
-            scaleNum = (_head._x._coord / v2._head._x._coord);
-            if (_head._y.subtract(v2._head._y.scale(scaleNum)) == Coordinate.ZERO
-                    &&_head._z.subtract(v2._head._z.scale(scaleNum)) == Coordinate.ZERO)
-                return true;
-            else
-                return false;
-        }
-        else if (v2._head._y.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
-            scaleNum = (_head._y._coord / v2._head._y._coord);
-            if (_head._x.subtract(v2._head._x.scale(scaleNum)) == Coordinate.ZERO
-                    && _head._z.subtract(v2._head._z.scale(scaleNum)) == Coordinate.ZERO)
-                return true;
-            else
-                return false;
-        }
-        else if (v2._head._z.subtract(Coordinate.ZERO)!=Coordinate.ZERO) {
-            scaleNum = (_head._z._coord / v2._head._z._coord);
-            if (_head._x.subtract(v2._head._x.scale(scaleNum)) == Coordinate.ZERO
-                    && _head._y.subtract(v2._head._y.scale(scaleNum)) == Coordinate.ZERO)
-                return true;
-            else
-                return false;
-        }
-        else
-            throw new IllegalArgumentException("zero vector is not valid");
-    }
 
     /**
      * @param other -onother vector
@@ -120,10 +81,10 @@ public class Vector {
      * @throws Exception
      */
     public Vector subtract(Vector other) {
-        Coordinate a= new Coordinate((_head._x.subtract(other._head._x)));
-        Coordinate b= new Coordinate((_head._y.subtract(other._head._y)));
-        Coordinate c= new Coordinate((_head._z.subtract(other._head._z)));
-        return new Vector(new Point3D(a,b,c));
+        Coordinate a= _head.getX().subtract(other._head.getX());
+        Coordinate b= _head.getY().subtract(other._head.getY());
+        Coordinate c= _head.getZ().subtract(other._head.getZ());
+        return new Vector(a,b,c);
     }
 
     /**
@@ -132,10 +93,10 @@ public class Vector {
      * @throws Exception
      */
     public Vector add(Vector other) {
-        Coordinate a= new Coordinate((_head._x.add(other._head._x)));
-        Coordinate b= new Coordinate((_head._y.add(other._head._y)));
-        Coordinate c= new Coordinate((_head._z.add(other._head._z)));
-        return new Vector(new Point3D(a,b,c));
+        Coordinate a= _head.getX().add(other._head.getX());
+        Coordinate b= _head.getY().add(other._head.getY());
+        Coordinate c= _head.getZ().add(other._head.getZ());
+        return new Vector(a,b,c);
     }
 
     /**
@@ -146,11 +107,14 @@ public class Vector {
     }
 
     public double length2 (){
-        return _head._x.multiply(_head._x)  + _head._y.multiply(_head._y) + _head._z.multiply(_head._z);
+        return _head.getX().multiply(_head.getX())
+                +_head.getY().multiply(_head.getY())
+                +_head.getZ().multiply(_head.getZ());
     }
 
     /**
-     * @return a normalized vector
+     * return new vector that is a unit vector, and has the same direction as thisw vector
+     * * @return a normalized vector
      * @throws Exception
      */
     public Vector normalize() {
@@ -160,9 +124,9 @@ public class Vector {
     @Override
     public String toString() {
         return "Vec:(" +
-                _head._x +
-                ",  " + _head._y +
-                ",  " + _head._z +
+                _head.getX() +
+                ",  " + _head.getY() +
+                ",  " + _head.getZ() +
                 ')';
     }
 
