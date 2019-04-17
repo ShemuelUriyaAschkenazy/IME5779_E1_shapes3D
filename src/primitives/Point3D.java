@@ -20,6 +20,12 @@ public final class Point3D {
 
     }
 
+    public Point3D(double x, double y, double z){
+        _x = new Coordinate(x);
+        _y = new Coordinate(y);
+        _z = new Coordinate(z);
+    }
+
     public Point3D(Point3D other) {
         _x = other.getX();
         _y = other.getY();
