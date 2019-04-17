@@ -7,7 +7,7 @@ import primitives.Ray;
 public class Tube extends RadialGeometry{
     Ray _ray;
     /********** Constructors ***********/
-    public  Tube(Ray ray, double radius) throws Exception{
+    public  Tube(Ray ray, double radius){
         super(radius);
         this._ray = ray;
     }

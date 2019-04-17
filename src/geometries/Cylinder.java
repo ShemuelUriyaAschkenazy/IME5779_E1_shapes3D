@@ -6,17 +6,17 @@ import java.util.List;
 
 
 public class Cylinder extends Tube implements Geometry {
-    double _height;
+    private double _height;
 
 
 
     /********** Constructors ***********/
-    public  Cylinder(Ray ray, double radius, double height) throws Exception{
+    public  Cylinder(Ray ray, double radius, double height) {
         super(ray,radius);
         if (height>=0 && Util.usubtract(height, 0.0)!=0)
             this._height = height;
         else
-            throw new RadiusZeroException("height can't be zero (or almost zero).");
+            throw new IllegalArgumentException("height can't be zero (or almost zero).");
     }
 
     /************** Getters/Setters *******/
