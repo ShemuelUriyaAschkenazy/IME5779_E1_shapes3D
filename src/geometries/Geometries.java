@@ -16,8 +16,9 @@ public class Geometries implements Intersectable {
             intersectableList.add(g);
     }
 
-    public void add(Intersectable geometry) {
-        intersectableList.add(geometry);
+    public void add(Intersectable... geometry) {
+        for (Intersectable g : geometry)
+        intersectableList.add(g);
     }
 
     @Override

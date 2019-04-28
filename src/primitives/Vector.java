@@ -69,8 +69,8 @@ public class Vector {
      */
     public Vector crossProduct(Vector other) {
         double a= _head.getY().multiply(other._head.getZ())-(other._head.getY().multiply(_head.getZ()));
-        double b= other._head.getY().multiply(_head.getZ())-(_head.getX().multiply(other._head.getZ()));
-        double c= _head.getX().multiply(other._head.getY())-(_head.getY().multiply(other._head.getX()));
+        double b= other._head.getX().multiply(_head.getZ())-(_head.getX().multiply(other._head.getZ()));
+        double c= _head.getX().multiply(other._head.getY())-(other._head.getX().multiply(_head.getY()));
         return new Vector(a,b,c);
     }
 
@@ -133,7 +133,7 @@ public class Vector {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || obj instanceof Vector) return false;
+        if (obj == null || !(obj instanceof Vector)) return false;
         Vector vector = (Vector) obj;
         return _head.equals(vector._head);
     }
