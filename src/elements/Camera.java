@@ -34,7 +34,8 @@ public class Camera {
         return _vRight;
     }
 
-    Ray constructRayThroughPixel (int Nx, int Ny, int i, int j, double screenDistance, double screenWidth, double screenHeight){
+    Ray constructRayThroughPixel (int Nx, int Ny, int i, int j, double screenDistance, double screenWidth, double screenHeight) {
+    Point3D Pc
 
     }
 }
