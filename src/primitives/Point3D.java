@@ -24,6 +24,7 @@ public final class Point3D {
 
     /**
      * constructor get 3 coordinates
+     *
      * @param x is coordinate
      * @param y is coordinate
      * @param z is coordinate
@@ -37,6 +38,7 @@ public final class Point3D {
 
     /**
      * constructor get 3 double numbers.
+     *
      * @param x is double number
      * @param y is double number
      * @param z is double number
@@ -49,6 +51,7 @@ public final class Point3D {
 
     /**
      * constructor get point and copy it to new point
+     *
      * @param other is point3D
      */
     public Point3D(Point3D other) {
@@ -61,8 +64,9 @@ public final class Point3D {
     /* ************* Getters/Setters ****** */
 
     /**
-     *function get the x coordinate
-     * @return  x coordinate
+     * function get the x coordinate
+     *
+     * @return x coordinate
      */
     public Coordinate getX() {
         return _x;
@@ -70,6 +74,7 @@ public final class Point3D {
 
     /**
      * function get the x coordinate
+     *
      * @return y coordinate
      */
     public Coordinate getY() {
@@ -78,6 +83,7 @@ public final class Point3D {
 
     /**
      * function get the x coordinate
+     *
      * @return z coordinate
      */
     public Coordinate getZ() {
@@ -94,7 +100,9 @@ public final class Point3D {
         return _x.equals(other._x) && _y.equals(other._y) && _z.equals(other._z);
     }
 
-    /**the function return string of the point
+    /**
+     * the function return string of the point
+     *
      * @return string with 3 coordinate of the point
      */
     @Override
@@ -106,6 +114,7 @@ public final class Point3D {
 
     /**
      * the vector received from subtract a point from our point
+     *
      * @param other- point
      * @return vector
      **/
@@ -116,6 +125,7 @@ public final class Point3D {
 
     /**
      * the point received when adding the vector to the point
+     *
      * @param vector -  vector
      * @return new point3D
      */
@@ -125,6 +135,7 @@ public final class Point3D {
 
     /**
      * the distane between the points
+     *
      * @param p2- other point
      * @return the distane between the points
      */
@@ -134,6 +145,7 @@ public final class Point3D {
 
     /**
      * The function calculates squared distance to other point
+     *
      * @param p2- other point
      * @return the squared distance
      */
