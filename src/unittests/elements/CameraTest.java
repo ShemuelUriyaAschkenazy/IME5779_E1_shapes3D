@@ -1,6 +1,8 @@
 package elements;
 
 
+import geometries.Geometry;
+import geometries.Intersectable;
 import geometries.Sphere;
 import javafx.scene.control.Separator;
 import org.junit.Test;
@@ -85,19 +87,19 @@ public class CameraTest {
             }
         Sphere sphere5 = new Sphere(0.5, new Point3D(0, 0, 1));
         helperFunction(sphere5, rayList5);
-        
+
     }
 
     // helps to check the integration between the create of rays and find intersections
-    void helperFunction(Sphere sphere, List<Ray> rayList) {
-        List<Point3D> sphereIntersections = new ArrayList<>();
+    void helperFunction(Geometry geometry, List<Ray> rayList) {
+        List<Point3D> geometryIntersections = new ArrayList<>();
         for (Ray item : rayList) {
-            List<Point3D> list = sphere.findIntersections(item);
+            List<Point3D> list = geometry.findIntersections(item);
             if (list != null)
-                sphereIntersections.addAll(list);
+                geometryIntersections.addAll(list);
         }
 
-        System.out.println(sphereIntersections.stream().map(Object::toString).collect(Collectors.joining("\n")).toString());
+        System.out.println(geometryIntersections.stream().map(Object::toString).collect(Collectors.joining("\n")).toString());
         System.out.print("\n");
     }
 }

@@ -30,12 +30,15 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public Vector getNormal(Point3D point3D) throws Exception {
-        return null;
+    public Vector getNormal(Point3D point) {
+        double scaleNumber= _ray.getVector().dotProduct(point.subtract(_ray.getPoint()));
+        Point3D O = _ray.getPoint().add(_ray.getVector().scale(scaleNumber));
+        Vector normalVector = point.subtract(O);
+        return normalVector.normalize();
     }
 
     @Override
-    public List<Point3D> findIntersections(Ray ray) throws Exception {
+    public List<Point3D> findIntersections(Ray ray) {
         return null;
     }
 }

@@ -15,7 +15,7 @@ public class Triangle extends Plane{
 
     /********** Constructors ***********/
 
-    public Triangle(Point3D p1, Point3D p2, Point3D p3) throws Exception{
+    public Triangle(Point3D p1, Point3D p2, Point3D p3){
         super(p1, p2 ,p3);
         this.p1 = p1;
         this.p2 = p2;
@@ -48,7 +48,6 @@ public class Triangle extends Plane{
     /**
      * @param ray from the camera
      * @return list of Intersections points between the ray and the triangle
-     * @throws Exception
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {

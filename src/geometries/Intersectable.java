@@ -10,5 +10,5 @@ public interface Intersectable {
      * @return a list of intersections between the ray and the body
      * @throws Exception
      */
-    List<Point3D> findIntersections(Ray ray) throws Exception;
+    List<Point3D> findIntersections(Ray ray);
 }
