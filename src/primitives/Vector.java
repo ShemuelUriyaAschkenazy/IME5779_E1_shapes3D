@@ -1,24 +1,27 @@
 package primitives;
 
+/**
+ * vector class.
+ * one field: point 3D of head
+ * 3 constructors:
+ * a.gets a point
+ * b.gets 3 double numbers
+ * c.
+ */
 public class Vector {
 
     private Point3D _head;
 
+    /* ********* Constructors ***********/
+    /**
+     * @param head
+     */
     public Vector(Point3D head) {
         if (head.getX().subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
             &&head.getY().subtract(Coordinate.ZERO).equals(Coordinate.ZERO)
             &&head.getZ().subtract(Coordinate.ZERO).equals(Coordinate.ZERO))
             throw new IllegalArgumentException("vector 0 is not valid");
         _head=head;
-    }
-
-    public Vector(Vector other) {
-        if (other._head.getX().subtract(Coordinate.ZERO)==Coordinate.ZERO
-                &&other._head.getY().subtract(Coordinate.ZERO)==Coordinate.ZERO
-              &&other._head.getZ().subtract(Coordinate.ZERO)==Coordinate.ZERO)
-            throw new IllegalArgumentException("vector 0 is not valid");
-
-        _head=other._head;
     }
 
     public Vector(double x, double y, double z) {
@@ -32,9 +35,18 @@ public class Vector {
                 && y.subtract(Coordinate.ZERO) == Coordinate.ZERO
                 && z.subtract(Coordinate.ZERO) == Coordinate.ZERO)
             throw new IllegalArgumentException("vector 0 is not valid");
-
         _head = new Point3D(x, y, z);
     }
+
+    public Vector(Vector other) {
+        if (other._head.getX().subtract(Coordinate.ZERO)==Coordinate.ZERO
+                &&other._head.getY().subtract(Coordinate.ZERO)==Coordinate.ZERO
+                &&other._head.getZ().subtract(Coordinate.ZERO)==Coordinate.ZERO)
+            throw new IllegalArgumentException("vector 0 is not valid");
+
+        _head=other._head;
+    }
+
     /* ************* Getters/Setters *******/
     public Point3D getHead() {
         return _head;

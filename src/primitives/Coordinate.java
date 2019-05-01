@@ -1,5 +1,7 @@
 package primitives;
+
 import java.text.DecimalFormat;
+
 import static primitives.Util.*;
 
 /**
@@ -14,8 +16,9 @@ public final class Coordinate {
 
     /**
      * consructor
+     *
      * @param coord- coordinate value
-     * */
+     **/
     /* ********* Constructors ***********/
     public Coordinate(double coord) {
         // if it too close to zero make it zero
@@ -24,13 +27,15 @@ public final class Coordinate {
 
     /**
      * copy constructor
-     * @param other- other coordinate
+     *
+     * @param other other coordinate
      */
     public Coordinate(Coordinate other) {
         _coord = other._coord;
     }
 
     /* ************* Getters/Setters *******/
+
     /**
      * @return the coordinate value
      */
@@ -45,20 +50,24 @@ public final class Coordinate {
         if (this == obj) return true;
         if (obj == null) return false;
         if (!(obj instanceof Coordinate)) return false;
-        return usubtract(_coord, ((Coordinate)obj)._coord) == 0.0;
+        return usubtract(_coord, ((Coordinate) obj)._coord) == 0.0;
     }
 
     //uses for presenting formatting double in the toStrong function
     private static DecimalFormat df2 = new DecimalFormat("#.##");
+
     @Override
     public String toString() {
         return "" + df2.format(_coord);
     }
 
     /* ************* Operations***************/
-    /** subtract one coordinate from another
-     * @param other- another coordinate
-     * @return coordinate recieved from subtraction
+
+    /**
+     * subtract one coordinate from another
+     *
+     * @param other another coordinate
+     * @return coordinate received from subtraction
      **/
     public Coordinate subtract(Coordinate other) {
         return new Coordinate(usubtract(_coord, other._coord));
@@ -66,8 +75,9 @@ public final class Coordinate {
 
     /**
      * add one coordinate to another
-     * @param other- another coordinate
-     * @return coordinate recieved from adding
+     *
+     * @param other another coordinate
+     * @return coordinate received from adding
      */
     public Coordinate add(Coordinate other) {
         return new Coordinate(uadd(_coord, other._coord));
@@ -75,8 +85,9 @@ public final class Coordinate {
 
     /**
      * scaling the coordinate by a number
-     * @param num
-     * @return coordinate recieved from scaling
+     *
+     * @param num number to scale the coordinate by it
+     * @return coordinate received from scaling
      */
     public Coordinate scale(double num) {
         return new Coordinate(uscale(_coord, num));
@@ -84,11 +95,12 @@ public final class Coordinate {
 
     /**
      * multiplies the two coordinates
+     *
      * @param other- other coordinate
      * @return result of multiplying (double number)
      */
     public double multiply(Coordinate other) {
-        return _coord*other._coord;
+        return _coord * other._coord;
     }
 
 }
