@@ -3,7 +3,6 @@ package geometries;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class Triangle extends Plane{
     public Point3D getP3() {
         return p3;
     }
-
 
     @Override
     public String toString() {
@@ -78,6 +76,4 @@ public class Triangle extends Plane{
         return intersectionsWithPlane;
         else return null;
     }
-
-
 }

@@ -5,7 +5,7 @@ import primitives.Util;
 /**
  *
  */
-public abstract class RadialGeometry {
+public abstract class RadialGeometry implements Geometry{
     private double _radius;
 
     /* ********* Constructors ***********/

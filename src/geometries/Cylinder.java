@@ -33,7 +33,6 @@ public class Cylinder extends Tube implements Geometry {
     }
 
     @Override
-
     public Vector getNormal(Point3D point3D) {
         Point3D O = new Point3D(this.getRay().getPoint().add(this.getRay().getVector().crossProduct(this.getRay().getVector().crossProduct(point3D.subtract(this.getRay().getPoint())))));
         Vector vectorNormal = new Vector(point3D.subtract(O));

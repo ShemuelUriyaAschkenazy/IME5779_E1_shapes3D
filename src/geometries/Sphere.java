@@ -1,16 +1,11 @@
 package geometries;
-
-
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sphere extends RadialGeometry implements Geometry {
-
-
     private Point3D center;
 
     /********** Constructors ***********/
@@ -25,7 +20,6 @@ public class Sphere extends RadialGeometry implements Geometry {
         Point3D centerPoint = new Point3D(center);
         return centerPoint;
     }
-
 
     @Override
     public Vector getNormal(Point3D point3D) {

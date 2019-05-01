@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 
 /**
- * tests for primitives.Vector
+ * tests for primitives.Vector functions
  */
 public class VectorTest {
 
@@ -97,7 +97,7 @@ public class VectorTest {
 
         //test for vectors with opposite directions (on the same line):
         try {
-            System.out.println("test for vectors with opposite directions (on the same line):");
+            System.out.println("cross product test for vectors with opposite directions:");
             v1 = new Vector(1, 2, -5);
             v2 = new Vector(-1, -2, 5);
             result = v1.crossProduct(v2);
@@ -109,7 +109,7 @@ public class VectorTest {
 
         //test for vectors with the same direction:
         try {
-            System.out.println("test for vectors with the same direction:");
+            System.out.println("cross product test for vectors with the same direction:");
             v1 = new Vector(1, 2, 5);
             v2 = new Vector(2, 4, 10);
             result = v1.crossProduct(v2);
