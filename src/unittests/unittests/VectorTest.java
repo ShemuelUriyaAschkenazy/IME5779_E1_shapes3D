@@ -15,9 +15,9 @@ public class VectorTest {
 
     @Test
     public void scale() {
-        Vector v1 = new Vector(new Point3D(new Coordinate(0), new Coordinate(3), new Coordinate(4)));
+        Vector v1 = new Vector(0,3,4);
         double num = 5.6;
-        Vector expected = new Vector(new Point3D(new Coordinate(0 * num), new Coordinate(3 * num), new Coordinate(4 * num)));
+        Vector expected = new Vector((0 * num),(3 * num),(4 * num));
         Vector result = v1.scale(num);
         assertEquals(expected, result);
     }

@@ -13,7 +13,7 @@ public class Camera {
 
     public Camera(Point3D p0, Vector vUp, Vector vTo) {
         _p0 = p0;
-        _vUp = _vUp.normalize();
+        _vUp = vUp.normalize();
         _vTo = vTo.normalize();
         _vRight=_vUp.crossProduct(_vTo).normalize();
     }
