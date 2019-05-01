@@ -56,7 +56,7 @@ public class Vector {
     }
 
     /**
-     * constructor gets vector and copy it to new vector
+     * constructor gets vector and copy it to our new vector
      *
      * @param other vector
      */

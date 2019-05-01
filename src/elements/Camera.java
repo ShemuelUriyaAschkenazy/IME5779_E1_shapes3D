@@ -19,8 +19,9 @@ public class Camera {
     Vector _vRight;
 
     /* **constructor***/
-     /***
-      * constructor
+
+    /***
+     * constructor
      * @param p0 camera location point
      * @param vUp vector from location to up
      * @param vTo vector from location to the view plane
@@ -29,11 +30,12 @@ public class Camera {
         _p0 = p0;
         _vUp = vUp.normalize();
         _vTo = vTo.normalize();
-        _vRight = _vUp.crossProduct(_vTo).normalize();
+        _vRight = _vTo.crossProduct(_vUp).normalize();
     }
 
     /**
      * to get the camera location point
+     *
      * @return the camera location point
      */
     public Point3D getP0() {
@@ -42,6 +44,7 @@ public class Camera {
 
     /**
      * to get the vector from camera location to up
+     *
      * @return the vector to up
      */
     public Vector getVUp() {
@@ -50,6 +53,7 @@ public class Camera {
 
     /**
      * to get the vector from camera location to the view plane
+     *
      * @return the vector to view plane
      */
     public Vector getVTo() {
@@ -58,6 +62,7 @@ public class Camera {
 
     /**
      * to get the vector from camera location to right
+     *
      * @return the vector to right
      */
     public Vector getVRight() {
@@ -85,10 +90,23 @@ public class Camera {
         //pixel[i,j] center
         //multiplying of x value of pixel with the pixel width. and adding half of the width to get the distance till the center.
         double XOfPixel = (i - Nx / 2.0) * xRatio + xRatio / 2.0;
-        double YOfPixel = (i - Ny / 2.0) * yRatio + yRatio / 2.0;
-        Point3D PixelCenter = screenCenter.add(_vRight.scale(XOfPixel).subtract(_vUp.scale(YOfPixel)));
+        double YOfPixel = (j - Ny / 2.0) * yRatio + yRatio / 2.0;
+        Point3D PixelIJ = screenCenter;
+        if (XOfPixel != 0) PixelIJ = PixelIJ.add(_vRight.scale(XOfPixel));
+        if (YOfPixel != 0) PixelIJ = PixelIJ.add(_vUp.scale(-YOfPixel));
         //direction vector to pixel center
-        Vector direction = PixelCenter.subtract(_p0);
+        Vector direction = PixelIJ.subtract(_p0);
         return new Ray(_p0, direction);
     }
+
+    @Override
+    public String toString() {
+        return "Camera{" +
+                "_p0=" + _p0 +
+                ", _vUp=" + _vUp +
+                ", _vTo=" + _vTo +
+                ", _vRight=" + _vRight +
+                '}';
+    }
 }
+

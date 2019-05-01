@@ -90,6 +90,7 @@ public final class Point3D {
         return _z;
     }
 
+
     /*************** Admin *****************/
     @Override
     public boolean equals(Object obj) {

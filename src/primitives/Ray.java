@@ -17,10 +17,9 @@ public class Ray {
      */
     @Override
     public String toString() {
-        return "Ray{" +
-                "_point=" + _point +
-                ", _vector=" + _vector +
-                '}';
+        return _point+
+                " "+ _vector
+                ;
     }
 
     /**

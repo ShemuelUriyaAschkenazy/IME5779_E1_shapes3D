@@ -3,6 +3,9 @@ package geometries;
 import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
+
+import java.util.List;
 
 public class Tube extends RadialGeometry {
     private Ray _ray;
@@ -26,4 +29,13 @@ public class Tube extends RadialGeometry {
                 '}';
     }
 
+    @Override
+    public Vector getNormal(Point3D point3D) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray) throws Exception {
+        return null;
+    }
 }
