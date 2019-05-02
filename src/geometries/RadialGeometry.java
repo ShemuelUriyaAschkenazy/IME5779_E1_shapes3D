@@ -7,9 +7,14 @@ import primitives.Util;
  * all class are inheritor from this class must include, getRadius method
  * RadialGeometry component field radius
  */
-public abstract class RadialGeometry implements Geometry{
+public abstract class RadialGeometry implements Geometry {
     private double _radius;
 
+    /**
+     * constructor that received double number and applies it at radius
+     *
+     * @param num radius
+     */
     /* ********* Constructors ***********/
     public RadialGeometry(double num) {
         if (num >= 0 && Util.usubtract(num, 0.0) != 0)
@@ -18,6 +23,11 @@ public abstract class RadialGeometry implements Geometry{
             throw new IllegalArgumentException("radius can't be zero (or almost zero).");
     }
 
+    /**
+     * constructor that received radial geometry and copy it to new radial geometry
+     *
+     * @param other radial geometry
+     */
     public RadialGeometry(RadialGeometry other) {
         if (Util.usubtract(other._radius, 0.0) != 0)
             _radius = other._radius;
@@ -29,9 +39,9 @@ public abstract class RadialGeometry implements Geometry{
 
 
     /**
-     * return the radius of the current radial geometry
+     * function that return the radius of the current radial geometry
      *
-     * @return radius
+     * @return radius of the shape
      */
     public double getRadius() {
         return _radius;

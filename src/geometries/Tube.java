@@ -12,25 +12,35 @@ import java.util.List;
 public class Tube extends RadialGeometry {
     private Ray _ray;
 
-    /********** Constructors ***********/
+    /**
+     * constructor that received ray and radius, and applies it to new tube
+     *
+     * @param ray ray
+     * @param radius radius - - double number
+     */
+    /* ********* Constructors ***********/
     public Tube(Ray ray, double radius) {
         super(radius);
         this._ray = ray;
     }
 
-    /************** Getters/Setters *******/
+    /**
+     * function return the ray of the tube
+     *
+     * @return ray of the tube
+     */
+    /* ************* Getters/Setters *******/
     public Ray getRay() {
         return _ray;
     }
 
-    @Override
-    public String toString() {
-        return "Tube{" +
-                "_ray=" + _ray +
-                ", _radius=" + getRadius() +
-                '}';
-    }
 
+    /**
+     * function return normal vector normalize of the tube at point is received
+     *
+     * @param point point3D
+     * @return normal vector normalize of the tube at point is received
+     */
     @Override
     public Vector getNormal(Point3D point) {
         double scaleNumber= _ray.getVector().dotProduct(point.subtract(_ray.getPoint()));
@@ -39,6 +49,12 @@ public class Tube extends RadialGeometry {
         return normalVector.normalize();
     }
 
+    /**
+     * function that produce list of  Intersections points between the ray and the tube
+     *
+     * @param ray- a ray
+     * @return return a list of Intersections points between the ray and the tube
+     */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         return null;

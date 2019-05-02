@@ -4,11 +4,10 @@ import primitives.Point3D;
 import primitives.Ray;
 import java.util.List;
 
+/**
+ * interface with one field it is list of intersection.
+ */
 public interface Intersectable {
-    /**
-     * @param ray- a ray
-     * @return a list of intersections between the ray and the body
-     * @throws Exception
-     */
+
     List<Point3D> findIntersections(Ray ray);
 }
