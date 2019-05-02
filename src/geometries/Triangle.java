@@ -61,7 +61,7 @@ public class Triangle extends Plane{
         return p3;
     }
 
-    
+
 
     /**
      * find the intersections points between a ray and the triangle
