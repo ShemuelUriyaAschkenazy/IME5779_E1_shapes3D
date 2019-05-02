@@ -4,7 +4,6 @@ import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.List;
 
 public class Tube extends RadialGeometry {
