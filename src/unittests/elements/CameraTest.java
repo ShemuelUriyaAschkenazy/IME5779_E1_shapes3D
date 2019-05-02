@@ -1,6 +1,5 @@
 package elements;
 
-
 import geometries.Geometry;
 import geometries.Sphere;
 import org.junit.Test;

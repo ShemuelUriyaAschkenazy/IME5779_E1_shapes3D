@@ -3,7 +3,6 @@ package geometries;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Triangle extends Plane{
@@ -11,7 +10,6 @@ public class Triangle extends Plane{
     Point3D p1;
     Point3D p2;
     Point3D p3;
-
 
     /********** Constructors ***********/
 
@@ -61,11 +59,30 @@ public class Triangle extends Plane{
         Vector v1= p1.subtract(ray.getPoint());
         Vector v2= p2.subtract(ray.getPoint());
         Vector v3= p3.subtract(ray.getPoint());
-
-        Vector n1=v1.crossProduct(v2).normalize();
-        Vector n2=v2.crossProduct(v3).normalize();
-        Vector n3=v3.crossProduct(v1).normalize();
-
+        Vector n1;
+        //in a case that ray point is one of the edges, or on their continuances,
+        //so two vectors will be on the same line, and exception will thrown after cross product.
+        //we check whether the point is on the triangle or on the edges's continuances.
+        try { n1 = v1.crossProduct(v2).normalize(); }
+        catch (IllegalArgumentException e){
+            if(p1.distanceInSquare(p2)>=v1.length2()&&p1.distanceInSquare(p2)>=v2.length2())
+                return intersectionsWithPlane;
+            else return null;
+        }
+        Vector n2;
+        try { n2=v2.crossProduct(v3).normalize(); }
+        catch (IllegalArgumentException e){
+            if(p2.distanceInSquare(p3)>=v2.length2()&&p2.distanceInSquare(p3)>=v3.length2())
+                return intersectionsWithPlane;
+            else return null;
+        }
+        Vector n3;
+        try { n3=v3.crossProduct(v1).normalize(); }
+        catch (IllegalArgumentException e){
+            if(p1.distanceInSquare(p3)>=v1.length2()&&p1.distanceInSquare(p3)>=v3.length2())
+                return intersectionsWithPlane;
+            else return null;
+        }
         Vector temp= intersectsPlane.subtract(ray.getPoint());
         if ((n1.dotProduct(temp)>0
                 &&n2.dotProduct(temp)>0
