@@ -6,6 +6,9 @@ import primitives.Ray;
 import primitives.Vector;
 import java.util.List;
 
+/**
+ * class tube is infinite tube with tow components - ray and radius
+ */
 public class Tube extends RadialGeometry {
     private Ray _ray;
 
