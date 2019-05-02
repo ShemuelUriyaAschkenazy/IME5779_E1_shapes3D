@@ -2,18 +2,13 @@ package elements;
 
 
 import geometries.Geometry;
-import geometries.Intersectable;
 import geometries.Sphere;
-import javafx.scene.control.Separator;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -42,7 +37,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        helperFunction(sphere, rayList);
+        integrationFunction(sphere, rayList);
 
         System.out.println("test case 2:");
         Camera camera2 = new Camera(new Point3D(0, 0, 0.5), new Vector(0, -1, 0), new Vector(0, 0, -1));
@@ -53,7 +48,7 @@ public class CameraTest {
                 rayList2.add(ray);
             }
         Sphere sphere2 = new Sphere(2.5, new Point3D(0, 0, -2.5));
-        helperFunction(sphere2, rayList2);
+        integrationFunction(sphere2, rayList2);
 
         System.out.println("test case 3:");
         Camera camera3 = new Camera(new Point3D(0, 0, 0.5), new Vector(0, -1, 0), new Vector(0, 0, -1));
@@ -64,7 +59,7 @@ public class CameraTest {
                 rayList3.add(ray);
             }
         Sphere sphere3 = new Sphere(2, new Point3D(0, 0, -2));
-        helperFunction(sphere3, rayList3);
+        integrationFunction(sphere3, rayList3);
 
         System.out.println("test case 4:");
         Camera camera4 = new Camera(new Point3D(0, 0, 1), new Vector(0, -1, 0), new Vector(0, 0, -1));
@@ -75,7 +70,7 @@ public class CameraTest {
                 rayList4.add(ray);
             }
         Sphere sphere4 = new Sphere(3.1, new Point3D(0, 0, 0));
-        helperFunction(sphere4, rayList4);
+        integrationFunction(sphere4, rayList4);
 
         System.out.println("test case 5:");
         Camera camera5 = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
@@ -86,12 +81,12 @@ public class CameraTest {
                 rayList5.add(ray);
             }
         Sphere sphere5 = new Sphere(0.5, new Point3D(0, 0, 1));
-        helperFunction(sphere5, rayList5);
+        integrationFunction(sphere5, rayList5);
 
     }
 
     // helps to check the integration between the create of rays and find intersections
-    void helperFunction(Geometry geometry, List<Ray> rayList) {
+    void integrationFunction(Geometry geometry, List<Ray> rayList) {
         List<Point3D> geometryIntersections = new ArrayList<>();
         for (Ray item : rayList) {
             List<Point3D> list = geometry.findIntersections(item);

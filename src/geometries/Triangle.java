@@ -46,8 +46,9 @@ public class Triangle extends Plane{
     }
 
     /**
+     * find the intersections points between a ray and the triangle
      * @param ray from the camera
-     * @return list of Intersections points between the ray and the triangle
+     * @return list of Intersections points
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
