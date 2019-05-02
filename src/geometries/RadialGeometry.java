@@ -3,7 +3,9 @@ package geometries;
 import primitives.Util;
 
 /**
- *
+ * abststruct class of radial geometries
+ * all class are inheritor from this class must include, getRadius method
+ * RadialGeometry component field radius
  */
 public abstract class RadialGeometry implements Geometry{
     private double _radius;

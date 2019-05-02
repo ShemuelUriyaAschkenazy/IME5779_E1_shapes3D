@@ -5,29 +5,51 @@ import primitives.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Sphere extends from Radial Geometry then it has radius and additional component point3D it is the center of the sphere
+ */
 public class Sphere extends RadialGeometry implements Geometry {
     private Point3D center;
 
-    /********** Constructors ***********/
+    /**
+     * constructor that receive all components of the sphere
+     *
+     * @param radius radius
+     * @param p point3D
+     */
+    /* ********* Constructors ***********/
     public Sphere(double radius, Point3D p){
         super(radius);
         center = new Point3D(p);
     }
 
-    /************** Getters/Setters *******/
+    /* ************* Getters/Setters *******/
 
+    /**
+     * function that return point3D it is the center of the sphere
+     *
+     * @return point3D it is the center of the sphere
+     */
     public Point3D getCenter() {
         Point3D centerPoint = new Point3D(center);
         return centerPoint;
     }
 
+    /**
+     * function return the normal of the sphere
+     *
+     * @param point3D
+     * @return normal of the sphere
+     */
     @Override
     public Vector getNormal(Point3D point3D) {
         return point3D.subtract(this.center).normalize();
     }
 
     /**
-     * @param ray from the camera
+     * function that produce list of  Intersections points between the ray and the sphere
+     *
+     * @param ray ray from the camera
      * @return list of Intersections points between the ray and the sphere
      * @throws Exception
      */

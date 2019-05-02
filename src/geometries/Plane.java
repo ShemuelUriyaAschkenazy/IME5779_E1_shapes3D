@@ -5,18 +5,34 @@ import primitives.Vector;
 
 import java.util.*;
 
+/**
+ * plane class contains tow component point3D that exist on plain and vector who is the normal to the plane
+ */
 public class Plane implements Geometry {
 
     private Point3D _point;
     private Vector _normal;
 
-    /********** Constructors ***********/
+    /* ********* Constructors ***********/
 
+    /**
+     * constructor that receive all components of the plane
+     *
+     * @param point  point3D exist on the plane
+     * @param vector normal vector
+     */
     public Plane(Point3D point, Vector vector) {
         this._point = point;
         this._normal = vector.normalize();
     }
 
+    /**
+     * constructor that receive 3 point are exist on the plane and produce the normal vector
+     *
+     * @param p1 point3D, exist on the plane
+     * @param p2 point3D, exist on the plane
+     * @param p3 point3D, exist on the plane
+     */
     public Plane(Point3D p1, Point3D p2, Point3D p3) {
         Vector v1 = new Vector(p2.subtract(p1));
         Vector v2 = new Vector(p3.subtract(p1));
@@ -26,11 +42,22 @@ public class Plane implements Geometry {
         _point = p1;
     }
 
-    /************** Getters/Setters *******/
+    /**
+     * function that return point3D it is exist on the plane
+     *
+     * @return point3D, exist on the plane
+     */
+    /* ************* Getters/Setters *******/
     public Point3D getPoint() {
         return _point;
     }
 
+    /**
+     * function return the normal of the plain
+     *
+     * @param point3D point3D
+     * @return normal to the plain
+     */
     @Override
     public Vector getNormal(Point3D point3D) {
         return _normal;
