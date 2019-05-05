@@ -22,7 +22,7 @@ public class TriangleTest {
         List<Point3D> intersectionsList= triangle.findIntersections(ray);
         System.out.println(intersectionsList);
 
-        ray= new Ray(new Point3D(1, 2, 0), new Vector(0,0,-1));
+        ray= new Ray(new Point3D(1, 3, 0), new Vector(0,0,-1));
         intersectionsList= triangle.findIntersections(ray);
         System.out.println(intersectionsList);
     }

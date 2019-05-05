@@ -48,9 +48,9 @@ public class Vector {
      * @param z coordinate
      */
     public Vector(Coordinate x, Coordinate y, Coordinate z) {
-        if (x.subtract(Coordinate.ZERO) == Coordinate.ZERO
-                && y.subtract(Coordinate.ZERO) == Coordinate.ZERO
-                && z.subtract(Coordinate.ZERO) == Coordinate.ZERO)
+        if (Util.usubtract(x.getCoordinate(),0)==0
+                && Util.usubtract(y.getCoordinate(),0)==0
+                && Util.usubtract(z.getCoordinate(),0)==0)
             throw new IllegalArgumentException("vector 0 is not valid");
         _head = new Point3D(x, y, z);
     }

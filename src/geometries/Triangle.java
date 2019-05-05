@@ -83,7 +83,19 @@ public class Triangle extends Plane{
                 return intersectionsWithPlane;
             else return null;
         }
-        Vector temp= intersectsPlane.subtract(ray.getPoint());
+
+        Vector temp;
+        //if ray point is itself the intersection point, the next point will try creating a zero vector.
+        // in this case, the direction isn't significant for determining the intersection point.
+        //therefore, we choose the normal vector instead
+        try {
+            temp = intersectsPlane.subtract(ray.getPoint());
+        }
+        catch (IllegalArgumentException e)
+        {
+            temp= this.getNormal(ray.getPoint());
+        }
+        System.out.println("temp"+temp);
         if ((n1.dotProduct(temp)>0
                 &&n2.dotProduct(temp)>0
                 &&n3.dotProduct(temp)>0)
