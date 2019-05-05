@@ -76,12 +76,6 @@ public class Plane implements Geometry {
         if (Util.usubtract(ray.getVector().dotProduct(this._normal), 0) == 0)
             return null;
 
-        //ray is orthogonal to the plane
-        if (ray.getVector().equals(this._normal))
-            return null;
-        ///////////////גם אם בכיוון הפוך
-
-        System.out.println(_normal);
         double scaleNum = this._normal.dotProduct(this._point.subtract(ray.getPoint())) / (_normal.dotProduct(ray.getVector()));
         if (Util.usubtract(scaleNum, 0) != 0)
             intersectionsList.add(ray.getPoint().add(ray.getVector().scale(scaleNum)));

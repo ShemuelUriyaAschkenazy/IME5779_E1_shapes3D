@@ -1,5 +1,6 @@
 package geometries;
 
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -83,9 +84,22 @@ public class Triangle extends Plane{
             return null;
         else
             intersectsPlane=intersectionsWithPlane.get(0);
-        Vector v1= p1.subtract(ray.getPoint());
-        Vector v2= p2.subtract(ray.getPoint());
-        Vector v3= p3.subtract(ray.getPoint());
+
+        System.out.println("with plane:---"+intersectionsWithPlane);
+        Vector v1;
+        Vector v2;
+        Vector v3;
+        try {
+            v1= p1.subtract(ray.getPoint());
+            v2= p2.subtract(ray.getPoint());
+            v3= p3.subtract(ray.getPoint());
+        }
+        catch (IllegalArgumentException e)
+        {
+            //if one of the subtractions throws exception, so the intersection point is on one of the triangle points
+            return intersectionsWithPlane;
+        }
+
         Vector n1;
         //in a case that ray point is one of the edges, or on their continuances,
         //so two vectors will be on the same line, and exception will thrown after cross product.
@@ -122,7 +136,11 @@ public class Triangle extends Plane{
         {
             temp= this.getNormal(ray.getPoint());
         }
-        System.out.println("temp"+temp);
+
+        System.out.println(n1.dotProduct(temp));
+        System.out.println(n2.dotProduct(temp));
+        System.out.println(n3.dotProduct(temp));
+
         if ((n1.dotProduct(temp)>0
                 &&n2.dotProduct(temp)>0
                 &&n3.dotProduct(temp)>0)
