@@ -4,13 +4,14 @@ import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * triangle class contains 3 point3D the corners of triangle and addition produce vector who is the normal to the triangle
  */
-public class Triangle extends Plane{
+public class Triangle extends Plane {
 
     Point3D p1;
     Point3D p2;
@@ -26,8 +27,8 @@ public class Triangle extends Plane{
      * @param p2 point3D
      * @param p3 point3D
      */
-    public Triangle(Point3D p1, Point3D p2, Point3D p3){
-        super(p1, p2 ,p3);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3) {
+        super(p1, p2, p3);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -73,29 +74,27 @@ public class Triangle extends Plane{
 
     /**
      * find the intersections points between a ray and the triangle
+     *
      * @param ray from the camera
      * @return list of Intersections points
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
         Point3D intersectsPlane;
-        List<Point3D> intersectionsWithPlane =  super.findIntersections(ray);
-        if (intersectionsWithPlane==null||intersectionsWithPlane.isEmpty())
+        List<Point3D> intersectionsWithPlane = super.findIntersections(ray);
+        if (intersectionsWithPlane == null || intersectionsWithPlane.isEmpty())
             return null;
         else
-            intersectsPlane=intersectionsWithPlane.get(0);
+            intersectsPlane = intersectionsWithPlane.get(0);
 
-        System.out.println("with plane:---"+intersectionsWithPlane);
         Vector v1;
         Vector v2;
         Vector v3;
         try {
-            v1= p1.subtract(ray.getPoint());
-            v2= p2.subtract(ray.getPoint());
-            v3= p3.subtract(ray.getPoint());
-        }
-        catch (IllegalArgumentException e)
-        {
+            v1 = p1.subtract(ray.getPoint());
+            v2 = p2.subtract(ray.getPoint());
+            v3 = p3.subtract(ray.getPoint());
+        } catch (IllegalArgumentException e) {
             //if one of the subtractions throws exception, so the intersection point is on one of the triangle points
             return intersectionsWithPlane;
         }
@@ -104,23 +103,26 @@ public class Triangle extends Plane{
         //in a case that ray point is one of the edges, or on their continuances,
         //so two vectors will be on the same line, and exception will thrown after cross product.
         //we check whether the point is on the triangle or on the edges's continuances.
-        try { n1 = v1.crossProduct(v2).normalize(); }
-        catch (IllegalArgumentException e){
-            if(p1.distanceInSquare(p2)>=v1.length2()&&p1.distanceInSquare(p2)>=v2.length2())
+        try {
+            n1 = v1.crossProduct(v2).normalize();
+        } catch (IllegalArgumentException e) {
+            if (p1.distanceInSquare(p2) >= v1.length2() && p1.distanceInSquare(p2) >= v2.length2())
                 return intersectionsWithPlane;
             else return null;
         }
         Vector n2;
-        try { n2=v2.crossProduct(v3).normalize(); }
-        catch (IllegalArgumentException e){
-            if(p2.distanceInSquare(p3)>=v2.length2()&&p2.distanceInSquare(p3)>=v3.length2())
+        try {
+            n2 = v2.crossProduct(v3).normalize();
+        } catch (IllegalArgumentException e) {
+            if (p2.distanceInSquare(p3) >= v2.length2() && p2.distanceInSquare(p3) >= v3.length2())
                 return intersectionsWithPlane;
             else return null;
         }
         Vector n3;
-        try { n3=v3.crossProduct(v1).normalize(); }
-        catch (IllegalArgumentException e){
-            if(p1.distanceInSquare(p3)>=v1.length2()&&p1.distanceInSquare(p3)>=v3.length2())
+        try {
+            n3 = v3.crossProduct(v1).normalize();
+        } catch (IllegalArgumentException e) {
+            if (p1.distanceInSquare(p3) >= v1.length2() && p1.distanceInSquare(p3) >= v3.length2())
                 return intersectionsWithPlane;
             else return null;
         }
@@ -131,23 +133,17 @@ public class Triangle extends Plane{
         //therefore, we choose the normal vector instead
         try {
             temp = intersectsPlane.subtract(ray.getPoint());
-        }
-        catch (IllegalArgumentException e)
-        {
-            temp= this.getNormal(ray.getPoint());
+        } catch (IllegalArgumentException e) {
+            temp = this.getNormal(ray.getPoint());
         }
 
-        System.out.println(n1.dotProduct(temp));
-        System.out.println(n2.dotProduct(temp));
-        System.out.println(n3.dotProduct(temp));
+        double side1 = n1.dotProduct(temp);
+        double side2 = n2.dotProduct(temp);
+        double side3 = n3.dotProduct(temp);
 
-        if ((n1.dotProduct(temp)>0
-                &&n2.dotProduct(temp)>0
-                &&n3.dotProduct(temp)>0)
-        ||(n1.dotProduct(temp)<0
-                &&n2.dotProduct(temp)<0
-                &&n3.dotProduct(temp)<0))
-        return intersectionsWithPlane;
+        if (side1 >= 0 && side2 >= 0 && side3 >= 0
+                || side1 <= 0 && side2 <= 0 && side3 <= 0)
+            return intersectionsWithPlane;
         else return null;
     }
 }
