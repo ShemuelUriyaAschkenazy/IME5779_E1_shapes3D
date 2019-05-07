@@ -37,7 +37,6 @@ public class Plane implements Geometry {
         Vector v1 = new Vector(p2.subtract(p1));
         Vector v2 = new Vector(p3.subtract(p1));
         Vector normal = new Vector(v1.crossProduct(v2));
-
         _normal = normal.normalize();
         _point = p1;
     }
@@ -55,12 +54,19 @@ public class Plane implements Geometry {
     /**
      * function return the normal of the plain
      *
-     * @param point3D point3D
+     * @param p point3D
      * @return normal to the plain
      */
     @Override
-    public Vector getNormal(Point3D point3D) {
-        return _normal;
+    public Vector getNormal(Point3D p) {
+        Vector v = new Vector(p);
+        double result=v.dotProduct(_normal);
+        if (result > 0)
+            return _normal;
+        else if (result<0)
+            return _normal.scale(-1);
+        else
+            throw new IllegalArgumentException("the point is on the plane!");
     }
 
     /**

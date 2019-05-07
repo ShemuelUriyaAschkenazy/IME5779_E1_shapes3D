@@ -12,8 +12,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TriangleTest {
-
-
+    
 
     @Test
     public void findIntersections() {

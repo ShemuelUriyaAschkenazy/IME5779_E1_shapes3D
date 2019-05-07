@@ -100,7 +100,7 @@ public class Triangle extends Plane {
         }
 
         Vector n1;
-        //in a case that ray point is one of the edges, or on their continuances,
+        //in a case that ray point is on one of the edges, or on their continuances,
         //so two vectors will be on the same line, and exception will thrown after cross product.
         //we check whether the point is on the triangle or on the edges's continuances.
         try {
@@ -128,7 +128,7 @@ public class Triangle extends Plane {
         }
 
         Vector temp;
-        //if ray point is itself the intersection point, the next point will try creating a zero vector.
+        //if ray point is itself the intersection point, the next code will try creating a zero vector.
         // in this case, the direction isn't significant for determining the intersection point.
         //therefore, we choose the normal vector instead
         try {
