@@ -1,11 +1,14 @@
 package elements;
 
 import geometries.Geometry;
+import geometries.Plane;
 import geometries.Sphere;
+import geometries.Triangle;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,49 +42,125 @@ public class CameraTest {
         integrationFunction(sphere, rayList);
 
         System.out.println("test case 2:");
-        Camera camera2 = new Camera(new Point3D(0, 0, 0.5), new Vector(0, -1, 0), new Vector(0, 0, -1));
-        List<Ray> rayList2 = new ArrayList<>();
+        camera = new Camera(new Point3D(0, 0, 0.5), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
-                Ray ray = camera2.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
-                rayList2.add(ray);
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
             }
-        Sphere sphere2 = new Sphere(2.5, new Point3D(0, 0, -2.5));
-        integrationFunction(sphere2, rayList2);
+        sphere = new Sphere(2.5, new Point3D(0, 0, -2.5));
+        integrationFunction(sphere, rayList);
 
         System.out.println("test case 3:");
-        Camera camera3 = new Camera(new Point3D(0, 0, 0.5), new Vector(0, -1, 0), new Vector(0, 0, -1));
-        List<Ray> rayList3 = new ArrayList<>();
+        camera = new Camera(new Point3D(0, 0, 0.5), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
-                Ray ray = camera3.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
-                rayList3.add(ray);
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
             }
-        Sphere sphere3 = new Sphere(2, new Point3D(0, 0, -2));
-        integrationFunction(sphere3, rayList3);
+        sphere = new Sphere(2, new Point3D(0, 0, -2));
+        integrationFunction(sphere, rayList);
 
         System.out.println("test case 4:");
-        Camera camera4 = new Camera(new Point3D(0, 0, 1), new Vector(0, -1, 0), new Vector(0, 0, -1));
-        List<Ray> rayList4 = new ArrayList<>();
+        camera = new Camera(new Point3D(0, 0, 1), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
-                Ray ray = camera4.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
-                rayList4.add(ray);
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
             }
-        Sphere sphere4 = new Sphere(3.1, new Point3D(0, 0, 0));
-        integrationFunction(sphere4, rayList4);
+        sphere = new Sphere(3.1, new Point3D(0, 0, 0));
+        integrationFunction(sphere, rayList);
 
         System.out.println("test case 5:");
-        Camera camera5 = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
-        List<Ray> rayList5 = new ArrayList<>();
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++) {
-                Ray ray = camera5.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
-                rayList5.add(ray);
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
             }
-        Sphere sphere5 = new Sphere(0.5, new Point3D(0, 0, 1));
-        integrationFunction(sphere5, rayList5);
+        sphere = new Sphere(0.5, new Point3D(0, 0, 1));
+        integrationFunction(sphere, rayList);
 
+        System.out.println("plane- test case 1:");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
+            }
+        Plane plane = new Plane(new Point3D(0, 0, -2), new Vector(0, 0, 1));
+        integrationFunction(plane, rayList);
+
+        System.out.println("plane- test case 1- with 4X4:");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++) {
+                Ray ray = camera.constructRayThroughPixel(4, 4, i, j, 1, 4, 4);
+                rayList.add(ray);
+            }
+        plane = new Plane(new Point3D(0, 0, -2), new Vector(0, 0, 1));
+        integrationFunction(plane, rayList);
+
+        System.out.println("plane- test case 2:");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
+            }
+        plane = new Plane(new Point3D(0, 0, -3), new Point3D(0, -1, -2), new Point3D(1, -1, -2));
+        integrationFunction(plane, rayList);
+
+        System.out.println("plane- test case 2:- with 4X4");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++) {
+                Ray ray = camera.constructRayThroughPixel(4, 4, i, j, 5, 8, 8);
+                rayList.add(ray);
+            }
+        plane = new Plane(new Point3D(0, 3, -7), new Point3D(0, 0, -2), new Point3D(6, -3, 3));
+        integrationFunction(plane, rayList);
+
+        System.out.println("plane- test case 3:");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
+            }
+        plane = new Plane(new Point3D(0, 1, -2.5), new Point3D(0, 0, -2), new Point3D(1, -1, -1.5));
+        integrationFunction(plane, rayList);
+
+        System.out.println("triangle- test case 1:");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
+            }
+        Triangle triangle = new Triangle(new Point3D(0, -1, -2), new Point3D(1, 1, -2), new Point3D(-1, 1, -2));
+        integrationFunction(triangle, rayList);
+
+        System.out.println("triangle- test case 2:");
+        camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
+        rayList.clear();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
+                rayList.add(ray);
+            }
+        triangle = new Triangle(new Point3D(0, -20, -2), new Point3D(1, 1, -2), new Point3D(-1, 1, -2));
+        integrationFunction(triangle, rayList);
     }
 
     // helps to check the integration between the create of rays and find intersections
@@ -94,17 +173,8 @@ public class CameraTest {
         }
 
         System.out.println(geometryIntersections.stream().map(Object::toString).collect(Collectors.joining("\n")).toString());
+        System.out.println(geometryIntersections.size());
         System.out.print("\n");
     }
 }
-
-        /*//checking if the points we find are the expected:
-                boolean flag = true;
-        if (sphereIntersections.size() == expected.size())
-            for (Point3D point : sphereIntersections) {
-                if (!expected.contains(point))
-                    flag = false;
-            }
-        else flag = false;
-        return flag;*/
 
