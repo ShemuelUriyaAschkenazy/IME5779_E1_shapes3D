@@ -60,10 +60,10 @@ public class Plane implements Geometry {
     @Override
     public Vector getNormal(Point3D p) {
         Vector v = new Vector(p);
-        double result=v.dotProduct(_normal);
+        double result = v.dotProduct(_normal);
         if (result > 0)
             return _normal;
-        else if (result<0)
+        else if (result < 0)
             return _normal.scale(-1);
         else
             throw new IllegalArgumentException("the point is on the plane!");
@@ -82,10 +82,26 @@ public class Plane implements Geometry {
         if (Util.usubtract(ray.getVector().dotProduct(this._normal), 0) == 0)
             return null;
 
+
+        //ray points are: P=P0+t*v, t>=0
+        //plane points are: normal.dotProduct(planePoint-P)=0
+        //when we compare between the two points P in the two equations, we get t (the scale num)
         double scaleNum = this._normal.dotProduct(this._point.subtract(ray.getPoint())) / (_normal.dotProduct(ray.getVector()));
-        if (Util.usubtract(scaleNum, 0) != 0)
-            intersectionsList.add(ray.getPoint().add(ray.getVector().scale(scaleNum)));
-        else
+        //t>=0, and hence:
+        if (scaleNum < 0)
+            return null;
+        Point3D point;
+        double accuracy = 999999999;
+        //if scale num !=0, using this and return the point
+        if (Util.usubtract(scaleNum, 0) != 0) {
+            point = ray.getPoint().add(ray.getVector().scale(scaleNum));
+            //checking that point isn't a result of an inaccuracy
+            if (point.getX().getCoordinate() > accuracy || point.getY().getCoordinate() > accuracy || point.getZ().getCoordinate() > accuracy)
+                return null;
+            else
+                intersectionsList.add(point);
+        } else
+            //t=0 means that the ray point itself is on the plane
             intersectionsList.add(ray.getPoint());
         return intersectionsList;
     }
