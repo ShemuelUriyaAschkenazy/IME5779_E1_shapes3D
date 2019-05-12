@@ -1,4 +1,4 @@
-package renderer;
+package unittests;
 
 import org.junit.Test;
 
