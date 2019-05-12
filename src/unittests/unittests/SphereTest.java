@@ -128,7 +128,5 @@ public class SphereTest {
         sphere = new Sphere(1, new Point3D(0,2,0));
         result= sphere.findIntersections(ray);
         System.out.println(result+"\n");
-
-
     }
 }
