@@ -1,7 +1,10 @@
 package geometries;
+
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +18,10 @@ public class Sphere extends RadialGeometry implements Geometry {
      * constructor that receive all components of the sphere
      *
      * @param radius radius
-     * @param p point3D
+     * @param p      point3D
      */
     /* ********* Constructors ***********/
-    public Sphere(double radius, Point3D p){
+    public Sphere(double radius, Point3D p) {
         super(radius);
         center = new Point3D(p);
     }
@@ -55,23 +58,41 @@ public class Sphere extends RadialGeometry implements Geometry {
      */
     @Override
     public List<Point3D> findIntersections(Ray ray) {
-        Vector u = center.subtract(ray.getPoint());
+        Vector u;
+        try {
+            u = center.subtract(ray.getPoint());
+        } catch (IllegalArgumentException e) {
+            //if subtract gives vector zero, it means that ray point is itself the sphere center.
+            //it this case, the intersection will received by center point+(direction vector*radius):
+            List<Point3D> list = new ArrayList<>();
+            list.add(ray.getPoint().add(ray.getVector().scale(this.getRadius())));
+            return list;
+        }
+
         double uLength = u.length();
-        double DistTilHalf = ray.getVector().dotProduct(u);
-        double d = Math.sqrt(uLength * uLength - (DistTilHalf * DistTilHalf));
+        double DestTilHalf = ray.getVector().dotProduct(u);
+        double d = Math.sqrt(Util.usubtract(uLength * uLength ,(DestTilHalf * DestTilHalf)));
         if (d > getRadius())
             return null;
 
         double halfChord = Math.sqrt(getRadius() * getRadius() - (d * d));
 
-        double t1 = DistTilHalf + halfChord;
-        double t2 = DistTilHalf - halfChord;
+        double t1 = DestTilHalf + halfChord;
+        double t2 = DestTilHalf - halfChord;
 
         List<Point3D> intersectionsPoints = new ArrayList<Point3D>();
-        if (t1 >= 0)
-            intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t1)));
-        if (t2 >= 0)
-            intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t2)));
+        if (t1 >= 0) {
+            if (t1 == 0)
+                intersectionsPoints.add(ray.getPoint());
+            else
+                intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t1)));
+        }
+        if (t2 >= 0) {
+            if (t2 == 0)
+                intersectionsPoints.add(ray.getPoint());
+            else
+                intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t2)));
+        }
         return intersectionsPoints;
     }
 }

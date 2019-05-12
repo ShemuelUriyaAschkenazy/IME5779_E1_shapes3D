@@ -5,7 +5,10 @@ import geometries.Sphere;
 import org.junit.Test;
 import primitives.Coordinate;
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -34,4 +37,17 @@ public class SphereTest {
         assertEquals(result,expectedResult);
     }
 
+    @Test
+    public void findIntersections() {
+        Ray ray= new Ray(new Point3D(-1,-1,-1), new Vector(1,1,1));
+        Sphere sphere = new Sphere(1, new Point3D(0,0,0));
+        List<Point3D> result= sphere.findIntersections(ray);
+        System.out.println(result);
+
+        ray= new Ray(new Point3D(-1,0,0), new Vector(1,0,0));
+        sphere = new Sphere(1, new Point3D(0,0,0));
+        result= sphere.findIntersections(ray);
+        System.out.println(result);
+
+    }
 }
