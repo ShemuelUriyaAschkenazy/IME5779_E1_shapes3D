@@ -4,7 +4,10 @@ import elements.AmbientLight;
 import elements.Camera;
 import geometries.Geometries;
 import geometries.Geometry;
+import geometries.Intersectable;
 import primitives.Color;
+
+import javax.swing.plaf.synth.Region;
 
 public class Scene {
     private String _sceneName;
@@ -16,8 +19,34 @@ public class Scene {
 
     public Scene(String _sceneName) {
         this._sceneName = _sceneName;
+        _geometries= new Geometries();
     }
 
+
+    //region ***********************getters/setters***************
+    public String getSceneName() {
+        return _sceneName;
+    }
+
+    public Color getBackground() {
+        return _background;
+    }
+
+    public AmbientLight getAmbientLight() {
+        return _ambientLight;
+    }
+
+    public Geometries getGeometries() {
+        return _geometries;
+    }
+
+    public Camera getCamera() {
+        return _camera;
+    }
+
+    public double getDistCameraScreen() {
+        return _distCameraScreen;
+    }
 
     public void setBackground(Color _background) {
         this._background = _background;
@@ -34,32 +63,9 @@ public class Scene {
     public void setDistCameraScreen(double _distCameraScreen) {
         this._distCameraScreen = _distCameraScreen;
     }
+    //endregion
 
-    public String get_sceneName() {
-        return _sceneName;
-    }
-
-    public Color get_background() {
-        return _background;
-    }
-
-    public AmbientLight get_ambientLight() {
-        return _ambientLight;
-    }
-
-    public Geometries get_geometries() {
-        return _geometries;
-    }
-
-    public Camera get_camera() {
-        return _camera;
-    }
-
-    public double get_distCameraScreen() {
-        return _distCameraScreen;
-    }
-
-    public void addGeometry(Geometry... geometries){
+    public void addGeometry(Intersectable... geometries){
         _geometries.add(geometries);
     }
 

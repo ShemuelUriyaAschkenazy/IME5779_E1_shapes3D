@@ -81,7 +81,7 @@ public class Camera {
      * @param screenHeight   height of the view plane
      * @return the ray from camera to the pixel
      */
-    Ray constructRayThroughPixel(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth, double screenHeight) {
+    public Ray constructRayThroughPixel(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth, double screenHeight) {
         //image center
         Point3D screenCenter = _p0.add(_vTo.scale(screenDistance));
         //ratio (pixel height&width)
