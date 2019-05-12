@@ -71,16 +71,29 @@ public class Sphere extends RadialGeometry implements Geometry {
 
         double uLength = u.length();
         double DestTilHalf = ray.getVector().dotProduct(u);
-        double d = Math.sqrt(Util.usubtract(uLength * uLength ,(DestTilHalf * DestTilHalf)));
-        if (d > getRadius())
+        double d = Math.sqrt(Util.usubtract(uLength * uLength, (DestTilHalf * DestTilHalf)));
+        if (Util.usubtract(d, getRadius()) > 0)
             return null;
 
-        double halfChord = Math.sqrt(getRadius() * getRadius() - (d * d));
+        double halfChord = Math.sqrt(Util.usubtract(getRadius() * getRadius(), (d * d)));
 
+        List<Point3D> intersectionsPoints = new ArrayList<Point3D>();
+        //if the ray is on the tangent line, it will be at most one intersection point, we calculate and return it:
+        if (Util.usubtract(halfChord, 0) == 0) {
+            //if the ray is as was written above, and in addition the ray starts on surface, DestTilHalf will be 0:
+            if (DestTilHalf == 0)
+                intersectionsPoints.add(ray.getPoint());
+            else if (DestTilHalf > 0)
+                intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(DestTilHalf)));
+            else
+                return null;
+            return intersectionsPoints;
+        }
+
+        //calculates the t numbers to find the two intersections
         double t1 = DestTilHalf + halfChord;
         double t2 = DestTilHalf - halfChord;
 
-        List<Point3D> intersectionsPoints = new ArrayList<Point3D>();
         if (t1 >= 0) {
             if (t1 == 0)
                 intersectionsPoints.add(ray.getPoint());
@@ -93,6 +106,8 @@ public class Sphere extends RadialGeometry implements Geometry {
             else
                 intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t2)));
         }
+        if (intersectionsPoints.isEmpty())
+            return null;
         return intersectionsPoints;
     }
 }

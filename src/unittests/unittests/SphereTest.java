@@ -39,15 +39,90 @@ public class SphereTest {
 
     @Test
     public void findIntersections() {
-        Ray ray= new Ray(new Point3D(-1,-1,-1), new Vector(1,1,1));
-        Sphere sphere = new Sphere(1, new Point3D(0,0,0));
+        System.out.println("test case 1 (no intersections):");
+        Ray ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        Sphere sphere = new Sphere(1, new Point3D(0,2,-4));
         List<Point3D> result= sphere.findIntersections(ray);
-        System.out.println(result);
+        System.out.println(result+"\n");
 
-        ray= new Ray(new Point3D(-1,0,0), new Vector(1,0,0));
-        sphere = new Sphere(1, new Point3D(0,0,0));
+        System.out.println("test case 2 (2 intersections):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(1, new Point3D(0,0.5,-4));
         result= sphere.findIntersections(ray);
-        System.out.println(result);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 3 (ray starts inside sphere, one intersection):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(5, new Point3D(0,-1,-1));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 4 (ray starts outside sphere, due to direction- no intersection):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(2, new Point3D(0,1,4));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 5 (ray is on a line that include center- ray starts in center):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(5, new Point3D(0,0,0));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 5 , but ray starts on sphere surface, to the outside:");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(5, new Point3D(0,0,5));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 5 ,but ray starts on sphere surface, to inside):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(5, new Point3D(0,0,-5));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 5 , but ray starts outside, to the outside:");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(5, new Point3D(0,0,6));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 5 , but ray starts outside, to the inside:");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(5, new Point3D(0,0,-6));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 6 (ray starts on sphere surface anywhere, to inside):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,-1,-1));
+        sphere = new Sphere(5, new Point3D(0,0,-5));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 6 (ray starts on sphere surface anywhere, to outside):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,1,1));
+        sphere = new Sphere(5, new Point3D(0,0,-5));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 7 (ray is on the tangent line- ray starts before intersection):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(1, new Point3D(0,1,-1));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 7 (ray is on the tangent line- ray starts in intersection point):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(1, new Point3D(0,1,0));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
+        System.out.println("test case 7 (ray is on the tangent line- ray starts after intersection):");
+        ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
+        sphere = new Sphere(1, new Point3D(0,1,1));
+        result= sphere.findIntersections(ray);
+        System.out.println(result+"\n");
+
 
     }
 }
