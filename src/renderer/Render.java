@@ -8,15 +8,34 @@ import scene.Scene;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * render class
+ * using for render an image
+ * contain 2 fields:
+ * 1.imageWriter
+ * 2.scene
+ */
 public class Render {
     private ImageWriter _imageWriter;
     private Scene _scene;
 
+    /**
+     * constructor
+     *
+     * @param imageWriter an imageWriter object that responsible for the pixels and colors
+     * @param scene       a scene of camera and geometries
+     */
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
         this._scene = scene;
     }
 
+    /**
+     * function for render the image, by painting the pixels in a imagine view plane, according to scene
+     *
+     * @param i amount pixels im x axis in the imagine view plane
+     * @param j amount pixels im y axis in the imagine view plane
+     */
     public void renderImage(int i, int j) {
         Ray ray;
         for (int m = 0; m < i; m++)
@@ -31,16 +50,25 @@ public class Render {
                     _imageWriter.writePixel(m, n, calcColor(closestPoint).getColor());
                 else
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
-
-
             }
-
     }
 
+    /**
+     * function that calculates the color of a point in the scene
+     *
+     * @param point3D
+     * @return the color of point
+     */
     private Color calcColor(Point3D point3D) {
         return _scene.getAmbientLight().getIntensity();
     }
 
+    /**
+     * function to calculate the closest point to camera, from list of intersection points
+     *
+     * @param intersectionPoint list of intersection points
+     * @return the closest point
+     */
     private Point3D getClosestPoint(List<Point3D> intersectionPoint) {
         if (!intersectionPoint.isEmpty()) {
             Point3D closestPoint = intersectionPoint.get(0);
@@ -53,6 +81,11 @@ public class Render {
         } else return null;
     }
 
+    /**
+     * function to draw a grid on our image, by painting the interval pixels
+     *
+     * @param interval number that the pixels ,that their index is a multiple of this number, are part of the grid.
+     */
     public void printGrid(int interval) {
         Color white = new Color(255, 255, 255);
         for (int i = 0; i < _imageWriter.getNx(); i++) {

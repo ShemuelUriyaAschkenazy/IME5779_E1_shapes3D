@@ -1,4 +1,4 @@
-/*
+
 package unittests;
 
 import org.junit.Test;
@@ -39,8 +39,8 @@ public class RenderTest {
         ImageWriter imageWriter = new ImageWriter("test0", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);
 
-        render.renderImage();
+        render.renderImage(500,500);
         render.printGrid(50);
-        render.writeToImage();
+        imageWriter.writeToImage();
     }
-}*/
+}

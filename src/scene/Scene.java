@@ -9,17 +9,35 @@ import primitives.Color;
 
 import javax.swing.plaf.synth.Region;
 
+/**
+ * scene class
+ * <p>
+ * contain 6 fields:
+ * _sceneName- name of scene
+ * _background- color to paint the background of scene
+ * _ambientLight- light/color that lights the environment
+ * _geometries- objects/shapes that exist in scene
+ * _camera- point of view, that from there we look on the scene, through an imagine view plane
+ * _distCameraScreen- distance from camere to the imagine view plane
+ */
 public class Scene {
     private String _sceneName;
-    private  Color _background;
+    private Color _background;
     private AmbientLight _ambientLight;
     private Geometries _geometries;
     private Camera _camera;
     private double _distCameraScreen;
 
+    /**
+     * constructor
+     *
+     * @param _sceneName a name for scene
+     *                   <p>
+     *                   constructor initialize only name and geometries (to new empty list)
+     */
     public Scene(String _sceneName) {
         this._sceneName = _sceneName;
-        _geometries= new Geometries();
+        _geometries = new Geometries();
     }
 
 
@@ -65,7 +83,12 @@ public class Scene {
     }
     //endregion
 
-    public void addGeometry(Intersectable... geometries){
+    /**
+     * function for adding geometries to scene
+     *
+     * @param geometries one or more geometries, such sphere or triangle
+     */
+    public void addGeometry(Intersectable... geometries) {
         _geometries.add(geometries);
     }
 
