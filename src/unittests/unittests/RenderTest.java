@@ -1,6 +1,7 @@
 
 package unittests;
 
+import elements.AmbientLight;
 import org.junit.Test;
 import elements.Camera;
 import geometries.*;
@@ -15,24 +16,25 @@ public class RenderTest {
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistCameraScreen(100);
+        scene.setAmbientLight(new AmbientLight(new Color(200,20,20),0.8));
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
-        geometries.add(new Sphere(new Color(100, 100,100 ), 50, new Point3D(0, 0, 150)));
+        geometries.add(new Sphere( 50, new Point3D(0, 0, 150)));
 
-        geometries.add(new Triangle(new Color(100, 100,100 ), new Point3D( 100, 0, 149),
+        geometries.add(new Triangle(new Point3D( 100, 0, 149),
                 new Point3D(  0, 100, 149),
                 new Point3D( 100, 100, 149)));
 
-        geometries.add(new Triangle(new Color(100, 100,100 ), new Point3D( 100, 0, 149),
+        geometries.add(new Triangle(new Point3D( 100, 0, 149),
                 new Point3D(  0, -100, 149),
                 new Point3D( 100,-100, 149)));
 
-        geometries.add(new Triangle(new Color(100, 100,100 ), new Point3D(-100, 0, 149),
+        geometries.add(new Triangle(new Point3D(-100, 0, 149),
                 new Point3D(  0, 100, 149),
                 new Point3D(-100, 100, 149)));
 
-        geometries.add(new Triangle(new Color(100, 100,100 ), new Point3D(-100, 0, 149),
+        geometries.add(new Triangle(new Point3D(-100, 0, 149),
                 new Point3D(  0,  -100, 149),
                 new Point3D(-100, -100, 149)));
 
