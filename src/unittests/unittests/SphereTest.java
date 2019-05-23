@@ -1,9 +1,12 @@
 package unittests;
 
 
+import geometries.Geometries;
+import geometries.Intersectable;
 import geometries.Sphere;
 import org.junit.Test;
 import primitives.Coordinate;
+import static geometries.Intersectable.GeoPoint;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -42,7 +45,7 @@ public class SphereTest {
         System.out.println("test case 1 (no intersections):");
         Ray ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
         Sphere sphere = new Sphere(1, new Point3D(0,2,-4));
-        List<Point3D> result= sphere.findIntersections(ray);
+        List<GeoPoint> result= sphere.findIntersections(ray);
         System.out.println(result+"\n");
 
         System.out.println("test case 2 (2 intersections):");

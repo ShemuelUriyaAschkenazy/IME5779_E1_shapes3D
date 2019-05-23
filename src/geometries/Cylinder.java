@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * cylinder inheritor from tube but it is final geometry and then it has height addition the tube components
  */
-public class Cylinder extends Tube implements Geometry {
+public class Cylinder extends Tube{
     private double _height;
 
     /* ********* Constructors ***********/
@@ -68,7 +68,7 @@ public class Cylinder extends Tube implements Geometry {
      * @return list of intersection between the ray and cylinder
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         return null;
     }
 }

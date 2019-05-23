@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Sphere extends from Radial Geometry then it has radius and additional component point3D it is the center of the sphere
  */
-public class Sphere extends RadialGeometry implements Geometry {
+public class Sphere extends RadialGeometry {
     private Point3D center;
 
     /**
@@ -57,15 +57,15 @@ public class Sphere extends RadialGeometry implements Geometry {
      * @throws Exception
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
+    public List<GeoPoint> findIntersections(Ray ray) {
         Vector u;
         try {
             u = center.subtract(ray.getPoint());
         } catch (IllegalArgumentException e) {
             //if subtract gives vector zero, it means that ray point is itself the sphere center.
             //it this case, the intersection will received by center point+(direction vector*radius):
-            List<Point3D> list = new ArrayList<>();
-            list.add(ray.getPoint().add(ray.getVector().scale(this.getRadius())));
+            List<GeoPoint> list = new ArrayList<>();
+            list.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(this.getRadius()))));
             return list;
         }
 
@@ -77,14 +77,14 @@ public class Sphere extends RadialGeometry implements Geometry {
 
         double halfChord = Math.sqrt(Util.usubtract(getRadius() * getRadius(), (d * d)));
 
-        List<Point3D> intersectionsPoints = new ArrayList<Point3D>();
+        List<GeoPoint> intersectionsPoints = new ArrayList<>();
         //if the ray is on the tangent line, it will be at most one intersection point, we calculate and return it:
         if (Util.usubtract(halfChord, 0) == 0) {
             //if the ray is as was written above, and in addition the ray starts on surface, DestTilHalf will be 0:
             if (DestTilHalf == 0)
-                intersectionsPoints.add(ray.getPoint());
+                intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
             else if (DestTilHalf > 0)
-                intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(DestTilHalf)));
+                intersectionsPoints.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(DestTilHalf))));
             else
                 return null;
             return intersectionsPoints;
@@ -96,15 +96,15 @@ public class Sphere extends RadialGeometry implements Geometry {
 
         if (t1 >= 0) {
             if (t1 == 0)
-                intersectionsPoints.add(ray.getPoint());
+                intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
             else
-                intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t1)));
+                intersectionsPoints.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(t1))));
         }
         if (t2 >= 0) {
             if (t2 == 0)
-                intersectionsPoints.add(ray.getPoint());
+                intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
             else
-                intersectionsPoints.add(ray.getPoint().add(ray.getVector().scale(t2)));
+                intersectionsPoints.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(t2))));
         }
         if (intersectionsPoints.isEmpty())
             return null;

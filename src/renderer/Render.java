@@ -1,6 +1,8 @@
 package renderer;
 
+import geometries.Intersectable;
 import primitives.Color;
+import static geometries.Intersectable.GeoPoint;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
@@ -42,10 +44,10 @@ public class Render {
             for (int n = 0; n < j; n++) {
                 ray = _scene.getCamera().constructRayThroughPixel
                         (_imageWriter.getNx(), _imageWriter.getNy(), m, n, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
-                List<Point3D> intersectionPoint = _scene.getGeometries().findIntersections(ray);
+                List<GeoPoint> intersectionPoint = _scene.getGeometries().findIntersections(ray);
                 if (intersectionPoint.isEmpty())
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
-                Point3D closestPoint = getClosestPoint(intersectionPoint);
+                GeoPoint closestPoint = getClosestPoint(intersectionPoint);
                 if (closestPoint != null)
                     _imageWriter.writePixel(m, n, calcColor(closestPoint).getColor());
                 else
@@ -56,10 +58,10 @@ public class Render {
     /**
      * function that calculates the color of a point in the scene
      *
-     * @param point3D
+     * @param p
      * @return the color of point
      */
-    private Color calcColor(Point3D point3D) {
+    private Color calcColor(GeoPoint p) {
         return _scene.getAmbientLight().getIntensity();
     }
 
@@ -69,12 +71,12 @@ public class Render {
      * @param intersectionPoint list of intersection points
      * @return the closest point
      */
-    private Point3D getClosestPoint(List<Point3D> intersectionPoint) {
+    private GeoPoint getClosestPoint(List<GeoPoint> intersectionPoint) {
         if (!intersectionPoint.isEmpty()) {
-            Point3D closestPoint = intersectionPoint.get(0);
+            GeoPoint closestPoint = intersectionPoint.get(0);
             for (int i = 1; i < intersectionPoint.size(); i++) {
-                if (intersectionPoint.get(i).distanceInSquare(_scene.getCamera().getP0()) <
-                        closestPoint.distanceInSquare(_scene.getCamera().getP0()))
+                if (intersectionPoint.get(i)._point.distanceInSquare(_scene.getCamera().getP0()) <
+                        closestPoint._point.distanceInSquare(_scene.getCamera().getP0()))
                     closestPoint = intersectionPoint.get(i);
             }
             return closestPoint;

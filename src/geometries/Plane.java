@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * plane class contains tow component point3D that exist on plain and vector who is the normal to the plane
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 
     private Point3D _point;
     private Vector _normal;
@@ -75,8 +75,8 @@ public class Plane implements Geometry {
      * @throws Exception
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        List<Point3D> intersectionsList = new ArrayList<Point3D>();
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> intersectionsList = new ArrayList<>();
 
         //ray is parallel to the plane:
         if (Util.usubtract(ray.getVector().dotProduct(this._normal), 0) == 0)
@@ -99,10 +99,10 @@ public class Plane implements Geometry {
             if (point.getX().getCoordinate() > accuracy || point.getY().getCoordinate() > accuracy || point.getZ().getCoordinate() > accuracy)
                 return null;
             else
-                intersectionsList.add(point);
+                intersectionsList.add(new GeoPoint(this, point));
         } else
             //t=0 means that the ray point itself is on the plane
-            intersectionsList.add(ray.getPoint());
+            intersectionsList.add(new GeoPoint(this, ray.getPoint()));
         return intersectionsList;
     }
 }

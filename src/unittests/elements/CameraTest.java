@@ -1,13 +1,11 @@
 package elements;
 
-import geometries.Geometry;
-import geometries.Plane;
-import geometries.Sphere;
-import geometries.Triangle;
+import geometries.*;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import static geometries.Intersectable.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,9 +163,9 @@ public class CameraTest {
 
     // helps to check the integration between the create of rays and find intersections
     void integrationFunction(Geometry geometry, List<Ray> rayList) {
-        List<Point3D> geometryIntersections = new ArrayList<>();
+        List<GeoPoint> geometryIntersections = new ArrayList<>();
         for (Ray item : rayList) {
-            List<Point3D> list = geometry.findIntersections(item);
+            List<GeoPoint> list = geometry.findIntersections(item);
             if (list != null)
                 geometryIntersections.addAll(list);
         }

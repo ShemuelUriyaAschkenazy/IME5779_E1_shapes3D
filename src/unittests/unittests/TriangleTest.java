@@ -1,11 +1,13 @@
 package unittests;
 
+import geometries.Intersectable;
 import geometries.Plane;
 import geometries.Triangle;
 import org.junit.Test;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import static geometries.Intersectable.GeoPoint;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class TriangleTest {
         System.out.println("test case 1 (on edge)- start at the plane:");
         Ray ray= new Ray(new Point3D(1, 0, 0), new Vector(0,0,-1));
         Triangle triangle = new Triangle(new Point3D(0,0,0), new Point3D(7,0,0), new Point3D(0,8,0));
-        List<Point3D> intersectionsList= triangle.findIntersections(ray);
+        List<GeoPoint> intersectionsList= triangle.findIntersections(ray);
         System.out.println(intersectionsList);
 
         System.out.println("test case 1 (on edge)- start before the plane:");

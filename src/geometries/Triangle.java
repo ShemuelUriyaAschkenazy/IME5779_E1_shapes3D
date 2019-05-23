@@ -79,9 +79,9 @@ public class Triangle extends Plane {
      * @return list of Intersections points
      */
     @Override
-    public List<Point3D> findIntersections(Ray ray) {
-        Point3D intersectsPlane;
-        List<Point3D> intersectionsWithPlane = super.findIntersections(ray);
+    public List<GeoPoint> findIntersections(Ray ray) {
+        GeoPoint intersectsPlane;
+        List<GeoPoint> intersectionsWithPlane = super.findIntersections(ray);
         if (intersectionsWithPlane == null || intersectionsWithPlane.isEmpty())
             return null;
         else
@@ -132,7 +132,7 @@ public class Triangle extends Plane {
         // in this case, the direction isn't significant for determining the intersection point.
         //therefore, we choose the normal vector instead
         try {
-            temp = intersectsPlane.subtract(ray.getPoint());
+            temp = intersectsPlane._point.subtract(ray.getPoint());
         } catch (IllegalArgumentException e) {
             temp = this.getNormal(ray.getPoint());
         }
