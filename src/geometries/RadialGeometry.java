@@ -1,5 +1,6 @@
 package geometries;
 
+import primitives.Color;
 import primitives.Util;
 
 /**
@@ -16,11 +17,13 @@ public abstract class RadialGeometry extends Geometry {
      * @param num radius
      */
     /* ********* Constructors ***********/
-    public RadialGeometry(double num) {
+    public RadialGeometry(double num,Color color) {
+
         if (num >= 0 && Util.usubtract(num, 0.0) != 0)
             _radius = num;
         else
             throw new IllegalArgumentException("radius can't be zero (or almost zero).");
+        this.setEmission(color);
     }
 
     /**

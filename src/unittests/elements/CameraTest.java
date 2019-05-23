@@ -2,6 +2,7 @@ package elements;
 
 import geometries.*;
 import org.junit.Test;
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -29,7 +30,7 @@ public class CameraTest {
     @Test
     public void constructRayThroughPixel() {
         System.out.println("test case 1:");
-        Sphere sphere = new Sphere(1, new Point3D(0, 0, -3));
+        Sphere sphere = new Sphere(1, new Point3D(0, 0, -3),new Color(20,46,1));
         Camera camera = new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1));
         List<Ray> rayList = new ArrayList<>();
         for (int i = 0; i < 3; i++)
@@ -47,7 +48,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        sphere = new Sphere(2.5, new Point3D(0, 0, -2.5));
+        sphere = new Sphere(2.5, new Point3D(0, 0, -2.5),new Color(20,46,1));
         integrationFunction(sphere, rayList);
 
         System.out.println("test case 3:");
@@ -58,7 +59,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        sphere = new Sphere(2, new Point3D(0, 0, -2));
+        sphere = new Sphere(2, new Point3D(0, 0, -2),new Color(20,46,1));
         integrationFunction(sphere, rayList);
 
         System.out.println("test case 4:");
@@ -69,7 +70,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        sphere = new Sphere(3.1, new Point3D(0, 0, 0));
+        sphere = new Sphere(3.1, new Point3D(0, 0, 0),new Color(20,46,1));
         integrationFunction(sphere, rayList);
 
         System.out.println("test case 5:");
@@ -80,7 +81,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        sphere = new Sphere(0.5, new Point3D(0, 0, 1));
+        sphere = new Sphere(0.5, new Point3D(0, 0, 1),new Color(20,46,1));
         integrationFunction(sphere, rayList);
 
         System.out.println("plane- test case 1:");
@@ -91,7 +92,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        Plane plane = new Plane(new Point3D(0, 0, -2), new Vector(0, 0, 1));
+        Plane plane = new Plane(new Point3D(0, 0, -2), new Vector(0, 0, 1),new Color(20,46,1));
         integrationFunction(plane, rayList);
 
         System.out.println("plane- test case 1- with 4X4:");
@@ -102,7 +103,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(4, 4, i, j, 1, 4, 4);
                 rayList.add(ray);
             }
-        plane = new Plane(new Point3D(0, 0, -2), new Vector(0, 0, 1));
+        plane = new Plane(new Point3D(0, 0, -2), new Vector(0, 0, 1),new Color(20,46,1));
         integrationFunction(plane, rayList);
 
         System.out.println("plane- test case 2:");
@@ -113,7 +114,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        plane = new Plane(new Point3D(0, 0, -3), new Point3D(0, -1, -2), new Point3D(1, -1, -2));
+        plane = new Plane(new Point3D(0, 0, -3), new Point3D(0, -1, -2), new Point3D(1, -1, -2),new Color(20,46,1));
         integrationFunction(plane, rayList);
 
         System.out.println("plane- test case 2:- with 4X4");
@@ -124,7 +125,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(4, 4, i, j, 5, 8, 8);
                 rayList.add(ray);
             }
-        plane = new Plane(new Point3D(0, 3, -7), new Point3D(0, 0, -2), new Point3D(6, -3, 3));
+        plane = new Plane(new Point3D(0, 3, -7), new Point3D(0, 0, -2), new Point3D(6, -3, 3),new Color(20,46,1));
         integrationFunction(plane, rayList);
 
         System.out.println("plane- test case 3:");
@@ -135,7 +136,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        plane = new Plane(new Point3D(0, 1, -2.5), new Point3D(0, 0, -2), new Point3D(1, -1, -1.5));
+        plane = new Plane(new Point3D(0, 1, -2.5), new Point3D(0, 0, -2), new Point3D(1, -1, -1.5),new Color(20,46,1));
         integrationFunction(plane, rayList);
 
         System.out.println("triangle- test case 1:");
@@ -146,7 +147,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        Triangle triangle = new Triangle(new Point3D(0, -1, -2), new Point3D(1, 1, -2), new Point3D(-1, 1, -2));
+        Triangle triangle = new Triangle(new Point3D(0, -1, -2), new Point3D(1, 1, -2), new Point3D(-1, 1, -2),new Color(20,46,1));
         integrationFunction(triangle, rayList);
 
         System.out.println("triangle- test case 2:");
@@ -157,7 +158,7 @@ public class CameraTest {
                 Ray ray = camera.constructRayThroughPixel(3, 3, i, j, 1, 3, 3);
                 rayList.add(ray);
             }
-        triangle = new Triangle(new Point3D(0, -20, -2), new Point3D(1, 1, -2), new Point3D(-1, 1, -2));
+        triangle = new Triangle(new Point3D(0, -20, -2), new Point3D(1, 1, -2), new Point3D(-1, 1, -2),new Color(20,46,1));
         integrationFunction(triangle, rayList);
     }
 

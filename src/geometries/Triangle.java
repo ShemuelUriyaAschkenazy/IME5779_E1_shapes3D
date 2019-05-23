@@ -1,6 +1,7 @@
 package geometries;
 
 import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -27,8 +28,8 @@ public class Triangle extends Plane {
      * @param p2 point3D
      * @param p3 point3D
      */
-    public Triangle(Point3D p1, Point3D p2, Point3D p3) {
-        super(p1, p2, p3);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emission) {
+        super(p1, p2, p3,emission);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
@@ -132,7 +133,7 @@ public class Triangle extends Plane {
         // in this case, the direction isn't significant for determining the intersection point.
         //therefore, we choose the normal vector instead
         try {
-            temp = intersectsPlane._point.subtract(ray.getPoint());
+            temp = intersectsPlane.getPoint().subtract(ray.getPoint());
         } catch (IllegalArgumentException e) {
             temp = this.getNormal(ray.getPoint());
         }

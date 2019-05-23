@@ -58,11 +58,13 @@ public class Render {
     /**
      * function that calculates the color of a point in the scene
      *
-     * @param p
+     * @param intersection
      * @return the color of point
      */
-    private Color calcColor(GeoPoint p) {
-        return _scene.getAmbientLight().getIntensity();
+    private Color calcColor(GeoPoint intersection) {
+        Color color = _scene.getAmbientLight().getIntensity();
+        color = color.add(intersection.getGeometry().getEmission());
+        return color;
     }
 
     /**
@@ -75,8 +77,8 @@ public class Render {
         if (!intersectionPoint.isEmpty()) {
             GeoPoint closestPoint = intersectionPoint.get(0);
             for (int i = 1; i < intersectionPoint.size(); i++) {
-                if (intersectionPoint.get(i)._point.distanceInSquare(_scene.getCamera().getP0()) <
-                        closestPoint._point.distanceInSquare(_scene.getCamera().getP0()))
+                if (intersectionPoint.get(i).getPoint().distanceInSquare(_scene.getCamera().getP0()) <
+                        closestPoint.getPoint().distanceInSquare(_scene.getCamera().getP0()))
                     closestPoint = intersectionPoint.get(i);
             }
             return closestPoint;

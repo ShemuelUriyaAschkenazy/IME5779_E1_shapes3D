@@ -21,9 +21,10 @@ public class Plane extends Geometry {
      * @param point  point3D exist on the plane
      * @param vector normal vector
      */
-    public Plane(Point3D point, Vector vector) {
+    public Plane(Point3D point, Vector vector, Color emission) {
         this._point = point;
         this._normal = vector.normalize();
+        this.setEmission(emission);
     }
 
     /**
@@ -33,12 +34,13 @@ public class Plane extends Geometry {
      * @param p2 point3D, exist on the plane
      * @param p3 point3D, exist on the plane
      */
-    public Plane(Point3D p1, Point3D p2, Point3D p3) {
+    public Plane(Point3D p1, Point3D p2, Point3D p3, Color emission) {
         Vector v1 = new Vector(p2.subtract(p1));
         Vector v2 = new Vector(p3.subtract(p1));
         Vector normal = new Vector(v1.crossProduct(v2));
         _normal = normal.normalize();
         _point = p1;
+        this.setEmission(emission);
     }
 
     /**

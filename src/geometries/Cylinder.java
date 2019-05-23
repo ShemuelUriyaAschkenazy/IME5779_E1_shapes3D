@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * cylinder inheritor from tube but it is final geometry and then it has height addition the tube components
  */
-public class Cylinder extends Tube{
+public class Cylinder extends Tube {
     private double _height;
 
     /* ********* Constructors ***********/
@@ -20,8 +20,8 @@ public class Cylinder extends Tube{
      * @param radius radius
      * @param height height
      */
-    public Cylinder(Ray ray, double radius, double height) {
-        super(ray, radius);
+    public Cylinder(Ray ray, double radius, double height, Color emission) {
+        super(ray, radius, emission);
         if (height >= 0 && Util.usubtract(height, 0.0) != 0)
             this._height = height;
         else

@@ -20,23 +20,23 @@ public class RenderTest {
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
-        geometries.add(new Sphere( 50, new Point3D(0, 0, 150)));
+        geometries.add(new Sphere( 50, new Point3D(0, 0, 150),new Color(20,46,1)));
 
         geometries.add(new Triangle(new Point3D( 100, 0, 149),
                 new Point3D(  0, 100, 149),
-                new Point3D( 100, 100, 149)));
+                new Point3D( 100, 100, 149),new Color(111,46,1)));
 
         geometries.add(new Triangle(new Point3D( 100, 0, 149),
                 new Point3D(  0, -100, 149),
-                new Point3D( 100,-100, 149)));
+                new Point3D( 100,-100, 149),new Color(44,46,1)));
 
         geometries.add(new Triangle(new Point3D(-100, 0, 149),
                 new Point3D(  0, 100, 149),
-                new Point3D(-100, 100, 149)));
+                new Point3D(-100, 100, 149),new Color(20,77,1)));
 
         geometries.add(new Triangle(new Point3D(-100, 0, 149),
                 new Point3D(  0,  -100, 149),
-                new Point3D(-100, -100, 149)));
+                new Point3D(-100, -100, 149),new Color(20,98,1)));
 
         ImageWriter imageWriter = new ImageWriter("test0", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);

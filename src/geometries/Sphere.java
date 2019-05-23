@@ -1,9 +1,6 @@
 package geometries;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +18,8 @@ public class Sphere extends RadialGeometry {
      * @param p      point3D
      */
     /* ********* Constructors ***********/
-    public Sphere(double radius, Point3D p) {
-        super(radius);
+    public Sphere(double radius, Point3D p, Color emission) {
+        super(radius,emission);
         center = new Point3D(p);
     }
 

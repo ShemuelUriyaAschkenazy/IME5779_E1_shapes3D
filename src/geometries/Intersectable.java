@@ -14,11 +14,20 @@ public interface Intersectable {
      * class include intersection point and its geomtry
      */
     class GeoPoint {
-        public Geometry _geometry;
-        public Point3D _point;
+        private Geometry _geometry;
+        private Point3D _point;
+
         public GeoPoint(Geometry _geometry, Point3D _point) {
             this._geometry = _geometry;
             this._point = _point;
+        }
+
+        public Geometry getGeometry() {
+            return _geometry;
+        }
+
+        public Point3D getPoint() {
+            return _point;
         }
     }
 
