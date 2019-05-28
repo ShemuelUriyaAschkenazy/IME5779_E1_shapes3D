@@ -20,8 +20,8 @@ public class Cylinder extends Tube {
      * @param radius radius
      * @param height height
      */
-    public Cylinder(Ray ray, double radius, double height, Color emission) {
-        super(ray, radius, emission);
+    public Cylinder(Ray ray, double radius, double height, Color emission,Material material) {
+        super(ray, radius, emission,material);
         if (height >= 0 && Util.usubtract(height, 0.0) != 0)
             this._height = height;
         else

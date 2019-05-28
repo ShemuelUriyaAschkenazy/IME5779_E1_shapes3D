@@ -2,12 +2,15 @@ package scene;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Geometry;
 import geometries.Intersectable;
 import primitives.Color;
 
 import javax.swing.plaf.synth.Region;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * scene class
@@ -27,6 +30,7 @@ public class Scene {
     private Geometries _geometries;
     private Camera _camera;
     private double _distCameraScreen;
+    private List<LightSource>_lights;
 
     /**
      * constructor
@@ -38,6 +42,7 @@ public class Scene {
     public Scene(String _sceneName) {
         this._sceneName = _sceneName;
         _geometries = new Geometries();
+        _lights = new ArrayList<>();
     }
 
 
@@ -66,6 +71,10 @@ public class Scene {
         return _distCameraScreen;
     }
 
+    public List<LightSource> getLights() {
+        return _lights;
+    }
+
     public void setBackground(Color _background) {
         this._background = _background;
     }
@@ -90,6 +99,12 @@ public class Scene {
      */
     public void addGeometry(Intersectable... geometries) {
         _geometries.add(geometries);
+    }
+
+    public void addLightSource(LightSource... lightSources){
+        for (LightSource l : lightSources){
+            _lights.add(l);
+        }
     }
 
 

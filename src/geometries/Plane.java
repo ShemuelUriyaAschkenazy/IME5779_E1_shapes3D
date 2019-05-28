@@ -21,12 +21,16 @@ public class Plane extends Geometry {
      * @param point  point3D exist on the plane
      * @param vector normal vector
      */
-    public Plane(Point3D point, Vector vector, Color emission) {
+    public Plane(Point3D point, Vector vector, Color emission, Material material) {
+        super(emission,material);
         this._point = point;
         this._normal = vector.normalize();
-        this.setEmission(emission);
     }
-
+    public Plane(Point3D point, Vector vector, Color emission) {
+        super(emission,new Material(0.1,0.1,2));
+        this._point = point;
+        this._normal = vector.normalize();
+    }
     /**
      * constructor that receive 3 point are exist on the plane and produce the normal vector
      *
@@ -34,15 +38,22 @@ public class Plane extends Geometry {
      * @param p2 point3D, exist on the plane
      * @param p3 point3D, exist on the plane
      */
-    public Plane(Point3D p1, Point3D p2, Point3D p3, Color emission) {
+    public Plane(Point3D p1, Point3D p2, Point3D p3, Color emission, Material material) {
+        super(emission, material);
         Vector v1 = new Vector(p2.subtract(p1));
         Vector v2 = new Vector(p3.subtract(p1));
         Vector normal = new Vector(v1.crossProduct(v2));
         _normal = normal.normalize();
         _point = p1;
-        this.setEmission(emission);
     }
-
+    public Plane(Point3D p1, Point3D p2, Point3D p3, Color emission) {
+        super(emission, new Material(0.1,0.1,3));
+        Vector v1 = new Vector(p2.subtract(p1));
+        Vector v2 = new Vector(p3.subtract(p1));
+        Vector normal = new Vector(v1.crossProduct(v2));
+        _normal = normal.normalize();
+        _point = p1;
+    }
     /**
      * function that return point3D it is exist on the plane
      *

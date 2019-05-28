@@ -1,10 +1,7 @@
 package geometries;
 
 import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
-import primitives.Color;
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +25,18 @@ public class Triangle extends Plane {
      * @param p2 point3D
      * @param p3 point3D
      */
-    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emission) {
-        super(p1, p2, p3,emission);
+    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emission, Material material) {
+        super(p1, p2, p3,emission,material);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
-
     }
-
+    public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emission) {
+        super(p1, p2, p3,emission,new Material(0.1,0.1,1));
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+    }
     /**
      * function return point A of triangle
      *

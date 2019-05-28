@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Util;
 
 /**
@@ -14,16 +15,15 @@ public abstract class RadialGeometry extends Geometry {
     /**
      * constructor that received double number and applies it at radius
      *
-     * @param num radius
+     * @param radius radius
      */
     /* ********* Constructors ***********/
-    public RadialGeometry(double num,Color color) {
-
-        if (num >= 0 && Util.usubtract(num, 0.0) != 0)
-            _radius = num;
+    public RadialGeometry(double radius, Color emission, Material material) {
+        super(emission, material);
+        if (radius >= 0 && Util.usubtract(radius, 0.0) != 0)
+            _radius = radius;
         else
             throw new IllegalArgumentException("radius can't be zero (or almost zero).");
-        this.setEmission(color);
     }
 
     /**
@@ -31,11 +31,9 @@ public abstract class RadialGeometry extends Geometry {
      *
      * @param other radial geometry
      */
+
     public RadialGeometry(RadialGeometry other) {
-        if (Util.usubtract(other._radius, 0.0) != 0)
-            _radius = other._radius;
-        else
-            throw new IllegalArgumentException("radius can't be zero (or almost zero).");
+        this(other._radius,other._emission, other._material);
     }
 
     /* ************* Getters/Setters *******/

@@ -17,8 +17,8 @@ public class Tube extends RadialGeometry {
      * @param radius radius - - double number
      */
     /* ********* Constructors ***********/
-    public Tube(Ray ray, double radius, Color emission) {
-        super(radius,emission);
+    public Tube(Ray ray, double radius, Color emission,Material material) {
+        super(radius,emission,material);
         this._ray = ray;
     }
 
