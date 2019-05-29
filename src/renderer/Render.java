@@ -86,8 +86,9 @@ public class Render {
         return lightIntensity.scale(Kd*Math.abs(l.dotProduct(n)));
     }
     private Color calcSpecular(double Ks, Vector l, Vector normal ,Vector view,int nShininess ,Color lightIntensity){
-        Vector reflection= l.subtract(normal.scale(2*l.dotProduct(normal))).normalize();
-        return lightIntensity.scale(Math.pow(view.scale(-1).dotProduct(reflection),nShininess));
+        //Vector reflection= l.subtract(normal.scale(2*l.dotProduct(normal))).normalize();
+        Vector reflection= l.add(normal.scale(l.scale(-1).dotProduct(normal)*2)).normalize();
+        return lightIntensity.scale(Ks* Math.pow(Math.max(0,view.scale(-1).dotProduct(reflection)),nShininess));
     }
 
     /**

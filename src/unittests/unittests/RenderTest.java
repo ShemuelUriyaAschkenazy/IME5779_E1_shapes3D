@@ -1,11 +1,8 @@
 
 package unittests;
 
-import elements.AmbientLight;
-import elements.DirectionalLight;
-import elements.SpotLight;
+import elements.*;
 import org.junit.Test;
-import elements.Camera;
 import geometries.*;
 import primitives.*;
 import renderer.ImageWriter;
@@ -115,14 +112,17 @@ public class RenderTest {
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistCameraScreen(100);
-        scene.setAmbientLight(new AmbientLight(new Color(30, 30, 30), 0.8));
+        scene.setAmbientLight(new AmbientLight(new Color(223, 218, 250), 0.01));
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
 
-        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(20, 46, 1),new Material(0.001,0.003,2)));
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218),new Material(0.1,0.1,2)));
 
-        scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(0, 0, 30), 0.01, 0.0001, 0.00001, new Vector(0, 0, 1)));
+       scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-50, -50, -50), 0.001, 0.0001, 0.0000007, new Vector(1, 1, 1)));
+ //scene.addLightSource(new DirectionalLight(new Color(24, 28, 2), new Vector(1, 0, 1)));
+   //     scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+        //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 0.001, 0.0001, 0.000007));
 
 
         ImageWriter imageWriter = new ImageWriter("test3", 500, 500, 500, 500);

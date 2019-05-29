@@ -8,9 +8,9 @@ public class DirectionalLight extends Light implements LightSource {
 
     private Vector _direction;
 
-    public DirectionalLight(Color _color, Vector _direction) {
-        super(_color);
-        this._direction = _direction;
+    public DirectionalLight(Color color, Vector direction) {
+        super(color);
+        this._direction = direction.normalize();
     }
 
     public Vector getDirection() {
