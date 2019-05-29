@@ -66,10 +66,14 @@ public class Render {
     private Color calcColor(GeoPoint intersection) {
         Color color = _scene.getAmbientLight().getIntensity();
         color = color.add(intersection.getGeometry().getEmission());
+        //vector v is vector of our view (i.e from the camera to a point)
         Vector v = intersection.getPoint().subtract(_scene.getCamera().getP0()).normalize();
+        //vector n is the normal vector from the intersection point
         Vector n = intersection.getGeometry().getNormal(intersection.getPoint());
         int nShininess = intersection.getGeometry().getMaterial().getNShininess();
+        //kd is factor ('k') for diffusion light
         double kd = intersection.getGeometry().getMaterial().getKD();
+        //ks is factor ('k') for specular light
         double ks = intersection.getGeometry().getMaterial().getKS();
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.getPoint());

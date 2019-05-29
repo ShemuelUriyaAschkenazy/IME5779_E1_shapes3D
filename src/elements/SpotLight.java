@@ -4,21 +4,39 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
 
+/**
+ * SpotLight class
+ * extends PointLight
+ * contains 6 fields:
+ * * _color (inherited)- the color of light
+ * * _position- point describes the light source position.
+ * *  _kC, _kL, _kQ -3 factors to describe the exponential attenuation depending on the distance.
+ * direction- the light direction (vector)
+ */
 public class SpotLight extends PointLight {
 
-    Vector direction;
+    Vector _direction;
 
+    /**
+     * constructor
+     *
+     * @param _color    the light color
+     * @param _position point describes the position of light
+     * @param _kC       constant attenuation factor (for describing the light attenuation)
+     * @param _kL       linear attenuation factor (for describing the light attenuation)
+     * @param _kQ       quadratic attenuation factor (for describing the light attenuation)
+     * @param direction light direction vector
+     */
     public SpotLight(Color _color, Point3D _position, double _kC, double _kL, double _kQ, Vector direction) {
         super(_color, _position, _kC, _kL, _kQ);
-        this.direction = direction;
+        _direction = direction.normalize();
     }
-
 
     @Override
     public Color getIntensity(Point3D point3D) {
-        Vector PositionToP0 = point3D.subtract(_position).normalize(    );
-        //dot product is indicator for the angle between spot light direction and the vector from spot light to the point on geometry.
-        double angle = PositionToP0.dotProduct(direction);
-        return super.getIntensity(point3D).scale(Math.max(0,angle));
+        //getL returns the vector from light source to the point
+        //dot product is indicator for the angle between spot light direction and the vector from the previous line.
+        double angle = getL(point3D).dotProduct(_direction);
+        return super.getIntensity(point3D).scale(Math.max(0, angle));
     }
 }
