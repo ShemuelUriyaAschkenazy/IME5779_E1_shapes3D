@@ -19,11 +19,12 @@ public class Sphere extends RadialGeometry {
      */
     /* ********* Constructors ***********/
     public Sphere(double radius, Point3D p, Color emission) {
-        super(radius,emission,new Material(0.1,0.1,1));
+        super(radius, emission, new Material(0.1, 0.1, 1));
         center = new Point3D(p);
     }
+
     public Sphere(double radius, Point3D p, Color emission, Material material) {
-        super(radius,emission,material);
+        super(radius, emission, material);
         center = new Point3D(p);
     }
 
@@ -66,12 +67,20 @@ public class Sphere extends RadialGeometry {
             //if subtract gives vector zero, it means that ray point is itself the sphere center.
             //it this case, the intersection will received by center point+(direction vector*radius):
             List<GeoPoint> list = new ArrayList<>();
-            list.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(this.getRadius()))));
+            list.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(this.getRadius()))));
             return list;
         }
 
         double uLength = u.length();
         double DestTilHalf = ray.getVector().dotProduct(u);
+        //the condition below means:
+        //if (DestTilHalf<0) i.e the ray direction is out of the circle (<0 means blunt angle)
+        //and the ray isn't starts inside circle
+        //in this case there is no intersections...
+        double a= ray.getPoint().distance(center);
+        double b= getRadius();
+        if (DestTilHalf<=0 && Util.usubtract(ray.getPoint().distance(center),getRadius())>=0 )
+            return null;
         double d = Math.sqrt(Util.usubtract(uLength * uLength, (DestTilHalf * DestTilHalf)));
         if (Util.usubtract(d, getRadius()) > 0)
             return null;
@@ -83,9 +92,10 @@ public class Sphere extends RadialGeometry {
         if (Util.usubtract(halfChord, 0) == 0) {
             //if the ray is as was written above, and in addition the ray starts on surface, DestTilHalf will be 0:
             if (DestTilHalf == 0)
-                intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
+                //if the intersection is itself the ray point, we aren't include it, therefore return null:
+                return null; //previous version: intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
             else if (DestTilHalf > 0)
-                intersectionsPoints.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(DestTilHalf))));
+                intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(DestTilHalf))));
             else
                 return null;
             return intersectionsPoints;
@@ -94,18 +104,19 @@ public class Sphere extends RadialGeometry {
         //calculates the t numbers to find the two intersections
         double t1 = DestTilHalf + halfChord;
         double t2 = DestTilHalf - halfChord;
-
         if (t1 >= 0) {
-            if (t1 == 0)
-                intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
+            //if (Util.usubtract(t1, 0) < 0.0001)
+            if (Util.usubtract(t1, 0) == 0)
+                intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
             else
-                intersectionsPoints.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(t1))));
+                intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t1))));
         }
         if (t2 >= 0) {
-            if (t2 == 0)
-                intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
+            //if (Util.usubtract(t2, 0) < 0.0001)
+            if (Util.usubtract(t2, 0) == 0)
+                intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
             else
-                intersectionsPoints.add(new GeoPoint(this,ray.getPoint().add(ray.getVector().scale(t2))));
+                intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t2))));
         }
         if (intersectionsPoints.isEmpty())
             return null;

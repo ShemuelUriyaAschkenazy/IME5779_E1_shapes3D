@@ -1,9 +1,12 @@
 package renderer;
 
 import elements.LightSource;
+import elements.PointLight;
 import geometries.Intersectable;
 import primitives.Color;
+
 import static geometries.Intersectable.GeoPoint;
+
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -77,22 +80,48 @@ public class Render {
         double ks = intersection.getGeometry().getMaterial().getKS();
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.getPoint());
-            if (n.dotProduct(l)*n.dotProduct(v) > 0) { // both are with the same sign
-                Color lightIntensity = lightSource.getIntensity(intersection.getPoint());
-                color= color.add(calcDiffusive(kd, l, n, lightIntensity),
-                        calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+            if (n.dotProduct(l) * n.dotProduct(v) > 0) {// both are with the same sign
+                if (unshaded(l, lightSource, intersection)) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.getPoint());
+                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+                            calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+                }
             }
         }
         return color;
     }
 
-    private Color calcDiffusive(double Kd, Vector l, Vector n, Color lightIntensity){
-        return lightIntensity.scale(Kd*Math.abs(l.dotProduct(n)));
+    /**
+     * unshaded function check if specific ray from light source to geometry passes through other geometry
+     * @param l vector from light source to point on geometry
+     * @param currentLight the current source light
+     * @param geoPoint current geoPoint (the intersection point)
+     * @return true if there is no hindrance, and false otherwise
+     */
+    private boolean unshaded(Vector l, LightSource currentLight, GeoPoint geoPoint) {
+        Vector lightDirection = l.scale(-1); // from point to light source
+        Ray lightRay = new Ray(geoPoint.getPoint(), lightDirection);
+        List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+        // check if intersections is really shades (i.e if it between the light to our geometry)
+        if (currentLight instanceof PointLight) {
+            double dist2FromLight = ((PointLight) currentLight).get_position().distanceInSquare(geoPoint.getPoint());
+            for (GeoPoint g : intersections) {
+                if (g.getPoint().distanceInSquare(geoPoint.getPoint()) > dist2FromLight)
+                    intersections.remove(g);
+            }
+        }
+        return intersections.isEmpty();
     }
-    private Color calcSpecular(double Ks, Vector l, Vector normal ,Vector view,int nShininess ,Color lightIntensity){
+
+
+    private Color calcDiffusive(double Kd, Vector l, Vector n, Color lightIntensity) {
+        return lightIntensity.scale(Kd * Math.abs(l.dotProduct(n)));
+    }
+
+    private Color calcSpecular(double Ks, Vector l, Vector normal, Vector view, int nShininess, Color lightIntensity) {
         //Vector reflection= l.subtract(normal.scale(2*l.dotProduct(normal))).normalize();
-        Vector reflection= l.add(normal.scale(l.scale(-1).dotProduct(normal)*2)).normalize();
-        return lightIntensity.scale(Ks* Math.pow(Math.max(0,view.scale(-1).dotProduct(reflection)),nShininess));
+        Vector reflection = l.add(normal.scale(l.scale(-1).dotProduct(normal) * 2)).normalize();
+        return lightIntensity.scale(Ks * Math.pow(Math.max(0, view.scale(-1).dotProduct(reflection)), nShininess));
     }
 
     /**
