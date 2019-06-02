@@ -47,7 +47,7 @@ public class RenderTest {
 
     @Test
     public void trianglesTest() {
-        Scene scene = new Scene("triangles1");
+        Scene scene = new Scene("triangles- spot light");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistCameraScreen(100);
         scene.setAmbientLight(new AmbientLight(new Color(30, 30, 130), 0.8));
@@ -66,7 +66,7 @@ public class RenderTest {
         render.renderImage(500, 500);
         imageWriter.writeToImage();
 
-        scene = new Scene("triangles2");
+        scene = new Scene("triangles- point light");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistCameraScreen(100);
         scene.setAmbientLight(new AmbientLight(new Color(30, 30, 130), 0.8));
@@ -210,8 +210,32 @@ public class RenderTest {
         render = new Render(imageWriter, scene);
         render.renderImage(500, 500);
         imageWriter.writeToImage();
-
     }
 
+    @Test
+    public void sphereOnTrianglesTest() {
+        Scene scene = new Scene("sphereOnTriangles");
+        scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
+        scene.setDistCameraScreen(100);
+        scene.setAmbientLight(new AmbientLight(new Color(30, 30, 130), 0.8));
+        scene.setBackground(new Color(0, 0, 0));
+        Geometries geometries = new Geometries();
+        scene.addGeometry(geometries);
+        geometries.add(new Triangle(new Point3D(410, 400, 149),
+                new Point3D(-400, -400, 300),
+                new Point3D(410, -400, 300), new Color(45, 52, 52), new Material(0.1, 0.2, 2)));
+        geometries.add(new Triangle(new Point3D(-410, -400, 300),
+                new Point3D(400, 400, 149),
+                new Point3D(-410, 400, 149), new Color(45, 52, 52), new Material(0.1, 0.2, 2)));
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+        //scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(100, 100, 0), 0.01, 0.0001, 0.000001, new Vector(0, -0.5, 1)));
+        scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(-30, -50, 0), 0.01, 0.00001, 0.000001, new Vector(0, 0, 1)));
+
+        ImageWriter imageWriter = new ImageWriter("sphereOnTriangles", 500, 500, 500, 500);
+        Render render = new Render(imageWriter, scene);
+        render.renderImage(500, 500);
+        imageWriter.writeToImage();
+
+    }
 
 }

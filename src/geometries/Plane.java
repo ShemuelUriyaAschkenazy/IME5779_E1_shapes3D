@@ -113,8 +113,17 @@ public class Plane extends Geometry {
         Point3D point;
         double accuracy = 999999999;
         //if scale num !=0, using this and return the point
-        if (Util.usubtract(scaleNum, 0) != 0) {
-            point = ray.getPoint().add(ray.getVector().scale(scaleNum));
+        if (Util.usubtract(scaleNum, 0) >0.0000001) {
+            point=new Point3D(1,1,1);
+            try {
+                point = ray.getPoint().add(ray.getVector().scale(scaleNum));
+            }
+            catch (IllegalArgumentException e)
+            {
+              double a= scaleNum;
+              Point3D b= _point;
+              Vector v=this._point.subtract(ray.getPoint());
+            }
             //checking that point isn't a result of an inaccuracy
             if (point.getX().getCoordinate() > accuracy || point.getY().getCoordinate() > accuracy || point.getZ().getCoordinate() > accuracy)
                 return null;
