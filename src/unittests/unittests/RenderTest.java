@@ -124,7 +124,7 @@ public class RenderTest {
 
     @Test
     public void TriangleShadesOnSphere () {
-        Scene scene = new Scene("sphereTriangle");
+        Scene scene = new Scene("sphereTriangle1");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistCameraScreen(100);
         scene.setAmbientLight(new AmbientLight(new Color(223, 218, 250), 0.01));
@@ -132,17 +132,85 @@ public class RenderTest {
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
         geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
-        geometries.add(new Triangle(new Point3D(17, 15, 20),
-              new Point3D(-15, -15, 20),
-             new Point3D(17, -15, 20), new Color(200, 52, 52), new Material(0.1, 0.2, 2)));
-        scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-50, -50, -50), 0.001, 0.0001, 0.0000007, new Vector(1, 1, 1)));
-        scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+       // geometries.add(new Triangle(new Point3D(17, 15, 30),
+         //     new Point3D(-17, -15, 30),
+           //  new Point3D(-17, 15, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+        geometries.add(new Triangle(new Point3D(0, 30, 50),
+                new Point3D(-34, 0, 50),
+                new Point3D(-34, 30, 50), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+
+        scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-20, 20, -20), 0.001, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+       // scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
         //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 0.001, 0.0001, 0.000007));
 
-        ImageWriter imageWriter = new ImageWriter("spere- spot light34354", 500, 500, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("sphere & triangle's shadow1", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);
         render.renderImage(500, 500);
         imageWriter.writeToImage();
+
+        scene = new Scene("sphereTriangle2");
+        scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
+        scene.setDistCameraScreen(100);
+        scene.setAmbientLight(new AmbientLight(new Color(223, 218, 250), 0.01));
+        scene.setBackground(new Color(0, 0, 0));
+        geometries = new Geometries();
+        scene.addGeometry(geometries);
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+        geometries.add(new Triangle(new Point3D(0, 30, 30),
+                new Point3D(-34, 0, 30),
+                new Point3D(-34, 30, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+
+        scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-50, 50, -50), 0.001, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+        //scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+        //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 0.001, 0.0001, 0.000007));
+
+        imageWriter = new ImageWriter("sphere & triangle's shadow 2", 500, 500, 500, 500);
+        render = new Render(imageWriter, scene);
+        render.renderImage(500, 500);
+        imageWriter.writeToImage();
+
+        scene = new Scene("sphereTriangle3");
+        scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
+        scene.setDistCameraScreen(100);
+        scene.setAmbientLight(new AmbientLight(new Color(223, 218, 250), 0.01));
+        scene.setBackground(new Color(0, 0, 0));
+        geometries = new Geometries();
+        scene.addGeometry(geometries);
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+        geometries.add(new Triangle(new Point3D(0, 30, 30),
+                new Point3D(-34, 0, 30),
+                new Point3D(-34, 30, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+
+        scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-50, 1, -1), 0.001, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+        //scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+        //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 0.001, 0.0001, 0.000007));
+
+        imageWriter = new ImageWriter("sphere & triangle's shadow 3", 500, 500, 500, 500);
+        render = new Render(imageWriter, scene);
+        render.renderImage(500, 500);
+        imageWriter.writeToImage();
+
+        scene = new Scene("sphereTriangle4");
+        scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
+        scene.setDistCameraScreen(100);
+        scene.setAmbientLight(new AmbientLight(new Color(223, 218, 250), 0.01));
+        scene.setBackground(new Color(0, 0, 0));
+        geometries = new Geometries();
+        scene.addGeometry(geometries);
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+        geometries.add(new Triangle(new Point3D(0, 30, 30),
+                new Point3D(-34, 0, 30),
+                new Point3D(-34, 30, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+
+        scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-20, 35, 0), 0.001, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+        //scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+        //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 0.001, 0.0001, 0.000007));
+
+        imageWriter = new ImageWriter("sphere & triangle's shadow 4", 500, 500, 500, 500);
+        render = new Render(imageWriter, scene);
+        render.renderImage(500, 500);
+        imageWriter.writeToImage();
+
     }
 
 

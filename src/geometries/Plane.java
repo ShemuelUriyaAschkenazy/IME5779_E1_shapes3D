@@ -95,11 +95,18 @@ public class Plane extends Geometry {
         if (Util.usubtract(ray.getVector().dotProduct(this._normal), 0) == 0)
             return null;
 
-
         //ray points are: P=P0+t*v, t>=0
         //plane points are: normal.dotProduct(planePoint-P)=0
         //when we compare between the two points P in the two equations, we get t (the scale num)
-        double scaleNum = this._normal.dotProduct(this._point.subtract(ray.getPoint())) / (_normal.dotProduct(ray.getVector()));
+        double scaleNum=0;
+        try {
+            scaleNum = this._normal.dotProduct(this._point.subtract(ray.getPoint())) / (_normal.dotProduct(ray.getVector()));
+        }
+        catch (IllegalArgumentException e)
+        {
+         //exception will be thrown if plane point is itself ray point. in this case we return null:
+            return null;
+        }
         //t>=0, and hence:
         if (scaleNum < 0)
             return null;
@@ -114,8 +121,9 @@ public class Plane extends Geometry {
             else
                 intersectionsList.add(new GeoPoint(this, point));
         } else
-            //t=0 means that the ray point itself is on the plane
-            intersectionsList.add(new GeoPoint(this, ray.getPoint()));
+            //t=0 means that the ray point itself is on the plane. we are not consider it as a intersection point:
+            return null;
+            //the previous version (temporary): intersectionsList.add(new GeoPoint(this, ray.getPoint()));
         return intersectionsList;
     }
 }
