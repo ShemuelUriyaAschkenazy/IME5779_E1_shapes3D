@@ -22,15 +22,17 @@ public class Plane extends Geometry {
      * @param vector normal vector
      */
     public Plane(Point3D point, Vector vector, Color emission, Material material) {
-        super(emission,material);
+        super(emission, material);
         this._point = point;
         this._normal = vector.normalize();
     }
+
     public Plane(Point3D point, Vector vector, Color emission) {
-        super(emission,new Material(0.1,0.1,2));
+        super(emission, new Material(0.1, 0.1, 2));
         this._point = point;
         this._normal = vector.normalize();
     }
+
     /**
      * constructor that receive 3 point are exist on the plane and produce the normal vector
      *
@@ -46,14 +48,16 @@ public class Plane extends Geometry {
         _normal = normal.normalize();
         _point = p1;
     }
+
     public Plane(Point3D p1, Point3D p2, Point3D p3, Color emission) {
-        super(emission, new Material(0.1,0.1,3));
+        super(emission, new Material(0.1, 0.1, 3));
         Vector v1 = new Vector(p2.subtract(p1));
         Vector v2 = new Vector(p3.subtract(p1));
         Vector normal = new Vector(v1.crossProduct(v2));
         _normal = normal.normalize();
         _point = p1;
     }
+
     /**
      * function that return point3D it is exist on the plane
      *
@@ -98,13 +102,11 @@ public class Plane extends Geometry {
         //ray points are: P=P0+t*v, t>=0
         //plane points are: normal.dotProduct(planePoint-P)=0
         //when we compare between the two points P in the two equations, we get t (the scale num)
-        double scaleNum=0;
+        double scaleNum = 0;
         try {
             scaleNum = this._normal.dotProduct(this._point.subtract(ray.getPoint())) / (_normal.dotProduct(ray.getVector()));
-        }
-        catch (IllegalArgumentException e)
-        {
-         //exception will be thrown if plane point is itself ray point. in this case we return null:
+        } catch (IllegalArgumentException e) {
+            //exception will be thrown if plane point is itself ray point. in this case we return null:
             return null;
         }
         //t>=0, and hence:
@@ -113,17 +115,9 @@ public class Plane extends Geometry {
         Point3D point;
         double accuracy = 999999999;
         //if scale num !=0, using this and return the point
-        if (Util.usubtract(scaleNum, 0) >0.0000001) {
-            point=new Point3D(1,1,1);
-            try {
-                point = ray.getPoint().add(ray.getVector().scale(scaleNum));
-            }
-            catch (IllegalArgumentException e)
-            {
-              double a= scaleNum;
-              Point3D b= _point;
-              Vector v=this._point.subtract(ray.getPoint());
-            }
+        if (Util.usubtract(scaleNum, 0) > 0.0000001) { //the first version was !=0, but we saw that sometimes is not enough, because if the vector values are less then 1, the scale will be reduce them more, and it will throw exception
+            point = new Point3D(1, 1, 1);
+            point = ray.getPoint().add(ray.getVector().scale(scaleNum));
             //checking that point isn't a result of an inaccuracy
             if (point.getX().getCoordinate() > accuracy || point.getY().getCoordinate() > accuracy || point.getZ().getCoordinate() > accuracy)
                 return null;
@@ -132,7 +126,7 @@ public class Plane extends Geometry {
         } else
             //t=0 means that the ray point itself is on the plane. we are not consider it as a intersection point:
             return null;
-            //the previous version (temporary): intersectionsList.add(new GeoPoint(this, ray.getPoint()));
+        //the previous version (temporary): intersectionsList.add(new GeoPoint(this, ray.getPoint()));
         return intersectionsList;
     }
 }
