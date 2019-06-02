@@ -132,11 +132,11 @@ public class RenderTest {
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
         geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
-        //geometries.add(new Triangle(new Point3D(410, 400, 149),
-          ///      new Point3D(-400, -400, 300),
-             //  new Point3D(410, -400, 300), new Color(45, 52, 52), new Material(0.1, 0.2, 2)));
+        geometries.add(new Triangle(new Point3D(17, 15, 20),
+              new Point3D(-15, -15, 20),
+             new Point3D(17, -15, 20), new Color(200, 52, 52), new Material(0.1, 0.2, 2)));
         scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-50, -50, -50), 0.001, 0.0001, 0.0000007, new Vector(1, 1, 1)));
-        //scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+        scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
         //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 0.001, 0.0001, 0.000007));
 
         ImageWriter imageWriter = new ImageWriter("spere- spot light34354", 500, 500, 500, 500);

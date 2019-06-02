@@ -131,12 +131,11 @@ public class Triangle extends Plane {
 
         Vector temp;
         //if ray point is itself the intersection point, the next code will try creating a zero vector.
-        // in this case, the direction isn't significant for determining the intersection point.
-        //therefore, we choose the normal vector instead
+        // we decide not to include this case as an intersection point, therefore return null
         try {
             temp = intersectsPlane.getPoint().subtract(ray.getPoint());
         } catch (IllegalArgumentException e) {
-            temp = this.getNormal(ray.getPoint());
+           return null;
         }
 
         double side1 = n1.dotProduct(temp);
