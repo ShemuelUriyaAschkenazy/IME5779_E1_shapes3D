@@ -247,10 +247,9 @@ public class RenderTest {
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
-        //geometries.add(new Sphere(50, new Point3D(0, 0, 150), new Color(218, 32, 63), new Material(0.1, 0.1, 0,0,2)));
-        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 0,1,2)));
-        //scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(100, 100, 0), 0.01, 0.0001, 0.000001, new Vector(0, -0.5, 1)));
-        scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(-30, -50, 0), 0.01, 0.00001, 0.000001, new Vector(0, 0, 1)));
+        geometries.add(new Sphere(50, new Point3D(0, 0, 150), new Color(218, 32, 63), new Material(0.3, 0.3, 0.5,0,2)));
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.3, 0.3, 0.4,0.5,2)));
+        scene.addLightSource(new SpotLight(new Color(50, 50, 50), new Point3D(-30, -50, 0), 0.01, 0.001, 0.000001, new Vector(0, 0, 1)));
 
         ImageWriter imageWriter = new ImageWriter("sphereWithinSphere", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);

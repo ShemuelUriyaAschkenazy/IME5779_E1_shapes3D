@@ -29,6 +29,12 @@ public interface Intersectable {
         public Point3D getPoint() {
             return _point;
         }
+
+
+        @Override
+        public String toString() {
+            return  ""+_point;
+        }
     }
 
     List<GeoPoint> findIntersections(Ray ray);

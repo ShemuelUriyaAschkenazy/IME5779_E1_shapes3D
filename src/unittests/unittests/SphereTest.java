@@ -40,6 +40,7 @@ public class SphereTest {
 
     @Test
     public void findIntersections() {
+
         System.out.println("test case 1 (no intersections):");
         Ray ray= new Ray(new Point3D(0,0,0), new Vector(0,0,-1));
         Sphere sphere = new Sphere(1, new Point3D(0,2,-4),new Color(20,46,1));

@@ -74,12 +74,10 @@ public class Sphere extends RadialGeometry {
         double uLength = u.length();
         double DestTilHalf = ray.getVector().dotProduct(u);
         //the condition below means:
-        //if (DestTilHalf<0) i.e the ray direction is out of the circle (<0 means blunt angle)
+        //if (DestTilHalf<0) i.e the ray direction is out of the circle (<0 means that the angle is blunt)
         //and the ray isn't starts inside circle
         //in this case there is no intersections...
-        double a= ray.getPoint().distance(center);
-        double b= getRadius();
-        if (DestTilHalf<=0 && Util.usubtract(ray.getPoint().distance(center),getRadius())>=0 )
+        if (DestTilHalf <= 0 && Util.usubtract(ray.getPoint().distance(center), getRadius()) >= 0)
             return null;
         double d = Math.sqrt(Util.usubtract(uLength * uLength, (DestTilHalf * DestTilHalf)));
         if (Util.usubtract(d, getRadius()) > 0)
@@ -104,21 +102,11 @@ public class Sphere extends RadialGeometry {
         //calculates the t numbers to find the two intersections
         double t1 = DestTilHalf + halfChord;
         double t2 = DestTilHalf - halfChord;
-        if (t1 >= 0) {
-           if (Util.usubtract(t1, 0) < 0.0001)
-            //if (Util.usubtract(t1, 0) == 0)
-                return null;
-            //intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
-            else
-                intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t1))));
+        if (Util.usubtract(t1, 0) >= 0.00001) {
+            intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t1))));
         }
-        if (t2 >= 0) {
-            if (Util.usubtract(t2, 0) < 0.0001)
-            //if (Util.usubtract(t2, 0) == 0)
-                return null;
-                //intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
-            else
-                intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t2))));
+        if (Util.usubtract(t2, 0) >= 0.00001) {
+                    intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t2))));
         }
         if (intersectionsPoints.isEmpty())
             return null;
