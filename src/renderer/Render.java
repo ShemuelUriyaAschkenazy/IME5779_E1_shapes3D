@@ -123,7 +123,7 @@ public class Render {
     }
 
     private Ray constructRefractedRay(Point3D point3D, Ray inRay) {
-        return inRay;
+        return new Ray(point3D, inRay.getVector());
     }
 
 

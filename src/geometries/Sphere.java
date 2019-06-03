@@ -105,16 +105,18 @@ public class Sphere extends RadialGeometry {
         double t1 = DestTilHalf + halfChord;
         double t2 = DestTilHalf - halfChord;
         if (t1 >= 0) {
-            //if (Util.usubtract(t1, 0) < 0.0001)
-            if (Util.usubtract(t1, 0) == 0)
-                intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
+           if (Util.usubtract(t1, 0) < 0.0001)
+            //if (Util.usubtract(t1, 0) == 0)
+                return null;
+            //intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
             else
                 intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t1))));
         }
         if (t2 >= 0) {
-            //if (Util.usubtract(t2, 0) < 0.0001)
-            if (Util.usubtract(t2, 0) == 0)
-                intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
+            if (Util.usubtract(t2, 0) < 0.0001)
+            //if (Util.usubtract(t2, 0) == 0)
+                return null;
+                //intersectionsPoints.add(new GeoPoint(this, ray.getPoint()));
             else
                 intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(t2))));
         }
