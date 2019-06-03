@@ -14,6 +14,13 @@ public class Material {
         this._nShininess = _nShininess;
     }
 
+    public Material(double _kD, double _kS, double _kR, double _kT, int _nShininess) {
+        this._kD = _kD;
+        this._kS = _kS;
+        this._kR = _kR;
+        this._kT = _kT;
+        this._nShininess = _nShininess;
+    }
     public double getKD() {
         return _kD;
     }

@@ -3,13 +3,11 @@ package renderer;
 import elements.LightSource;
 import elements.PointLight;
 import geometries.Intersectable;
-import primitives.Color;
+import primitives.*;
 
 import static geometries.Intersectable.GeoPoint;
 
-import primitives.Point3D;
-import primitives.Ray;
-import primitives.Vector;
+import primitives.Color;
 import scene.Scene;
 
 import java.awt.*;
@@ -54,28 +52,29 @@ public class Render {
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
                 GeoPoint closestPoint = getClosestPoint(intersectionPoint);
                 if (closestPoint != null)
-                    _imageWriter.writePixel(m, n, calcColor(closestPoint,ray).getColor());
+                    _imageWriter.writePixel(m, n, calcColor(closestPoint, ray).getColor());
                 else
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
             }
     }
+
     private final int MAX_CALC_COLOR_LEVEL = 10;
     private final double MIN_CALC_COLOR_K = 0.005;
 
-    private Color calcColor(GeoPoint intersection, Ray inRay){
-        return calcColor(intersection, inRay,MAX_CALC_COLOR_LEVEL, 1.0);
+    private Color calcColor(GeoPoint intersection, Ray inRay) {
+        return calcColor(intersection, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(_scene.getAmbientLight().getIntensity());
     }
+
     /**
      * function that calculates the color of a point in the scene
      *
      * @param intersection
      * @return the color of point
      */
-    private Color calcColor(GeoPoint intersection, Ray inRay,int level, double k) {
+    private Color calcColor(GeoPoint intersection, Ray inRay, int level, double k) {
         if (level == 0 || k < MIN_CALC_COLOR_K) return Color.BLACK;
         Vector v = inRay.getVector();
-        Color color = _scene.getAmbientLight().getIntensity();
-        color = color.add(intersection.getGeometry().getEmission());
+        Color color = intersection.getGeometry().getEmission();
         //vector view is vector of our view (i.e from the camera to a point)
         Vector view = intersection.getPoint().subtract(_scene.getCamera().getP0()).normalize();
         //vector n is the normal vector from the intersection point
@@ -85,48 +84,58 @@ public class Render {
         double kd = intersection.getGeometry().getMaterial().getKD();
         //ks is factor ('k') for specular light
         double ks = intersection.getGeometry().getMaterial().getKS();
+        double ktr;
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.getPoint());
-            Ray reflectedRay = constructReflectedRay(n, intersection.getPoint(), inRay);
-            GeoPoint reflectedPoint =  getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
-            Color reflectedLight = calcColor(reflectedPoint, reflectedRay)
-                    .scale(intersection.getGeometry().getMaterial().getKR());
-            Ray refractedRay = constructRefractedRay(intersection.getPoint(), inRay) ;
-            GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
-            Color refractedLight = calcColor(refractedPoint, refractedRay)
-                    .scale(intersection.getGeometry().getMaterial().getKT());
-
             if (n.dotProduct(l) * n.dotProduct(view) > 0) {// both are with the same sign
-                if (unshaded(l, lightSource, intersection)) {
-                    Color lightIntensity = lightSource.getIntensity(intersection.getPoint());
+                ktr = transparency(l, lightSource, intersection);
+                if (!Util.isZero(ktr * k)) {
+                    Color lightIntensity = lightSource.getIntensity(intersection.getPoint()).scale(ktr);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity),
                             calcSpecular(ks, l, n, view, nShininess, lightIntensity));
                 }
             }
         }
+        double kr = intersection.getGeometry().getMaterial().getKR();
+        double kt = intersection.getGeometry().getMaterial().getKT();
+        Ray reflectedRay = constructReflectedRay(n, intersection.getPoint(), inRay);
+        GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
+        Color reflectedLight;
+        if (reflectedPoint != null) {
+            reflectedLight = calcColor(reflectedPoint, reflectedRay, level - 1, k * kr).scale(kr);
+            color = color.add(reflectedLight);
+        }
+        Ray refractedRay = constructRefractedRay(intersection.getPoint(), inRay);
+        GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
+        Color refractedLight;
+        if (refractedPoint != null) {
+            refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
+            color = color.add(refractedLight);
+        }
         return color;
     }
 
-
-
-    private  Ray constructReflectedRay(Vector normal, Point3D point3D,Ray inRay){
+    private Ray constructReflectedRay(Vector normal, Point3D point3D, Ray inRay) {
         //𝒓 = 𝒗 − 𝟐 ∙ 𝒗 ∙ 𝒏 ∙ n
-        Vector v=inRay.getVector();
+        Vector v = inRay.getVector();
         Vector reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
-        return new Ray(point3D,reflection);
+        return new Ray(point3D, reflection);
     }
-    private Ray constructRefractedRay(Point3D point3D, Ray inRay)
-    {return inRay;}
+
+    private Ray constructRefractedRay(Point3D point3D, Ray inRay) {
+        return inRay;
+    }
 
 
     /**
      * unshaded function check if specific ray from light source to geometry passes through other geometry
-     * @param l vector from light source to point on geometry
+     *
+     * @param l            vector from light source to point on geometry
      * @param currentLight the current source light
-     * @param geoPoint current geoPoint (the intersection point)
+     * @param geoPoint     current geoPoint (the intersection point)
      * @return true if there is no hindrance, and false otherwise
      */
-    private boolean unshaded(Vector l, LightSource currentLight, GeoPoint geoPoint) {
+    private double transparency(Vector l, LightSource currentLight, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(geoPoint.getPoint(), lightDirection);
         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
@@ -138,9 +147,11 @@ public class Render {
                     intersections.remove(g);
             }
         }
-        return intersections.isEmpty();
+        double ktr = 1;
+        for (GeoPoint gp : intersections)
+            ktr *= gp.getGeometry().getMaterial().getKT();
+        return ktr;
     }
-
 
     private Color calcDiffusive(double Kd, Vector l, Vector n, Color lightIntensity) {
         return lightIntensity.scale(Kd * Math.abs(l.dotProduct(n)));
