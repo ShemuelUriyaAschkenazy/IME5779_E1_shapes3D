@@ -89,10 +89,10 @@ public class Sphere extends RadialGeometry {
         //if the ray is on the tangent line, it will be at most one intersection point, we calculate and return it:
         if (Util.usubtract(halfChord, 0) == 0) {
             //if the ray is as was written above, and in addition the ray starts on surface, DestTilHalf will be 0:
-            if (DestTilHalf == 0)
+            if (Util.usubtract(DestTilHalf,0) == 0)
                 //if the intersection is itself the ray point, we aren't include it, therefore return null:
                 return null; //previous version: intersectionsPoints.add(new GeoPoint(this,ray.getPoint()));
-            else if (DestTilHalf > 0)
+            else if (Util.usubtract(DestTilHalf,0) > 0.00001)
                 intersectionsPoints.add(new GeoPoint(this, ray.getPoint().add(ray.getVector().scale(DestTilHalf))));
             else
                 return null;

@@ -99,18 +99,20 @@ public class Render {
         double kr = intersection.getGeometry().getMaterial().getKR();
         double kt = intersection.getGeometry().getMaterial().getKT();
         Ray reflectedRay = constructReflectedRay(n, intersection.getPoint(), inRay);
-        GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
-        Color reflectedLight;
-        if (reflectedPoint != null) {
-            reflectedLight = calcColor(reflectedPoint, reflectedRay, level - 1, k * kr).scale(kr);
-            color = color.add(reflectedLight);
+        if (reflectedRay!=null) {
+            GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
+            Color reflectedLight;
+            if (reflectedPoint != null) {
+                reflectedLight = calcColor(reflectedPoint, reflectedRay, level - 1, k * kr).scale(kr);
+                color = color.add(reflectedLight);
+            }
         }
         Ray refractedRay = constructRefractedRay(intersection.getPoint(), inRay);
-        GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
-        Color refractedLight;
-        if (refractedPoint != null) {
-            refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
-            color = color.add(refractedLight);
+            GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
+            Color refractedLight;
+            if (refractedPoint != null) {
+                refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
+                color = color.add(refractedLight);
         }
         return color;
     }
@@ -118,8 +120,16 @@ public class Render {
     private Ray constructReflectedRay(Vector normal, Point3D point3D, Ray inRay) {
         //𝒓 = 𝒗 − 𝟐 ∙ 𝒗 ∙ 𝒏 ∙ n
         Vector v = inRay.getVector();
-        Vector reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
-        return new Ray(point3D, reflection);
+        Vector reflection;
+        try {
+            reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
+            return new Ray(point3D, reflection);
+        }
+        catch (IllegalArgumentException e)
+        {
+            //if the angle is very very small, normal.scale(...) will throw zero vector exception, and we return null:
+            return null;
+        }
     }
 
     private Ray constructRefractedRay(Point3D point3D, Ray inRay) {
