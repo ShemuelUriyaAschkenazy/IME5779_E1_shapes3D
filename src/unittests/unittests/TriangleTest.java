@@ -30,8 +30,8 @@ public class TriangleTest {
         intersectionsList= triangle.findIntersections(ray);
         System.out.println(intersectionsList);
 
-        System.out.println("test case 2 (inside triangle):");
-        ray= new Ray(new Point3D(1, 3, 0), new Vector(0,0,-1));
+        System.out.println("test case 2 (inside triangle)- starts before plane:");
+        ray= new Ray(new Point3D(1, 3, 1), new Vector(0,0,-1));
         intersectionsList= triangle.findIntersections(ray);
         System.out.println(intersectionsList);
 

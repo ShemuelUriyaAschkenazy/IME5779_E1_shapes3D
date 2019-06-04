@@ -91,8 +91,10 @@ public class Render {
                 ktr = transparency(l, lightSource, intersection);
                 if (!Util.isZero(ktr * k)) {
                     Color lightIntensity = lightSource.getIntensity(intersection.getPoint()).scale(ktr);
-                    color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-                            calcSpecular(ks, l, n, view, nShininess, lightIntensity));
+                    color = color.add(calcDiffusive(kd, l, n, lightIntensity));
+                    Color colorSpecular = calcSpecular(ks, l, n, view, nShininess, lightIntensity);
+                    if(colorSpecular != null)
+                    color = color.add(colorSpecular);
                 }
             }
         }
@@ -168,10 +170,15 @@ public class Render {
     }
 
     private Color calcSpecular(double Ks, Vector l, Vector normal, Vector view, int nShininess, Color lightIntensity) {
-        //Vector reflection= l.subtract(normal.scale(2*l.dotProduct(normal))).normalize();
-        Vector reflection = l.add(normal.scale(l.scale(-1).dotProduct(normal) * 2)).normalize();
-        return lightIntensity.scale(Ks * Math.pow(Math.max(0, view.scale(-1).dotProduct(reflection)), nShininess));
-    }
+        try{
+            Vector reflection = l.add(normal.scale(l.scale(-1).dotProduct(normal) * 2)).normalize();
+            return lightIntensity.scale(Ks * Math.pow(Math.max(0, view.scale(-1).dotProduct(reflection)), nShininess));
+        }
+        catch (IllegalArgumentException e){
+            //if normal is orthogonal to l, there is no reflection. (exception will be thrown due to scale by dot product result of 0)
+            return null;
+        }
+}
 
     /**
      * function to calculate the closest point to camera, from list of intersection points

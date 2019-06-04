@@ -267,9 +267,9 @@ public class RenderTest {
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
-        geometries.add(new Sphere(50, new Point3D(0, 0, 150), new Color(218, 32, 63), new Material(0.3, 0.3, 0.5,0,2)));
-        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.3, 0.3, 0.4,0.5,2)));
-        geometries.add(new Sphere(50, new Point3D(100, 100, 200), new Color(63, 300, 28), new Material(0.3, 0.3, 0.4,0.5,2)));
+        geometries.add(new Sphere(50, new Point3D(0, 0, 210), new Color(218, 32, 63), new Material(0.3, 0.3, 0.5,0,2)));
+        geometries.add(new Sphere(100, new Point3D(0, 0, 210), new Color(63, 32, 218), new Material(0.3, 0.3, 0.4,0.9,2)));
+        geometries.add(new Sphere(40, new Point3D(0, 0, 100), new Color(63, 300, 28), new Material(0.3, 0.3, 0.4,0.2,2)));
 
         geometries.add(new Triangle(new Point3D(50, -400, 600),
                 new Point3D(250, -300,100 ),
