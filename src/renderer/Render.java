@@ -190,6 +190,7 @@ public class Render {
      * @return diffusive light (color)
      */
     private Color calcDiffusive(double Kd, Vector l, Vector normal, Color lightIntensity) {
+        //note: assume that vectors l and normal are normalized.
         return lightIntensity.scale(Kd * Math.abs(l.dotProduct(normal)));
     }
 
@@ -204,6 +205,7 @@ public class Render {
      */
     private Color calcSpecular(double Ks, Vector l, Vector normal, Vector view, int nShininess, Color lightIntensity) {
         try{
+            //note: assume that vectors l and normal are normalized.
             Vector reflection = l.add(normal.scale(l.scale(-1).dotProduct(normal) * 2)).normalize();
             return lightIntensity.scale(Ks * Math.pow(Math.max(0, view.scale(-1).dotProduct(reflection)), nShininess));
         }
