@@ -73,7 +73,6 @@ public class Render {
      */
     private Color calcColor(GeoPoint intersection, Ray inRay, int level, double k) {
         if (level == 0 || k < MIN_CALC_COLOR_K) return Color.BLACK;
-        Vector v = inRay.getVector();
         Color color = intersection.getGeometry().getEmission();
         //vector view is vector of our view (i.e from the camera to a point)
         Vector view = intersection.getPoint().subtract(_scene.getCamera().getP0()).normalize();
@@ -119,13 +118,21 @@ public class Render {
         return color;
     }
 
-    private Ray constructReflectedRay(Vector normal, Point3D point3D, Ray inRay) {
+    /**
+     * constructReflectedRay function.
+     * calculates the reflected ray that created when the first ray intersect with the object.
+     * @param normal normal vector from object
+     * @param intersection intersection point (between ray and object)
+     * @param inRay the ray that comes and intersects the object
+     * @return reflection ray
+     */
+    private Ray constructReflectedRay(Vector normal, Point3D intersection, Ray inRay) {
         //𝒓 = 𝒗 − 𝟐 ∙ 𝒗 ∙ 𝒏 ∙ n
         Vector v = inRay.getVector();
         Vector reflection;
         try {
             reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
-            return new Ray(point3D, reflection);
+            return new Ray(intersection, reflection);
         }
         catch (IllegalArgumentException e)
         {
@@ -134,8 +141,16 @@ public class Render {
         }
     }
 
-    private Ray constructRefractedRay(Point3D point3D, Ray inRay) {
-        return new Ray(point3D, inRay.getVector());
+    /**
+     * constructRefractedRay function to calculates the refracted ray that continues from the intersection point.
+     * *** in this implementation we assume that all geometries are hollow and with zero thickness -
+     * So, the ray always continues in the same direction ***
+     * @param intersection intersection
+     * @param inRay intersection point (between ray and object)
+     * @return refracted ray.
+     */
+    private Ray constructRefractedRay(Point3D intersection, Ray inRay) {
+        return new Ray(intersection, inRay.getVector());
     }
 
 
@@ -165,10 +180,28 @@ public class Render {
         return ktr;
     }
 
-    private Color calcDiffusive(double Kd, Vector l, Vector n, Color lightIntensity) {
-        return lightIntensity.scale(Kd * Math.abs(l.dotProduct(n)));
+    /**
+     * calcDiffusive function.
+     * Calculates the diffusive light.
+     * @param Kd factor reduces the diffusive light.
+     * @param l direction vector from light source to intersection point on geometry.
+     * @param normal normal vector from geometry.
+     * @param lightIntensity the color of light.
+     * @return diffusive light (color)
+     */
+    private Color calcDiffusive(double Kd, Vector l, Vector normal, Color lightIntensity) {
+        return lightIntensity.scale(Kd * Math.abs(l.dotProduct(normal)));
     }
 
+    /**
+     * @param Ks factor reduces the specular light.
+     * @param l direction vector from light source to intersection point on geometry.
+     * @param normal normal vector from geometry.
+     * @param view direction vector
+     * @param nShininess level of shininess (for calculate the specular light)
+     * @param lightIntensity color of light from light source
+     * @return specular light (color).
+     */
     private Color calcSpecular(double Ks, Vector l, Vector normal, Vector view, int nShininess, Color lightIntensity) {
         try{
             Vector reflection = l.add(normal.scale(l.scale(-1).dotProduct(normal) * 2)).normalize();
