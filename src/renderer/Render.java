@@ -92,15 +92,15 @@ public class Render {
                     Color lightIntensity = lightSource.getIntensity(intersection.getPoint()).scale(ktr);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity));
                     Color colorSpecular = calcSpecular(ks, l, n, view, nShininess, lightIntensity);
-                    if(colorSpecular != null)
-                    color = color.add(colorSpecular);
+                    if (colorSpecular != null)
+                        color = color.add(colorSpecular);
                 }
             }
         }
         double kr = intersection.getGeometry().getMaterial().getKR();
         double kt = intersection.getGeometry().getMaterial().getKT();
         Ray reflectedRay = constructReflectedRay(n, intersection.getPoint(), inRay);
-        if (reflectedRay!=null) {
+        if (reflectedRay != null) {
             GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
             Color reflectedLight;
             if (reflectedPoint != null) {
@@ -109,11 +109,11 @@ public class Render {
             }
         }
         Ray refractedRay = constructRefractedRay(intersection.getPoint(), inRay);
-            GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
-            Color refractedLight;
-            if (refractedPoint != null) {
-                refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
-                color = color.add(refractedLight);
+        GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
+        Color refractedLight;
+        if (refractedPoint != null) {
+            refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
+            color = color.add(refractedLight);
         }
         return color;
     }
@@ -121,9 +121,10 @@ public class Render {
     /**
      * constructReflectedRay function.
      * calculates the reflected ray that created when the first ray intersect with the object.
-     * @param normal normal vector from object
+     *
+     * @param normal       normal vector from object
      * @param intersection intersection point (between ray and object)
-     * @param inRay the ray that comes and intersects the object
+     * @param inRay        the ray that comes and intersects the object
      * @return reflection ray
      */
     private Ray constructReflectedRay(Vector normal, Point3D intersection, Ray inRay) {
@@ -131,11 +132,11 @@ public class Render {
         Vector v = inRay.getVector();
         Vector reflection;
         try {
-            reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
+            //reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
+
+            reflection = v.add(normal.scale(v.dotProduct(normal) * -2)).normalize();
             return new Ray(intersection, reflection);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             //if the angle is very very small, normal.scale(...) will throw zero vector exception, and we return null:
             return null;
         }
@@ -145,14 +146,14 @@ public class Render {
      * constructRefractedRay function to calculates the refracted ray that continues from the intersection point.
      * *** in this implementation we assume that all geometries are hollow and with zero thickness -
      * So, the ray always continues in the same direction ***
+     *
      * @param intersection intersection
-     * @param inRay intersection point (between ray and object)
+     * @param inRay        intersection point (between ray and object)
      * @return refracted ray.
      */
     private Ray constructRefractedRay(Point3D intersection, Ray inRay) {
         return new Ray(intersection, inRay.getVector());
     }
-
 
     /**
      * unshaded function check if specific ray from light source to geometry passes through other geometry
@@ -183,9 +184,10 @@ public class Render {
     /**
      * calcDiffusive function.
      * Calculates the diffusive light.
-     * @param Kd factor reduces the diffusive light.
-     * @param l direction vector from light source to intersection point on geometry.
-     * @param normal normal vector from geometry.
+     *
+     * @param Kd             factor reduces the diffusive light.
+     * @param l              direction vector from light source to intersection point on geometry.
+     * @param normal         normal vector from geometry.
      * @param lightIntensity the color of light.
      * @return diffusive light (color)
      */
@@ -195,25 +197,24 @@ public class Render {
     }
 
     /**
-     * @param Ks factor reduces the specular light.
-     * @param l direction vector from light source to intersection point on geometry.
-     * @param normal normal vector from geometry.
-     * @param view direction vector
-     * @param nShininess level of shininess (for calculate the specular light)
+     * @param Ks             factor reduces the specular light.
+     * @param l              direction vector from light source to intersection point on geometry.
+     * @param normal         normal vector from geometry.
+     * @param view           direction vector
+     * @param nShininess     level of shininess (for calculate the specular light)
      * @param lightIntensity color of light from light source
      * @return specular light (color).
      */
     private Color calcSpecular(double Ks, Vector l, Vector normal, Vector view, int nShininess, Color lightIntensity) {
-        try{
+        try {
             //note: assume that vectors l and normal are normalized.
             Vector reflection = l.add(normal.scale(l.scale(-1).dotProduct(normal) * 2)).normalize();
             return lightIntensity.scale(Ks * Math.pow(Math.max(0, view.scale(-1).dotProduct(reflection)), nShininess));
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             //if normal is orthogonal to l, there is no reflection. (exception will be thrown due to scale by dot product result of 0)
             return null;
         }
-}
+    }
 
     /**
      * function to calculate the closest point to camera, from list of intersection points
