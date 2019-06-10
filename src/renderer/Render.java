@@ -87,7 +87,7 @@ public class Render {
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.getPoint());
             if (n.dotProduct(l) * n.dotProduct(view) > 0) {// both are with the same sign
-                ktr = transparency(l, lightSource, intersection);
+                ktr = transparency(l, n, intersection);
                 if (!Util.isZero(ktr * k)) {
                     Color lightIntensity = lightSource.getIntensity(intersection.getPoint()).scale(ktr);
                     color = color.add(calcDiffusive(kd, l, n, lightIntensity));
@@ -132,9 +132,8 @@ public class Render {
         Vector v = inRay.getVector();
         Vector reflection;
         try {
-            //reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
+            reflection = v.add(normal.scale(v.scale(-1).dotProduct(normal) * 2)).normalize();
 
-            reflection = v.add(normal.scale(v.dotProduct(normal) * -2)).normalize();
             return new Ray(intersection, reflection);
         } catch (IllegalArgumentException e) {
             //if the angle is very very small, normal.scale(...) will throw zero vector exception, and we return null:
@@ -155,26 +154,24 @@ public class Render {
         return new Ray(intersection, inRay.getVector());
     }
 
+
+    private static final double EPS = 1.0;
+
     /**
      * unshaded function check if specific ray from light source to geometry passes through other geometry
      *
-     * @param l            vector from light source to point on geometry
-     * @param currentLight the current source light
-     * @param geoPoint     current geoPoint (the intersection point)
+     * @param l        vector from light source to point on geometry
+     * @param normal   a unit vector from, vertical to intersection point.
+     * @param geoPoint current geoPoint (the intersection point)
      * @return true if there is no hindrance, and false otherwise
      */
-    private double transparency(Vector l, LightSource currentLight, GeoPoint geoPoint) {
+    private double transparency(Vector l, Vector normal, GeoPoint geoPoint) {
         Vector lightDirection = l.scale(-1); // from point to light source
-        Ray lightRay = new Ray(geoPoint.getPoint(), lightDirection);
+        Vector epsVector = normal.scale(normal.dotProduct(lightDirection) > 0 ? EPS : -EPS);
+        Point3D point = geoPoint.getPoint().add(epsVector);
+        Ray lightRay = new Ray(point, lightDirection);
         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
-        // check if intersections is really shades (i.e if it between the light to our geometry)
-        if (currentLight instanceof PointLight) {
-            double dist2FromLight = ((PointLight) currentLight).get_position().distanceInSquare(geoPoint.getPoint());
-            for (GeoPoint g : intersections) {
-                if (g.getPoint().distanceInSquare(geoPoint.getPoint()) > dist2FromLight)
-                    intersections.remove(g);
-            }
-        }
+
         double ktr = 1;
         for (GeoPoint gp : intersections)
             ktr *= gp.getGeometry().getMaterial().getKT();
