@@ -77,7 +77,7 @@ public class Render {
         //vector view is vector of our view (i.e from the camera to a point)
         Vector view = intersection.getPoint().subtract(_scene.getCamera().getP0()).normalize();
         //vector n is the normal vector from the intersection point
-        Vector n = intersection.getGeometry().getNormal(intersection.getPoint());
+        Vector normal = intersection.getGeometry().getNormal(intersection.getPoint());
         int nShininess = intersection.getGeometry().getMaterial().getNShininess();
         //kd is factor ('k') for diffusion light
         double kd = intersection.getGeometry().getMaterial().getKD();
@@ -86,12 +86,12 @@ public class Render {
         double ktr;
         for (LightSource lightSource : _scene.getLights()) {
             Vector l = lightSource.getL(intersection.getPoint());
-            if (n.dotProduct(l) * n.dotProduct(view) > 0) {// both are with the same sign
-                ktr = transparency(l, n, intersection);
+            if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
+                ktr = transparency(l, normal, intersection);
                 if (!Util.isZero(ktr * k)) {
                     Color lightIntensity = lightSource.getIntensity(intersection.getPoint()).scale(ktr);
-                    color = color.add(calcDiffusive(kd, l, n, lightIntensity));
-                    Color colorSpecular = calcSpecular(ks, l, n, view, nShininess, lightIntensity);
+                    color = color.add(calcDiffusive(kd, l, normal, lightIntensity));
+                    Color colorSpecular = calcSpecular(ks, l, normal, view, nShininess, lightIntensity);
                     if (colorSpecular != null)
                         color = color.add(colorSpecular);
                 }
@@ -99,7 +99,7 @@ public class Render {
         }
         double kr = intersection.getGeometry().getMaterial().getKR();
         double kt = intersection.getGeometry().getMaterial().getKT();
-        Ray reflectedRay = constructReflectedRay(n, intersection.getPoint(), inRay);
+        Ray reflectedRay = constructReflectedRay(normal, intersection.getPoint(), inRay);
         if (reflectedRay != null) {
             GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
             Color reflectedLight;
