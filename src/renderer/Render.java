@@ -83,25 +83,22 @@ public class Render {
         double kd = intersection.getGeometry().getMaterial().getKD();
         //ks is factor ('k') for specular light
         double ks = intersection.getGeometry().getMaterial().getKS();
-        double ktr;
-        Color colorFromLights=new Color(Color.BLACK);
+        double ktr; //ktr is k factor for transparency
+        Color colorFromLights = new Color(Color.BLACK);
         for (LightSource lightSource : _scene.getLights()) {
+            //calculates light from different points on the light source, and average the results:
             for (Point3D p : lightSource.getListPoints()) {
-                Vector l = lightSource.getL(intersection.getPoint(),p);
+                Vector l = lightSource.getL(intersection.getPoint(), p);
                 if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
                     ktr = transparency(l, normal, intersection);
                     if (!Util.isZero(ktr * k)) {
-                        Color lightIntensity = lightSource.getIntensity(intersection.getPoint(),p).scale(ktr);
-                        colorFromLights = colorFromLights.add(calcDiffusive(kd, l, normal, lightIntensity));
-                        Color colorSpecular = calcSpecular(ks, l, normal, view, nShininess, lightIntensity);
-                        if (colorSpecular != null)
-
-                            colorFromLights = colorFromLights.add(colorSpecular);
+                        Color lightIntensity = lightSource.getIntensity(intersection.getPoint(), p).scale(ktr);
+                        colorFromLights = colorFromLights.add(calcDiffusive(kd, l, normal, lightIntensity),
+                                calcSpecular(ks, l, normal, view, nShininess, lightIntensity));
                     }
                 }
             }
-            double a=1.0/lightSource.getListPoints().size();
-            colorFromLights= colorFromLights.scale(1.0/lightSource.getListPoints().size());
+            colorFromLights = colorFromLights.scale(1.0 / lightSource.getListPoints().size());
             color = color.add(colorFromLights);
         }
         double kr = intersection.getGeometry().getMaterial().getKR();
@@ -161,7 +158,6 @@ public class Render {
         return new Ray(intersection, inRay.getVector());
     }
 
-
     private static final double EPS = 1.0;
 
     /**
@@ -178,7 +174,6 @@ public class Render {
         Point3D point = geoPoint.getPoint().add(epsVector);
         Ray lightRay = new Ray(point, lightDirection);
         List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
-
         double ktr = 1;
         for (GeoPoint gp : intersections)
             ktr *= gp.getGeometry().getMaterial().getKT();
@@ -216,7 +211,7 @@ public class Render {
             return lightIntensity.scale(Ks * Math.pow(Math.max(0, view.scale(-1).dotProduct(reflection)), nShininess));
         } catch (IllegalArgumentException e) {
             //if normal is orthogonal to l, there is no reflection. (exception will be thrown due to scale by dot product result of 0)
-            return null;
+            return Color.BLACK;
         }
     }
 
