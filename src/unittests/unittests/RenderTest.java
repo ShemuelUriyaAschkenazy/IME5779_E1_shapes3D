@@ -286,5 +286,30 @@ public class RenderTest {
         imageWriter.writeToImage();
     }
 
+    @Test
+    public void directionLight() {
+        Scene scene = new Scene("directionLight");
+        scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
+        scene.setDistCameraScreen(100);
+        scene.setAmbientLight(new AmbientLight(new Color(223, 218, 250), 0.01));
+        scene.setBackground(new Color(0, 0, 0));
+        Geometries geometries = new Geometries();
+        scene.addGeometry(geometries);
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+        geometries.add(new Triangle(new Point3D(0, 30, 30),
+                new Point3D(-34, 0, 30),
+                new Point3D(-34, 30, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
+
+        scene.addLightSource(new DirectionalLight(new Color(350, 350, 350), new Vector(1, -1, 1),scene.getCamera().getP0()));
+
+        //scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
+        //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 1, 0.0001, 0.000007));
+
+        ImageWriter imageWriter = new ImageWriter("directionLightBigradius", 500, 500, 500, 500);
+        Render render = new Render(imageWriter, scene);
+        render.renderImage(500, 500);
+        imageWriter.writeToImage();
+    }
+
 
 }
