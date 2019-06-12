@@ -1,7 +1,14 @@
 package elements;
 
+import geometries.Intersectable;
+import org.omg.CORBA.PRIVATE_MEMBER;
 import primitives.Color;
 import primitives.Point3D;
+import primitives.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -18,6 +25,7 @@ public abstract class Light {
     public Light(Color _color) {
         this._color = _color;
     }
+
 
     //*****getters/setters************8
 

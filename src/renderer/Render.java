@@ -84,18 +84,24 @@ public class Render {
         //ks is factor ('k') for specular light
         double ks = intersection.getGeometry().getMaterial().getKS();
         double ktr;
+        Color colorFromLights=new Color();
         for (LightSource lightSource : _scene.getLights()) {
-            Vector l = lightSource.getL(intersection.getPoint());
-            if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
-                ktr = transparency(l, normal, intersection);
-                if (!Util.isZero(ktr * k)) {
-                    Color lightIntensity = lightSource.getIntensity(intersection.getPoint()).scale(ktr);
-                    color = color.add(calcDiffusive(kd, l, normal, lightIntensity));
-                    Color colorSpecular = calcSpecular(ks, l, normal, view, nShininess, lightIntensity);
-                    if (colorSpecular != null)
-                        color = color.add(colorSpecular);
+            for (Point3D p : lightSource.getListPoints()) {
+                Vector l = lightSource.getL(intersection.getPoint(),p);
+                if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
+                    ktr = transparency(l, normal, intersection);
+                    if (!Util.isZero(ktr * k)) {
+                        Color lightIntensity = lightSource.getIntensity(intersection.getPoint(),p).scale(ktr);
+                        colorFromLights = colorFromLights.add(calcDiffusive(kd, l, normal, lightIntensity));
+                        Color colorSpecular = calcSpecular(ks, l, normal, view, nShininess, lightIntensity);
+                        if (colorSpecular != null)
+
+                            colorFromLights = colorFromLights.add(colorSpecular);
+                    }
                 }
             }
+            colorFromLights.scale(1/lightSource.getListPoints().size());
+            color = color.add(colorFromLights);
         }
         double kr = intersection.getGeometry().getMaterial().getKR();
         double kt = intersection.getGeometry().getMaterial().getKT();

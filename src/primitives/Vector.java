@@ -133,7 +133,7 @@ public class Vector {
     }
 
     /**
-     * function get vector andd return new vector that is the result of adding the another vector to the main vector
+     * function get vector and return new vector that is the result of adding the another vector to the main vector
      *
      * @param other- vector
      * @return new vector

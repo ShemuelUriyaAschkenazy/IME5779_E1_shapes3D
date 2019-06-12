@@ -11,7 +11,7 @@ import primitives.Vector;
  * describes a far away light source (no attenuation with distance) like sun.
  * contains a vector for direction
  */
-public class DirectionalLight extends Light implements LightSource {
+public class DirectionalLight extends LightSource {
     private Vector _direction;
 
     /**
@@ -30,12 +30,7 @@ public class DirectionalLight extends Light implements LightSource {
     }
 
     @Override
-    public Color getIntensity(Point3D point3D) {
+    public Color getIntensity(Point3D intersection, Point3D precisePositoin) {
         return getIntensity();
-    }
-
-    @Override
-    public Vector getL(Point3D point3D) {
-        return _direction;
     }
 }

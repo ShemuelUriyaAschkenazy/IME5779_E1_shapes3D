@@ -139,7 +139,7 @@ public class RenderTest {
                 new Point3D(-34, 0, 50),
                 new Point3D(-34, 30, 50), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
 
-        scene.addLightSource(new SpotLight(new Color(28, 2, 2), new Point3D(-20, 20, -20), 1, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+        scene.addLightSource(new SpotLight(new Color(280, 200, 200), new Point3D(-20, 20, -20), 1, 0.0001, 0.0000007, new Vector(1, -1, 1)));
        // scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
         //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 1, 0.0001, 0.000007));
 
@@ -160,7 +160,7 @@ public class RenderTest {
                 new Point3D(-34, 0, 30),
                 new Point3D(-34, 30, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
 
-        scene.addLightSource(new SpotLight(new Color(280, 200, 20), new Point3D(-50, 50, -50), 1, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+        scene.addLightSource(new SpotLight(new Color(280, 200, 200), new Point3D(-50, 50, -50), 1, 0.000001, 0.00000007, new Vector(1, -1, 1)));
         //scene.addLightSource(new DirectionalLight(new Color(27, 100, 2), new Vector(1, 1, 1)));
         //scene.addLightSource(new PointLight(new Color(28, 2, 2), new Point3D(0, 0, -100), 1, 0.0001, 0.000007));
 
@@ -255,7 +255,7 @@ public class RenderTest {
                 new Point3D(-410, 400, 149), new Color(45, 52, 52), new Material(0.1, 0.2,0.3,0.2, 2)));
         geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.1, 0.1, 0.6,0.9,2)));
         //scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(100, 100, 0), 1, 0.0001, 0.000001, new Vector(0, -0.5, 1)));
-        scene.addLightSource(new SpotLight(new Color(238, 30, 30), new Point3D(-30, -50, 0), 1, 0.00001, 0.000001, new Vector(0, 0, 1)));
+        scene.addLightSource(new SpotLight(new Color(238, 300, 300), new Point3D(-30, -50, 0), 1, 0.00001, 0.000001, new Vector(0, 0, 1)));
 
         ImageWriter imageWriter = new ImageWriter("sphereOnTriangles", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);

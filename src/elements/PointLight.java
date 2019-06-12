@@ -14,7 +14,7 @@ import primitives.Vector;
  * _position- point describes the light source position.
  * _kC, _kL, _kQ -3 factors to describe the exponential attenuation depending on the distance.
  */
-public class PointLight extends Light implements LightSource {
+public class PointLight extends LightSource {
 
     Point3D _position;
     double _kC, _kL, _kQ;
@@ -36,22 +36,28 @@ public class PointLight extends Light implements LightSource {
         this._kQ = _kQ;
     }
 
+    public PointLight(Color _color, Point3D _position,double _radius, double _kC, double _kL, double _kQ) {
+        super(_color,_position,_radius);
+        this._kC = _kC;
+        this._kL = _kL;
+        this._kQ = _kQ;
+    }
+
+
+
     public Point3D get_position() {
         return _position;
     }
 
     @Override
-    public Color getIntensity(Point3D point3D) {
+    public Color getIntensity(Point3D intersection,Point3D precisePosition) {
         //distance in square
-        double dist2 = point3D.distanceInSquare(_position);
+        double dist2 = intersection.distanceInSquare(precisePosition);
         double dist = Math.sqrt(dist2);
         return _color.scale(1 / (_kC + _kL * dist + _kQ * dist2));
     }
 
-    @Override
-    public Vector getL(Point3D point3D) {
-        return point3D.subtract(_position).normalize();
-    }
+
 
     @Override
     Color getIntensity() {

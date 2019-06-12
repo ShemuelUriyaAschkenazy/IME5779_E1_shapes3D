@@ -32,11 +32,15 @@ public class SpotLight extends PointLight {
         _direction = direction.normalize();
     }
 
+    public SpotLight(Color _color, Point3D _position,double _radius, double _kC, double _kL, double _kQ, Vector direction) {
+        super(_color, _position,_radius, _kC, _kL, _kQ);
+        _direction = direction.normalize();
+    }
     @Override
-    public Color getIntensity(Point3D point3D) {
+    public Color getIntensity(Point3D intersection,Point3D precisePosition) {
         //getL returns the vector from light source to the point
         //dot product is indicator for the angle between spot light direction and the vector from the previous line.
-        double angle = getL(point3D).dotProduct(_direction);
-        return super.getIntensity(point3D).scale(Math.max(0, angle));
+        double angle = getL(intersection,precisePosition).dotProduct(_direction);
+        return super.getIntensity(intersection,precisePosition).scale(Math.max(0, angle));
     }
 }
