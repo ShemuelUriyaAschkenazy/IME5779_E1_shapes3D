@@ -17,8 +17,10 @@ public class SpotLight extends PointLight {
 
     Vector _direction;
 
+    /* ************* constructor *******/
+
     /**
-     * constructor
+     * constructor that doesn't contain the radius of the light source
      *
      * @param _color    the light color
      * @param _position point describes the position of light
@@ -32,10 +34,29 @@ public class SpotLight extends PointLight {
         _direction = direction.normalize();
     }
 
+    /**
+     * constructor that contain the radius of the light source
+     *
+     * @param _color    the light color
+     * @param _position point describes the position of light
+     * @param _radius    radius of the spot light
+     * @param _kC       constant attenuation factor (for describing the light attenuation)
+     * @param _kL       linear attenuation factor (for describing the light attenuation)
+     * @param _kQ       quadratic attenuation factor (for describing the light attenuation)
+     * @param direction light direction vector
+     */
     public SpotLight(Color _color, Point3D _position,double _radius, double _kC, double _kL, double _kQ, Vector direction) {
         super(_color, _position,_radius, _kC, _kL, _kQ);
         _direction = direction.normalize();
     }
+    /* ************* Getters/Setters *******/
+
+
+    /** function return the color of the point on the geometry with the light from light source
+     * @param intersection    the point on the geometry
+     * @param precisePosition a point on the light source surface
+     * @return the color of the point on the geometry with the light from light source
+     */
     @Override
     public Color getIntensity(Point3D intersection,Point3D precisePosition) {
         //getL returns the vector from light source to the point

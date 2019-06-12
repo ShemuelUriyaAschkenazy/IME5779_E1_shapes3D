@@ -21,7 +21,11 @@ public abstract class Light {
 
     protected Color _color;
 
-    //********consructors*************
+    /* ********consructors*************/
+
+    /** consructor get color of the light
+     * @param _color
+     */
     public Light(Color _color) {
         this._color = _color;
     }
