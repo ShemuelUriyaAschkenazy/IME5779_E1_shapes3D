@@ -100,7 +100,7 @@ public class Render {
                     }
                 }
             }
-            double a=lightSource.getListPoints().size();
+            double a=1.0/lightSource.getListPoints().size();
             colorFromLights= colorFromLights.scale(1.0/lightSource.getListPoints().size());
             color = color.add(colorFromLights);
         }

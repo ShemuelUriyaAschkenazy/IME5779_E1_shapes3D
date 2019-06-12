@@ -15,8 +15,6 @@ import primitives.Vector;
  * _kC, _kL, _kQ -3 factors to describe the exponential attenuation depending on the distance.
  */
 public class PointLight extends LightSource {
-
-    Point3D _position;
     double _kC, _kL, _kQ;
 
     /**
@@ -31,6 +29,7 @@ public class PointLight extends LightSource {
     public PointLight(Color _color, Point3D _position, double _kC, double _kL, double _kQ) {
         super(_color);
         this._position = _position;
+        _listPoints.add(_position);
         this._kC = _kC;
         this._kL = _kL;
         this._kQ = _kQ;
