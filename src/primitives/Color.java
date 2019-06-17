@@ -141,6 +141,8 @@ public class Color {
             g += c._g;
             b += c._b;
         }
+        if (_b<0||_g<0||_r<0)
+            throw new IllegalArgumentException("a");
         return new Color(r, g, b);
     }
 
