@@ -69,10 +69,10 @@ public class Plane extends Geometry {
     }
 
     /**
-     * function return the normal of the plain
+     * function return the normal of the plane
      *
      * @param p point3D
-     * @return normal to the plain
+     * @return normal vector of the plane
      */
     @Override
     public Vector getNormal(Point3D p) {
@@ -82,8 +82,20 @@ public class Plane extends Geometry {
             return _normal;
         else if (result < 0)
             return _normal.scale(-1);
+        //else
+          //  throw new IllegalArgumentException("the point is on the plane!");
         else
-            throw new IllegalArgumentException("the point is on the plane!");
+            return _normal.scale(-1);
+    }
+
+    /**
+     * function return a normal of the plane, without getting a point.
+     * (always return the normal direction that entered, without reference to reference side)
+     *
+     * @return normal vector of the plane
+     */
+    public Vector getNormal() {
+        return _normal;
     }
 
     /**

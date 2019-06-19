@@ -4,7 +4,6 @@ package primitives;
  * Wrapper class for java.jwt.Color The constructors operate with RGB in range
  * 0..255 The colors are maintained without upper limit of 255 Some additional
  * operations are added that are useful for manipulating light's colors
- *
  */
 public class Color {
     /**
@@ -13,7 +12,7 @@ public class Color {
      */
     double _r = 0.0, _g = 0.0, _b = 0.0;
 
-    public final static Color BLACK = new Color(0,0,0);
+    public final static Color BLACK = new Color(0, 0, 0);
 
     /**
      * Default constructor - to generate Black Color
@@ -141,7 +140,7 @@ public class Color {
             g += c._g;
             b += c._b;
         }
-        if (_b<0||_g<0||_r<0)
+        if (_b < 0 || _g < 0 || _r < 0)
             throw new IllegalArgumentException("a");
         return new Color(r, g, b);
     }
@@ -178,4 +177,22 @@ public class Color {
         return new Color(r, g, b);
     }
 
+    public double getR() {
+        return _r;
+    }
+
+    public double getG() {
+        return _g;
+    }
+
+    public double getB() {
+        return _b;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (this._b == ((Color) obj)._b)
+                && (this._g == ((Color) obj)._g)
+                && (this._r == ((Color) obj)._r);
+    }
 }
