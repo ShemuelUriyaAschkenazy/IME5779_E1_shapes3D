@@ -121,7 +121,7 @@ public class Render {
             reflectedRayList.add(reflectedRay);
             Random random = new Random();
             Point3D intersectionPoint = intersection.getPoint();
-            while (reflectedRayList.size() < 1) {
+            while (reflectedRayList.size() < 2) {
                 count++;
             //for (int i = 0; i < 5; i++) {
                 double randomRadius = radius * random.nextDouble();
@@ -157,19 +157,19 @@ public class Render {
         if (refractedRay!=null) {
 
             //double radius = intersection.getGeometry().getMaterial().getKDG();
-            double radius= 3;
+            double radius= 12;
             List<Ray> refractedRayList = new ArrayList<>();
-            refractedRayList.add(reflectedRay);
+            refractedRayList.add(refractedRay);
             Random random = new Random();
             Point3D intersectionPoint = intersection.getPoint();
-            while (refractedRayList.size() < 1) {
+            while (refractedRayList.size() < 3) {
                 double randomRadius = radius * random.nextDouble();
                 Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
-                Point3D p = intersectionPoint.add(refractedRay.getVector().scale(radius *15)).add(vector); //scale by radius*2 in order to reduce the cases that vector that will create by point will be under the tangent line
+                Point3D p = intersectionPoint.add(refractedRay.getVector().scale(radius *2)).add(vector); //scale by radius*2 in order to reduce the cases that vector that will create by point will be under the tangent line
                 Vector newVector = p.subtract(intersectionPoint).normalize();
                 Ray ray;
                 if (newVector.dotProduct(normal) * refractedRay.getVector().dotProduct(normal)> 0){
-                    //the new vector is the same sign like the original refracted ray (i.e it isn't under the tangent line)
+                    //the new vector is the same sign like the original refracted ray (i.e it isn't over the tangent line)
                     ray = new Ray(intersectionPoint, newVector);
                     refractedRayList.add(ray);
                 }
@@ -177,19 +177,18 @@ public class Render {
 
             Color refractedLight = Color.BLACK;
             GeoPoint refractedPoint1 = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
-            if (refractedPoint1 != null) {
-
+            //if (refractedPoint1 != null) {
+                double count=0;
                 for (Ray ray : refractedRayList) {
                     GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(ray));
                     if (refractedPoint != null) {
-                        //Color c=calcColor(reflectedPoint, ray, level - 1, k * kr).scale(kr);
-                        //Color c = calcColor(reflectedPoint, ray, level - 1, k * kr).scale(kr);
-                        refractedLight = refractedLight.add(calcColor(refractedPoint, ray, level - 1, k * kr).scale(kr));
+                        refractedLight = refractedLight.add(calcColor(refractedPoint, ray, level - 1, k * kt).scale(kt));
+                    count++;
                     }
                 }
                 refractedLight = refractedLight.scale(1.0 / refractedRayList.size());
                 color = color.add(refractedLight);
-            }
+            //}
 
 
             //GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
