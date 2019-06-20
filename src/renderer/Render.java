@@ -54,7 +54,7 @@ public class Render {
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
                 GeoPoint closestPoint = getClosestPoint(intersectionPoint);
                 if (closestPoint != null)
-                    _imageWriter.writePixel(m, n, calcColor(closestPoint, ray).getColor());
+                    _imageWriter.writePixel(m, n, calcColor2(closestPoint, ray).getColor());
                 else
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
             }
@@ -107,100 +107,72 @@ public class Render {
         double kt = intersection.getGeometry().getMaterial().getKT();
         Ray reflectedRay = constructReflectedRay(normal, intersection.getPoint(), inRay);
         if (reflectedRay != null) {
-
-//            GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
-//            if (reflectedPoint != null) {
-//                Color reflectedLight = calcColor(reflectedPoint, reflectedRay, level - 1, k * kr).scale(kr);
-//                color = color.add(reflectedLight);
-//            }
-
-            //double radius = intersection.getGeometry().getMaterial().getKDG();
+            //double radius = intersection.getGeometry().getMaterial().getKGS();
             double radius = 3;
-            double count=0;
             List<Ray> reflectedRayList = new ArrayList<>();
             reflectedRayList.add(reflectedRay);
             Random random = new Random();
             Point3D intersectionPoint = intersection.getPoint();
             while (reflectedRayList.size() < 2) {
-                count++;
-            //for (int i = 0; i < 5; i++) {
+                //for (int i = 0; i < 5; i++) {
                 double randomRadius = radius * random.nextDouble();
                 Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
-                Point3D p = intersectionPoint.add(reflectedRay.getVector().scale(radius *15)).add(vector); //scale by radius*2 in order to reduce the cases that vector that will create by point will be under the tangent line
+                Point3D p = intersectionPoint.add(reflectedRay.getVector().scale(radius * 15)).add(vector); //scale by radius*2 in order to reduce the cases that vector that will create by point will be under the tangent line
                 Vector newVector = p.subtract(intersectionPoint).normalize();
                 Ray ray;
-                if (newVector.dotProduct(normal) * reflectedRay.getVector().dotProduct(normal)> 0){
+                if (newVector.dotProduct(normal) * reflectedRay.getVector().dotProduct(normal) > 0) {
                     //the new vector is the same sign like the original reflected ray (i.e it isn't under the tangent line)
                     ray = new Ray(intersectionPoint, newVector);
                     reflectedRayList.add(ray);
                 }
             }
-
             Color reflectedLight = Color.BLACK;
-            GeoPoint reflectedPoint1 = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
-            if (reflectedPoint1 != null) {
-
-                for (Ray ray : reflectedRayList) {
-                    GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(ray));
-                    if (reflectedPoint != null) {
-                        //Color c=calcColor(reflectedPoint, ray, level - 1, k * kr).scale(kr);
-                        //Color c = calcColor(reflectedPoint, ray, level - 1, k * kr).scale(kr);
-                        reflectedLight = reflectedLight.add(calcColor(reflectedPoint, ray, level - 1, k * kr).scale(kr));
-                    }
+            //           GeoPoint reflectedPoint1 = getClosestPoint(_scene.getGeometries().findIntersections(reflectedRay));
+            //         if (reflectedPoint1 != null) {
+            for (Ray ray : reflectedRayList) {
+                GeoPoint reflectedPoint = getClosestPoint(_scene.getGeometries().findIntersections(ray));
+                if (reflectedPoint != null && kr>0) {
+                    reflectedLight = reflectedLight.add(calcColor(reflectedPoint, ray, level - 1, k * kr).scale(kr));
                 }
-                reflectedLight = reflectedLight.scale(1.0 / reflectedRayList.size());
-                color = color.add(reflectedLight);
             }
+            reflectedLight = reflectedLight.scale(1.0 / reflectedRayList.size());
+            color = color.add(reflectedLight);
         }
+        //     }
 
         Ray refractedRay = constructRefractedRay(intersection.getPoint(), inRay);
-        if (refractedRay!=null) {
-
+        if (refractedRay != null) {
             //double radius = intersection.getGeometry().getMaterial().getKDG();
-            double radius= 12;
+            double radius = 0.2;
             List<Ray> refractedRayList = new ArrayList<>();
             refractedRayList.add(refractedRay);
             Random random = new Random();
             Point3D intersectionPoint = intersection.getPoint();
-            while (refractedRayList.size() < 3) {
+            while (refractedRayList.size() < 15) {
                 double randomRadius = radius * random.nextDouble();
                 Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
-                Point3D p = intersectionPoint.add(refractedRay.getVector().scale(radius *2)).add(vector); //scale by radius*2 in order to reduce the cases that vector that will create by point will be under the tangent line
+                Point3D p = intersectionPoint.add(refractedRay.getVector().scale(radius * 2)).add(vector); //scale by radius*2 in order to reduce the cases that vector that will create by point will be under the tangent line
                 Vector newVector = p.subtract(intersectionPoint).normalize();
                 Ray ray;
-                if (newVector.dotProduct(normal) * refractedRay.getVector().dotProduct(normal)> 0){
-                    //the new vector is the same sign like the original refracted ray (i.e it isn't over the tangent line)
+                if (newVector.dotProduct(normal) * refractedRay.getVector().dotProduct(normal) > 0) {
+                    //the new vector is the same sign as the original refracted ray (i.e it isn't above the tangent line)
                     ray = new Ray(intersectionPoint, newVector);
                     refractedRayList.add(ray);
                 }
             }
 
             Color refractedLight = Color.BLACK;
-            GeoPoint refractedPoint1 = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
-            //if (refractedPoint1 != null) {
-                double count=0;
-                for (Ray ray : refractedRayList) {
-                    GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(ray));
-                    if (refractedPoint != null) {
-                        refractedLight = refractedLight.add(calcColor(refractedPoint, ray, level - 1, k * kt).scale(kt));
-                    count++;
-                    }
+            for (Ray ray : refractedRayList) {
+                GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(ray));
+                if (refractedPoint != null && kt > 0) {
+                    refractedLight = refractedLight.add(calcColor(refractedPoint, ray, level - 1, k * kt).scale(kt));
                 }
-                refractedLight = refractedLight.scale(1.0 / refractedRayList.size());
-                color = color.add(refractedLight);
-            //}
-
-
-            //GeoPoint refractedPoint = getClosestPoint(_scene.getGeometries().findIntersections(refractedRay));
-            //Color refractedLight;
-            //if (refractedPoint != null) {
-            //    refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
-            //    color = color.add(refractedLight);
-            //}
+            }
+            refractedLight = refractedLight.scale(1.0 / refractedRayList.size());
+            color = color.add(refractedLight);
         }
         return color;
     }
-
 
     /**
      * constructReflectedRay function.
