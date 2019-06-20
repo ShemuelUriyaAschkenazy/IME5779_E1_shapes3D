@@ -54,7 +54,7 @@ public class Render {
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
                 GeoPoint closestPoint = getClosestPoint(intersectionPoint);
                 if (closestPoint != null)
-                    _imageWriter.writePixel(m, n, calcColor2(closestPoint, ray).getColor());
+                    _imageWriter.writePixel(m, n, calcColor(closestPoint, ray).getColor());
                 else
                     _imageWriter.writePixel(m, n, _scene.getBackground().getColor());
             }
