@@ -85,7 +85,7 @@ public class Render {
         Color colorFromLights = Color.BLACK;
         for (LightSource lightSource : _scene.getLights()) {
             //calculates light from different points on the light source, and average the results:
-//            for (Point3D p : lightSource.getListPoints()) {
+            for (Ray l : lightRays(lightSource.ge,intersection)) {
             Vector l = lightSource.getL(intersection.getPoint());
             if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
                 ktr = transparency(l, normal, intersection);
@@ -94,7 +94,7 @@ public class Render {
                     colorFromLights = colorFromLights.add(calcDiffusive(kd, l, normal, lightIntensity),
                             calcSpecular(ks, l, normal, view, nShininess, lightIntensity));
                 }
-//                }
+                }
             }
 //            colorFromLights = colorFromLights.scale(1.0 / lightSource.getListPoints().size());
             color = color.add(colorFromLights);
@@ -122,6 +122,18 @@ public class Render {
         return color;
     }
 
+    private List<Ray> lightRays (Point3D lightPosition, Point3D intersection,double radius) {
+        List<Ray> lightRays = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 15; i++) {
+            double randomRadius = radius * random.nextDouble();
+            Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
+            Point3D p0 = lightPosition.add(vector);
+            lightRays.add(new Ray(p0, intersection.subtract(p0)));
+        }
+        return lightRays;
+    }
+
     private Color reflectedColor(Ray reflectedRay, double radius, Vector normal, int level, double kkr) {
         List<Ray> reflectedRayList = reflectedRayList(reflectedRay, radius, normal);
         Color reflectedLight = Color.BLACK;
@@ -137,7 +149,7 @@ public class Render {
     private List<Ray> reflectedRayList(Ray reflectedRay, double radius, Vector normal) {
         List<Ray> reflectedRayList = new ArrayList<>();
         reflectedRayList.add(reflectedRay);
-        if(radius==0)
+        if (radius == 0)
             return reflectedRayList;
         Random random = new Random();
         Point3D intersectionPoint = reflectedRay.getPoint();
@@ -171,10 +183,10 @@ public class Render {
     private List<Ray> refractedRayList(Ray refractedRay, double radius, Vector normal) {
         List<Ray> refractedRayList = new ArrayList<>();
         refractedRayList.add(refractedRay);
-        if(radius==0)
+        if (radius == 0)
             return refractedRayList;
         Random random = new Random();
-        Vector v= refractedRay.getVector();
+        Vector v = refractedRay.getVector();
         Point3D intersectionPoint = refractedRay.getPoint();
         while (refractedRayList.size() < 25) {
             double randomRadius = radius * random.nextDouble();
