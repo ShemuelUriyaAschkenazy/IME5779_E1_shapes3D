@@ -373,11 +373,11 @@ public class RenderTest {
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
-       geometries.add(new Sphere(50, new Point3D(-130, 0, 500), new Color(218, 32, 63), new Material(0.3, 0.3, 0,0,2)));
+       geometries.add(new Sphere(50, new Point3D(-200, 0, 500), new Color(218, 32, 63), new Material(0.3, 0.3, 0,0,2)));
         geometries.add(new Sphere(100, new Point3D(-200, 0, 500), new Color(63, 32, 218), new Material(0.3, 0, 0,0,2)));
         //geometries.add(new Sphere(50, new Point3D(100, 100, 200), new Color(63, 300, 28), new Material(0.3, 0.3, 0.4,0.5,2)));
 
-        geometries.add(new Rectangle(new Point3D(200,-160,450),new Vector(-300,0,300),new Vector(0,300,0),new Color(30, 30, 30), new Material(0.1, 0.2, 1, 0 , 2)));
+        geometries.add(new Rectangle(new Point3D(200,-160,450),new Vector(-300,0,300),new Vector(0,300,0),new Color(30, 30, 30), new Material(0.1, 0.2, 1, 0 ,0.1,0.1, 2)));
 
         //geometries.add(new Triangle(new Point3D(50, -400, 600),
           //      new Point3D(250, -300,100 ),
@@ -385,9 +385,9 @@ public class RenderTest {
 
         scene.addLightSource(new SpotLight(new Color(50, 50, 50), new Point3D(-30, -50, 0), 0.01, 0.001, 0.000001, new Vector(0, 0, 1)));
 
-        ImageWriter imageWriter = new ImageWriter("spheresInAMirror", 500, 500, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("spheresInAMirror", 500, 500, 1000, 1000);
         Render render = new Render(imageWriter, scene);
-        render.renderImage(500, 500);
+        render.renderImage(1000, 1000);
         imageWriter.writeToImage();
 
     }
@@ -403,16 +403,16 @@ public class RenderTest {
         scene.addGeometry(geometries);
         geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.3, 0.3, 0,0.5,2)));
 
-        geometries.add(new Rectangle(new Point3D(-150, -150, 40), new Vector(200,0,0),new Vector(0,200,0),new Color(30, 30, 30), new Material(0.1, 0.2, 0.5, 1 , 2)));
+        geometries.add(new Rectangle(new Point3D(-150, -150, 40), new Vector(200,0,0),new Vector(0,200,0),new Color(30, 30, 30), new Material(0.1, 0.2, 0.5, 1 , 0.1,0.1,2)));
 
        // scene.addLightSource(new SpotLight(new Color(50, 50, 50), new Point3D(-30, -50, -50), 0.01, 0.001, 0.000001, new Vector(0, 0, 1)));
       //  scene.addLightSource(new SpotLight(new Color(50, 50, 50), new Point3D(100, 100, -100), 0.01, 0.001, 0.000001, new Vector(0, 0, 1)));
         scene.addLightSource(new DirectionalLight(new Color(50, 50, 50), new Vector(0, 0, 1)));
  //       scene.addLightSource(new DirectionalLight(new Color(50, 50, 50), new Vector(0, 0, -1),scene.getCamera().getP0()));
 
-        ImageWriter imageWriter = new ImageWriter("diffuseRectangleSurface", 500, 500, 1000, 1000);
+        ImageWriter imageWriter = new ImageWriter("diffuseRectangleSurface", 500, 500, 2000, 2000);
         Render render = new Render(imageWriter, scene);
-        render.renderImage(1000, 1000);
+        render.renderImage(2000, 2000);
         imageWriter.writeToImage();
 
     }
