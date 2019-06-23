@@ -31,7 +31,7 @@ public class Geometries implements Intersectable {
      */
     public void add(Intersectable... geometry) {
         for (Intersectable g : geometry)
-        intersectableList.add(g);
+            intersectableList.add(g);
     }
 
     /**
@@ -42,12 +42,12 @@ public class Geometries implements Intersectable {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        List<GeoPoint> list= new ArrayList<>();
-        for (Intersectable item:intersectableList) {
-            List<GeoPoint> currentIntersections=item.findIntersections(ray);
-            if (currentIntersections!=null&&!currentIntersections.isEmpty())
-            list.addAll(currentIntersections);
+        List<GeoPoint> list = new ArrayList<>();
+        for (Intersectable item : intersectableList) {
+            List<GeoPoint> currentIntersections = item.findIntersections(ray);
+            if (currentIntersections != null)
+                list.addAll(currentIntersections);
         }
-        return list;
+        return list.isEmpty() ? null : list;
     }
 }

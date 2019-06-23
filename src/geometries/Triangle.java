@@ -1,9 +1,7 @@
 package geometries;
 
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import primitives.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +9,9 @@ import java.util.List;
  */
 public class Triangle extends Plane {
 
-    Point3D p1;
-    Point3D p2;
-    Point3D p3;
+    private Point3D p1;
+    private Point3D p2;
+    private Point3D p3;
 
 
     /* ********* Constructors ***********/
@@ -26,17 +24,19 @@ public class Triangle extends Plane {
      * @param p3 point3D
      */
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emission, Material material) {
-        super(p1, p2, p3,emission,material);
+        super(p1, p2, p3, emission, material);
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
     }
+
     public Triangle(Point3D p1, Point3D p2, Point3D p3, Color emission) {
-        super(p1, p2, p3,emission,new Material(0.1,0.1,1));
+        super(p1, p2, p3, emission, new Material(0.1, 0.1, 1));
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
     }
+
     /**
      * function return point A of triangle
      *
@@ -82,69 +82,27 @@ public class Triangle extends Plane {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        GeoPoint intersectsPlane;
         List<GeoPoint> intersectionsWithPlane = super.findIntersections(ray);
-        if (intersectionsWithPlane == null || intersectionsWithPlane.isEmpty())
+        if (intersectionsWithPlane == null)
             return null;
-        else
-            intersectsPlane = intersectionsWithPlane.get(0);
 
-        Vector v1;
-        Vector v2;
-        Vector v3;
-        try {
-            v1 = p1.subtract(ray.getPoint());
-            v2 = p2.subtract(ray.getPoint());
-            v3 = p3.subtract(ray.getPoint());
-        } catch (IllegalArgumentException e) {
-            //if one of the subtractions throws exception, so the intersection point is on one of the triangle points
+        Point3D p0 = ray.getPoint();
+        Vector v1 = p1.subtract(p0);
+        Vector v2 = p2.subtract(p0);
+        Vector v3 = p3.subtract(p0);
+
+        Vector n1 = v1.crossProduct(v2);
+        Vector n2 = v2.crossProduct(v3);
+        Vector n3 = v3.crossProduct(v1);
+
+        Vector temp = intersectionsWithPlane.get(0).getPoint().subtract(ray.getPoint());
+        double side1 = Util.alignZero(n1.dotProduct(temp));
+        double side2 = Util.alignZero(n2.dotProduct(temp));
+        double side3 = Util.alignZero(n3.dotProduct(temp));
+
+        if (side1 > 0 && side2 > 0 && side3 > 0 || side1 < 0 && side2 < 0 && side3 < 0)
             return intersectionsWithPlane;
-        }
 
-        Vector n1;
-        //in a case that ray point is on one of the edges, or on their continuances,
-        //so two vectors will be on the same line, and exception will thrown after cross product.
-        //we check whether the point is on the triangle or on the edges's continuances.
-        try {
-            n1 = v1.crossProduct(v2).normalize();
-        } catch (IllegalArgumentException e) {
-            if (p1.distanceInSquare(p2) >= v1.length2() && p1.distanceInSquare(p2) >= v2.length2())
-                return intersectionsWithPlane;
-            else return null;
-        }
-        Vector n2;
-        try {
-            n2 = v2.crossProduct(v3).normalize();
-        } catch (IllegalArgumentException e) {
-            if (p2.distanceInSquare(p3) >= v2.length2() && p2.distanceInSquare(p3) >= v3.length2())
-                return intersectionsWithPlane;
-            else return null;
-        }
-        Vector n3;
-        try {
-            n3 = v3.crossProduct(v1).normalize();
-        } catch (IllegalArgumentException e) {
-            if (p1.distanceInSquare(p3) >= v1.length2() && p1.distanceInSquare(p3) >= v3.length2())
-                return intersectionsWithPlane;
-            else return null;
-        }
-
-        Vector temp;
-        //if ray point is itself the intersection point, the next code will try creating a zero vector.
-        // we decide not to include this case as an intersection point, therefore return null
-        try {
-            temp = intersectsPlane.getPoint().subtract(ray.getPoint());
-        } catch (IllegalArgumentException e) {
-           return null;
-        }
-
-        double side1 = n1.dotProduct(temp);
-        double side2 = n2.dotProduct(temp);
-        double side3 = n3.dotProduct(temp);
-
-        if (side1 >= 0 && side2 >= 0 && side3 >= 0
-                || side1 <= 0 && side2 <= 0 && side3 <= 0)
-            return intersectionsWithPlane;
-        else return null;
+        return null;
     }
 }

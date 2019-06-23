@@ -4,6 +4,8 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
 
+import java.awt.*;
+
 /**
  * DirectionalLight class
  * extends light class.
@@ -13,31 +15,24 @@ import primitives.Vector;
  */
 public class DirectionalLight extends LightSource {
     private Vector _direction;
-    public static double distance = 999999;
-
     /**
      * constructor
      *
      * @param color     the color light
      * @param direction direction of light
-     * @param from      point to calculate a far position from it
-     */
-    public DirectionalLight(Color color, Vector direction, Point3D from) {
-        super(color, from.add(direction.scale(-1 * distance)), 10000);
+ ]    */
+    public DirectionalLight(Color color, Vector direction) {
+        super(color);
         this._direction = direction.normalize();
-        _position = from.add(direction.scale(-1 * distance));
     }
 
     @Override
-    public Color getIntensity() {
-        return _color;
+    public Vector getL(Point3D point) {
+        return _direction;
     }
 
     @Override
-    public Color getIntensity(Point3D intersection, Point3D precisePosition) {
-        //getL returns the vector from light source to the point
-        //dot product is indicator for the angle between directional light direction and the vector from the previous line.
-        double angle = getL(intersection, precisePosition).dotProduct(_direction);
-        return _color.scale(Math.max(0, angle));
+    public Color getIntensity(Point3D intersection) {
+        return getIntensity();
     }
 }

@@ -10,8 +10,8 @@ import java.util.*;
  */
 public class Plane extends Geometry {
 
-    private Point3D _point;
-    private Vector _normal;
+    protected Point3D _point;
+    protected Vector _normal;
 
     /* ********* Constructors ***********/
 
@@ -76,25 +76,6 @@ public class Plane extends Geometry {
      */
     @Override
     public Vector getNormal(Point3D p) {
-        Vector v = new Vector(p);
-        double result = v.dotProduct(_normal);
-        if (result > 0)
-            return _normal;
-        else if (result < 0)
-            return _normal.scale(-1);
-        //else
-          //  throw new IllegalArgumentException("the point is on the plane!");
-        else
-            return _normal.scale(-1);
-    }
-
-    /**
-     * function return a normal of the plane, without getting a point.
-     * (always return the normal direction that entered, without reference to reference side)
-     *
-     * @return normal vector of the plane
-     */
-    public Vector getNormal() {
         return _normal;
     }
 
@@ -105,41 +86,29 @@ public class Plane extends Geometry {
      */
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
-        List<GeoPoint> intersectionsList = new ArrayList<>();
+        Point3D p0 = ray.getPoint();
+        if (_point.equals(p0))
+            return null;
 
+        Vector v = ray.getVector();
+        double vn = Util.alignZero(v.dotProduct(this._normal));
         //ray is parallel to the plane:
-        if (Util.usubtract(ray.getVector().dotProduct(this._normal), 0) == 0)
+        if (vn == 0)
             return null;
 
         //ray points are: P=P0+t*v, t>=0
         //plane points are: normal.dotProduct(planePoint-P)=0
         //when we compare between the two points P in the two equations, we get t (the scale num)
-        double scaleNum = 0;
+        double scaleNum = Util.alignZero(this._normal.dotProduct(this._point.subtract(p0)) / vn);
+        //t>=0, and hence:
+        if (scaleNum <= 0)
+            return null;
+
         try {
-            scaleNum = this._normal.dotProduct(this._point.subtract(ray.getPoint())) / (_normal.dotProduct(ray.getVector()));
-        } catch (IllegalArgumentException e) {
-            //exception will be thrown if plane point is itself ray point. in this case we return null:
+            Point3D p = p0.add(v.scale(scaleNum));
+            return new ArrayList<>(Collections.singletonList(new GeoPoint(this, p)));
+        } catch (Exception e) {
             return null;
         }
-        //t>=0, and hence:
-        if (scaleNum < 0)
-            return null;
-        Point3D point;
-        double accuracy = 999999999;
-        //if scale num !=0, using this and return the point
-        if (Util.usubtract(scaleNum, 0) > 0.0000001) { //the first version was !=0, but we saw that sometimes is not enough, because if the vector values are less then 1, the scale will be reduce them more, and it will throw exception
-            point = new Point3D(1, 1, 1);
-            point = ray.getPoint().add(ray.getVector().scale(scaleNum));
-            //checking that point isn't a result of an inaccuracy
-            if (point.getX().getCoordinate() > accuracy || point.getY().getCoordinate() > accuracy || point.getZ().getCoordinate() > accuracy)
-                return null;
-            else
-                intersectionsList.add(new GeoPoint(this, point));
-        } else
-            //t=0 means that the ray point itself is on the plane. we are not consider it as a intersection point:
-            return null;
-        //the previous version (temporary): intersectionsList.add(new GeoPoint(this, ray.getPoint()));
-        return intersectionsList;
     }
 }
-

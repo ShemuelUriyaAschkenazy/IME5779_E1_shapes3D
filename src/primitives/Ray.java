@@ -9,6 +9,7 @@ package primitives;
 public class Ray {
     private Point3D _point;
     private Vector _vector;
+    private static final double EPS = 0.1;
 
     /**
      * the function return string with the parameters of the ray
@@ -34,14 +35,20 @@ public class Ray {
         this._vector = _vector.normalize();
     }
 
+    public Ray(Point3D _point, Vector v, Vector normal) {
+        this._vector = v.normalize();
+        Vector epsVector = normal.scale(normal.dotProduct(v) > 0 ? EPS : -EPS);
+        this._point = _point.add(epsVector);
+    }
+
     /**
      * constructor get ray and copy to new ray
      *
      * @param ray ray
      */
     public Ray(Ray ray) {
-        _point = new Point3D(ray.getPoint());
-        _vector = new Vector(ray.getVector());
+        _point = new Point3D(ray._point);
+        _vector = new Vector(ray._vector);
     }
 
     /**

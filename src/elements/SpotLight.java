@@ -49,19 +49,12 @@ public class SpotLight extends PointLight {
         super(_color, _position,_radius, _kC, _kL, _kQ);
         _direction = direction.normalize();
     }
-    /* ************* Getters/Setters *******/
 
-
-    /** function return the color of the point on the geometry with the light from light source
-     * @param intersection    the point on the geometry
-     * @param precisePosition a point on the light source surface
-     * @return the color of the point on the geometry with the light from light source
-     */
     @Override
-    public Color getIntensity(Point3D intersection,Point3D precisePosition) {
+    public Color getIntensity(Point3D intersection) {
         //getL returns the vector from light source to the point
         //dot product is indicator for the angle between spot light direction and the vector from the previous line.
-        double angle = getL(intersection,precisePosition).dotProduct(_direction);
-        return super.getIntensity(intersection,precisePosition).scale(Math.max(0, angle));
+        double angle = getL(intersection).dotProduct(_direction);
+        return angle <= 0 ? Color.BLACK : super.getIntensity(intersection).scale(angle);
     }
 }

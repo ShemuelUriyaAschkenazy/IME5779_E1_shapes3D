@@ -15,6 +15,7 @@ import primitives.Vector;
  * _kC, _kL, _kQ -3 factors to describe the exponential attenuation depending on the distance.
  */
 public class PointLight extends LightSource {
+    Point3D _position;
     double _kC, _kL, _kQ;
 
     /* ************* constructor *******/
@@ -31,7 +32,6 @@ public class PointLight extends LightSource {
     public PointLight(Color _color, Point3D _position, double _kC, double _kL, double _kQ) {
         super(_color);
         this._position = _position;
-        _listPoints.add(_position);
         this._kC = _kC;
         this._kL = _kL;
         this._kQ = _kQ;
@@ -47,8 +47,9 @@ public class PointLight extends LightSource {
      * @param _kL       linear attenuation factor (for describing the light attenuation)
      * @param _kQ       quadratic attenuation factor (for describing the light attenuation)
      */
-    public PointLight(Color _color, Point3D _position,double _radius, double _kC, double _kL, double _kQ) {
-        super(_color,_position,_radius);
+    public PointLight(Color _color, Point3D _position, double _radius, double _kC, double _kL, double _kQ) {
+        super(_color, _radius);
+        this._position = _position;
         this._kC = _kC;
         this._kL = _kL;
         this._kQ = _kQ;
@@ -56,33 +57,27 @@ public class PointLight extends LightSource {
 
     /* ************* Getters/Setters *******/
 
-
     /**
      * @return the position of the light
      */
-    public Point3D get_position() {
+    public Point3D getPosition() {
         return _position;
     }
 
     /**
      * @param intersection    the point on the geometry
-     * @param precisePosition a point on the light source surface
      * @return
      */
     @Override
-    public Color getIntensity(Point3D intersection,Point3D precisePosition) {
+    public Color getIntensity(Point3D intersection) {
         //distance in square
-        double dist2 = intersection.distanceInSquare(precisePosition);
+        double dist2 = intersection.distanceInSquare(_position);
         double dist = Math.sqrt(dist2);
-        return _color.scale(1 / (_kC + _kL * dist + _kQ * dist2));
+        return getIntensity().scale(1 / (_kC + _kL * dist + _kQ * dist2));
     }
 
-
-    /** point light extend light and therefor it have to contain this method
-     * @return
-     */
     @Override
-    Color getIntensity() {
-        return null;
+    public Vector getL(Point3D intersection) {
+        return intersection.subtract(_position).normalize();
     }
 }

@@ -6,57 +6,56 @@ import java.util.List;
 
 
 public class Rectangle extends Plane {
-
-    Vector _width;
-    Vector _height;
+    private Vector _widthV, _heightV;
+    private double _width, _height;
 
     // * **constructors************************
-    public Rectangle(Point3D point, Vector normal, Vector _width, Vector _height, Color emission, Material material) {
-        super(point, normal, emission, material);
-        this._width = _width;
-        this._height = _height;
+    public Rectangle(Point3D point, Vector _width, Vector _height, Color emission, Material material) {
+        super(point, _width.crossProduct(_height), emission, material);
+        if (!Util.isZero(_width.dotProduct(_height)))
+            throw new IllegalArgumentException("Rectangle edges must be orthogonal!");
+        this._widthV = _width.normalize();
+        this._heightV = _height.normalize();
+        this._width = _width.length();
+        this._height = _height.length();
     }
 
-    public Rectangle(Rectangle other) {
-        super(other.getPoint(), other.getNormal(), other.getEmission(), other.getMaterial());
-        this._width = other.getWidth();
-        this._height = other.getHeight();
+    public Vector getWidthV() {
+        return _widthV;
     }
-
-    public Vector getWidth() {
+    public Vector getHeightV() {
+        return _heightV;
+    }
+    public double getWidth() {
         return _width;
     }
-
-    public Vector getHeight() {
+    public double getHeight() {
         return _height;
     }
-
 
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         List<GeoPoint> intersectionsWithPlane = super.findIntersections(ray);
-        GeoPoint intersection;
-        if (intersectionsWithPlane != null)
-            intersection = intersectionsWithPlane.get(0);
-        else return null;
-        double width = _width.length();
-        double height = _height.length();
+        if (intersectionsWithPlane == null)
+            return null;
+        Point3D p = intersectionsWithPlane.get(0).getPoint();
         Vector v;
         try {
-            v = intersection.getPoint().subtract(this.getPoint());
-        }
-        //if the intersection point is itself the rectangle corner, return this point
-        catch (IllegalArgumentException e) {
-            return intersectionsWithPlane;
+            v = p.subtract(this._point);
+        } catch (IllegalArgumentException e) {
+            //if the intersection point is itself the rectangle corner, return this point
+            return null;
         }
 
-        double proj1 = v.dotProduct(_width.normalize());
-        double proj2 = v.dotProduct(_height.normalize());
-        if ((proj1 < width && proj1 > 0) && (proj2 < height && proj2 > 0))
-            return intersectionsWithPlane;
-        else return null;
+        double proj1 = Util.alignZero(v.dotProduct(_widthV));
+        if (proj1 < 0 || Util.alignZero(_width - proj1) < 0)
+            return null;
+        double proj2 = Util.alignZero(v.dotProduct(_heightV));
+        if (proj2 < 0 || Util.alignZero(_height - proj1) < 0)
+            return null;
+
+        return intersectionsWithPlane;
     }
 }
-
 
 //https://computergraphics.stackexchange.com/questions/8418/get-intersection-ray-with-square

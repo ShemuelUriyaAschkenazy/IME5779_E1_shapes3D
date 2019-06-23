@@ -10,7 +10,7 @@ import primitives.Util;
  * RadialGeometry component field radius
  */
 public abstract class RadialGeometry extends Geometry {
-    private double _radius;
+    protected double _radius;
 
     /**
      * constructor that received double number and applies it at radius
@@ -20,10 +20,9 @@ public abstract class RadialGeometry extends Geometry {
     /* ********* Constructors ***********/
     public RadialGeometry(double radius, Color emission, Material material) {
         super(emission, material);
-        if (radius >= 0 && Util.usubtract(radius, 0.0) != 0)
-            _radius = radius;
-        else
-            throw new IllegalArgumentException("radius can't be zero (or almost zero).");
+        if (Util.alignZero(radius) <= 0)
+            throw new IllegalArgumentException("radius can't be zero or negative");
+        _radius = radius;
     }
 
     /**

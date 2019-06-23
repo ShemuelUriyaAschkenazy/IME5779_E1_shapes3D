@@ -16,10 +16,7 @@ import java.util.Random;
  * getListPoints - return list of random point on the light source area
  */
 public abstract class LightSource extends Light {
-
     protected double _radius;
-    Point3D _position;
-    List<Point3D> _listPoints = new ArrayList<>();
 
     /* ********* Constructors ***********/
 
@@ -30,6 +27,7 @@ public abstract class LightSource extends Light {
      */
     public LightSource(Color _color) {
         super(_color);
+        _radius = 0.0;
     }
 
     /**
@@ -39,17 +37,9 @@ public abstract class LightSource extends Light {
      * @param _position
      * @param _radius
      */
-    public LightSource(Color _color, Point3D _position, double _radius) {
+    public LightSource(Color _color, double _radius) {
         super(_color);
-        this._position = _position;
         this._radius = _radius;
-        Random random = new Random();
-        for (int i = 0; i <= 15; i++) {
-            double randomRadius = _radius * random.nextDouble();
-            Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
-            Point3D p = _position.add(vector);
-            _listPoints.add(p);
-        }
     }
 
     /* *****getters/setters************/
@@ -59,10 +49,9 @@ public abstract class LightSource extends Light {
      * uses for gets the light color that the light source add to the point (from the viewer point view).
      *
      * @param intersection the point on the geometry
-     * @param precisePosition a point on the light source surface
      * @return the light color
      */
-    public abstract Color getIntensity(Point3D intersection, Point3D precisePosition);
+    public abstract Color getIntensity(Point3D intersection);
 
     /**
      * getL function
@@ -71,16 +60,5 @@ public abstract class LightSource extends Light {
      * @param intersection the point on geometry
      * @return the vector
      */
-    public Vector getL(Point3D intersection, Point3D precisePosition) {
-        return intersection.subtract(precisePosition).normalize();
-    }
-
-    /**
-     * function that return the list of points on the light source
-     *
-     * @return list of points on the light source
-     */
-    public List<Point3D> getListPoints() {
-        return _listPoints;
-    }
+    public abstract Vector getL(Point3D intersection);
 }
