@@ -282,11 +282,11 @@ public class RenderTest {
         scene.setBackground(new Color(0, 0, 0));
         Geometries geometries = new Geometries();
         scene.addGeometry(geometries);
-        geometries.add(new Sphere(50, new Point3D(0, 0, 150), new Color(218, 32, 63), new Material(0.6, 0.3, 0, 0, 50)));
-        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.6, 0.3, 0, 0.5, 50)));
-        scene.addLightSource(new SpotLight(new Color(250, 250, 250), new Point3D(-30, -50, 0), 12, 1, 0.001, 0.000001, new Vector(0, 0, 1)));
-        scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(-300, 200, -70), 12, 1, 0.000001, 0.000001));
-        scene.addLightSource(new DirectionalLight(new Color(50, 50, 50), new Vector(1, 1, 1)));
+        geometries.add(new Sphere(50, new Point3D(0, 0, 150), new Color(218, 32, 63), new Material(0.8, 0.2, 0, 0, 50)));
+        geometries.add(new Sphere(100, new Point3D(0, 0, 150), new Color(63, 32, 218), new Material(0.8, 0.2, 0, 0.5, 50)));
+        scene.addLightSource(new SpotLight(new Color(100, 100, 100), new Point3D(-30, -50, 0), 3, 1, 0.001, 0.000001, new Vector(0, 0, 1)));
+        scene.addLightSource(new PointLight(new Color(100, 100, 100), new Point3D(-300, 200, -70), 3, 1, 0.000001, 0.000001));
+        scene.addLightSource(new DirectionalLight(new Color(50, 50, 50), new Vector(1, 1, 1),30000));
 
 
         ImageWriter imageWriter = new ImageWriter("sphereWithinSphere", 500, 500, 500, 500);
@@ -298,41 +298,7 @@ public class RenderTest {
 
     @Test
     public void spheresOnAMirrors() {
-        Scene scene = new Scene("spheresOnAMirrors");
-        scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
-        scene.setDistCameraScreen(100);
-        scene.setAmbientLight(new AmbientLight(new Color(30, 30, 30), 0.8));
-        scene.setBackground(new Color(0, 0, 0));
-        Geometries geometries = new Geometries();
-        scene.addGeometry(geometries);
-        geometries.add(new Sphere(80, new Point3D(-400, 300, -80), new Color(218, 32, 63), new Material(0.7, 0.3, 0, 0.2, 50)));
-        geometries.add(new Sphere(130, new Point3D(-400, 300, -80), new Color(63, 32, 218), new Material(0.7, 0.3, 0, 0.5, 50)));
-        geometries.add(new Sphere(79, new Point3D(-350, 250, -180), new Color(63, 300, 28), new Material(0.7, 0.3, 0, 0.2, 50)));
-
-        geometries.add(new Triangle(new Point3D(10, -10, 5),
-                new Point3D(-300, -300, 100),
-                new Point3D(300, 300, 100), Color.BLACK, new Material(0.5, 0.1, 1, 0, 500)));
-        geometries.add(new Triangle(new Point3D(-300, 300, 100),
-                new Point3D(-300, -300, 100),
-                new Point3D(300, 300, 100), Color.BLACK, new Material(0.5, 0.1, 1, 0, 500)));
-
-        scene.addLightSource(new SpotLight(new Color(250, 250, 250), new Point3D(8, 0, 0), 12, 1, 0.000001, 0.000001, new Vector(-0.2, 0, 1)));
-        scene.addLightSource(new SpotLight(new Color(250, 250, 250), new Point3D(8, 0, 0), 12, 1, 0.000001, 0.000001, new Vector(-0.2, 0, -1)));
-        scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(-300, 200, -70), 12, 1, 0.000001, 0.000001));
-        scene.addLightSource(new DirectionalLight(new Color(50, 50, 50), new Vector(1, -1, 1)));
-
-
-        //   scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(0, 0, 50), 1, 0.0001, 0.000001));
-        //scene.addLightSource(new SpotLight(new Color(150, 150, 150), new Point3D(-500, 500, 0), 1, 0.000001, 0.0000000001, new Vector(0.5, -0.5, 1)));
-        ImageWriter imageWriter = new ImageWriter("spheresOnAMirrors", 500, 500, 500, 500);
-        Render render = new Render(imageWriter, scene);
-        render.renderImage(500, 500);
-        imageWriter.writeToImage();
-    }
-
-    @Test
-    public void spheresOnAMirrors2() {
-        Scene scene = new Scene("spheresOnAMirrors2");
+        Scene scene = new Scene("spheresOnMirrors");
         scene.setCamera(new Camera(new Point3D(0, 0, -1000), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistCameraScreen(1100);
         scene.setAmbientLight(new AmbientLight(new Color(30, 30, 30), 0.8));
@@ -351,14 +317,14 @@ public class RenderTest {
                 new Point3D(600, 600, 300), Color.BLACK, new Material(0.2, 0.3, 1, 0, 500)));
 
         scene.addLightSource(new SpotLight(new Color(250, 250, 250), new Point3D(8, 0, 0), 3, 1, 0.000001, 0.000001, new Vector(-0.2, 0, 1)));
-        scene.addLightSource(new SpotLight(new Color(250, 250, 250), new Point3D(-350, 300, -350), 3, 1, 0.000001, 0.000001, new Vector(0, 0, -1)));
+        scene.addLightSource(new SpotLight(new Color(250, 250, 250), new Point3D(-250, 200, -1300), 3, 1, 0.000001, 0.000001, new Vector(-0.5, 0.5, 1)));
         scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(-300, 200, -70), 3, 1, 0.000001, 0.000001));
        // scene.addLightSource(new DirectionalLight(new Color(50, 50, 50), new Vector(1, -1, 1),30000));
 
 
         //   scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(0, 0, 50), 1, 0.0001, 0.000001));
         //scene.addLightSource(new SpotLight(new Color(150, 150, 150), new Point3D(-500, 500, 0), 1, 0.000001, 0.0000000001, new Vector(0.5, -0.5, 1)));
-        ImageWriter imageWriter = new ImageWriter("spheresOnAMirrors2", 1000, 1000, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("spheresOnMirrors", 1000, 1000, 500, 500);
         Render render = new Render(imageWriter, scene);
         render.renderImage(500, 500);
         imageWriter.writeToImage();
