@@ -215,9 +215,9 @@ public class RenderTest {
                 new Point3D(-34, 0, 30),
                 new Point3D(-34, 30, 30), new Color(63, 32, 218), new Material(0.1, 0.1, 2)));
 
-        scene.addLightSource(new SpotLight(new Color(280, 200, 200), new Point3D(-50, 1, -1), 12, 1, 0.0001, 0.0000007, new Vector(1, -1, 1)));
-        scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(-300, 200, -70), 12, 1, 0.000001, 0.000001));
-        scene.addLightSource(new DirectionalLight(new Color(300, 50, 50), new Vector(1, -1, 1)));
+        scene.addLightSource(new SpotLight(new Color(280, 200, 200), new Point3D(-50, 1, -1), 3, 1, 0.0001, 0.0000007, new Vector(1, -1, 1)));
+        scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(-300, 200, -70), 3, 1, 0.000001, 0.000001));
+        scene.addLightSource(new DirectionalLight(new Color(300, 50, 50), new Vector(1, -1, 1),30000));
 
         imageWriter = new ImageWriter("sphere & triangle's shadow 3", 500, 500, 500, 500);
         render = new Render(imageWriter, scene);

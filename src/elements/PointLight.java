@@ -14,7 +14,7 @@ import primitives.Vector;
  * _position- point describes the light source position.
  * _kC, _kL, _kQ -3 factors to describe the exponential attenuation depending on the distance.
  */
-public class PointLight extends LightSource {
+public class PointLight extends StandingLight {
     Point3D _position;
     double _kC, _kL, _kQ;
 
@@ -30,7 +30,7 @@ public class PointLight extends LightSource {
      * @param _kQ       quadratic attenuation factor (for describing the light attenuation)
      */
     public PointLight(Color _color, Point3D _position, double _kC, double _kL, double _kQ) {
-        super(_color);
+        super(1,_color,_position);
         this._position = _position;
         this._kC = _kC;
         this._kL = _kL;
@@ -48,7 +48,7 @@ public class PointLight extends LightSource {
      * @param _kQ       quadratic attenuation factor (for describing the light attenuation)
      */
     public PointLight(Color _color, Point3D _position, double _radius, double _kC, double _kL, double _kQ) {
-        super(_color, _radius);
+        super(_radius,_color,_position);
         this._position = _position;
         this._kC = _kC;
         this._kL = _kL;

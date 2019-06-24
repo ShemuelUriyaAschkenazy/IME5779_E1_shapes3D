@@ -2,6 +2,7 @@ package elements;
 
 import primitives.Color;
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public abstract class LightSource extends Light {
      * Constructor get the light source color, position of the light source and the radius of the light source
      *
      * @param _color
-     * @param _position
      * @param _radius
      */
     public LightSource(Color _color, double _radius) {
@@ -61,4 +61,6 @@ public abstract class LightSource extends Light {
      * @return the vector
      */
     public abstract Vector getL(Point3D intersection);
+
+    public abstract List<Ray> lightRays(Point3D point3D);
 }

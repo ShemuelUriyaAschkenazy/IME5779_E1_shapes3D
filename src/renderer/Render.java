@@ -82,22 +82,24 @@ public class Render {
         //ks is factor ('k') for specular light
         double ks = mat.getKS();
         double ktr; //ktr is k factor for transparency
-        Color colorFromLights = Color.BLACK;
+        Color colorFromLight = Color.BLACK;
         for (LightSource lightSource : _scene.getLights()) {
             //calculates light from different points on the light source, and average the results:
-            for (Ray l : lightRays(lightSource.ge,intersection)) {
-            Vector l = lightSource.getL(intersection.getPoint());
-            if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
-                ktr = transparency(l, normal, intersection);
-                if (ktr * k > MIN_CALC_COLOR_K) {
-                    Color lightIntensity = lightSource.getIntensity(p).scale(ktr);
-                    colorFromLights = colorFromLights.add(calcDiffusive(kd, l, normal, lightIntensity),
-                            calcSpecular(ks, l, normal, view, nShininess, lightIntensity));
-                }
+            List<Ray> lightRaysList = lightSource.lightRays(p);
+            for (Ray lightRay : lightRaysList) {
+                Vector l = lightRay.getVector();
+                //Vector l = lightSource.getL(p);
+                if (normal.dotProduct(l) * normal.dotProduct(view) > 0) {// both are with the same sign
+                    ktr = transparency(l, normal, intersection);
+                    if (ktr * k > MIN_CALC_COLOR_K) {
+                        Color lightIntensity = lightSource.getIntensity(p).scale(ktr);
+                        colorFromLight = colorFromLight.add(calcDiffusive(kd, l, normal, lightIntensity),
+                                calcSpecular(ks, l, normal, view, nShininess, lightIntensity));
+                    }
                 }
             }
-//            colorFromLights = colorFromLights.scale(1.0 / lightSource.getListPoints().size());
-            color = color.add(colorFromLights);
+            colorFromLight = colorFromLight.scale(1.0 / lightRaysList.size());
+            color = color.add(colorFromLight);
         }
         double kr = mat.getKR();
         double kkr = k * kr;
@@ -122,17 +124,17 @@ public class Render {
         return color;
     }
 
-    private List<Ray> lightRays (Point3D lightPosition, Point3D intersection,double radius) {
-        List<Ray> lightRays = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < 15; i++) {
-            double randomRadius = radius * random.nextDouble();
-            Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
-            Point3D p0 = lightPosition.add(vector);
-            lightRays.add(new Ray(p0, intersection.subtract(p0)));
-        }
-        return lightRays;
-    }
+//    private List<Ray> lightRays (Point3D lightPosition, Point3D intersection,double radius) {
+//        List<Ray> lightRays = new ArrayList<>();
+//        Random random = new Random();
+//        for (int i = 0; i < 15; i++) {
+//            double randomRadius = radius * random.nextDouble();
+//            Vector vector = new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble()).normalize().scale(randomRadius);
+//            Point3D p0 = lightPosition.add(vector);
+//            lightRays.add(new Ray(p0, intersection.subtract(p0)));
+//        }
+//        return lightRays;
+//    }
 
     private Color reflectedColor(Ray reflectedRay, double radius, Vector normal, int level, double kkr) {
         List<Ray> reflectedRayList = reflectedRayList(reflectedRay, radius, normal);
