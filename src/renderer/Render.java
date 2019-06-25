@@ -8,11 +8,15 @@ import static geometries.Intersectable.GeoPoint;
 
 import primitives.Color;
 import scene.Scene;
+import sun.nio.ch.ThreadPool;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * render class
@@ -37,7 +41,11 @@ public class Render {
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
         this._scene = scene;
+
+//TODO
     }
+
+
 
     /**
      * function for render the image, by painting the pixels in a imagine view plane, according to scene
@@ -46,15 +54,32 @@ public class Render {
      * @param j amount pixels im y axis in the imagine view plane
      */
     public void renderImage(int i, int j) {
-        Ray ray;
+        final int MAX_T = 100;
+        ThreadPoolExecutor pool = (ThreadPoolExecutor)Executors.newFixedThreadPool(MAX_T);
         java.awt.Color bg = _scene.getBackground().getColor();
-        for (int m = 0; m < i; m++)
+        for (int m = 0; m < i; m++) {
+            final int m1 = m;
             for (int n = 0; n < j; n++) {
-                ray = _scene.getCamera().constructRayThroughPixel
-                        (_imageWriter.getNx(), _imageWriter.getNy(), m, n, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
-                GeoPoint closestPoint = getClosestPoint(ray);
-                _imageWriter.writePixel(m, n, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
+                final int n1 = n;
+
+                pool.execute(new Thread() {
+                    @Override
+                    public void run() {
+                        //System.out.println("start thread "+Thread.currentThread().getId());
+                        Ray ray;
+                        ray = _scene.getCamera().constructRayThroughPixel
+                                (_imageWriter.getNx(), _imageWriter.getNy(), m1, n1, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
+                        GeoPoint closestPoint = getClosestPoint(ray);
+                        _imageWriter.writePixel(m1, n1, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
+                        //System.out.println("finish thread "+Thread.currentThread().getId());
+                    }
+                });
             }
+
+                //System.out.println("Maximum threads inside pool " + pool.getMaximumPoolSize());
+
+        }
+        pool.shutdown();
     }
 
     private Color calcColor(GeoPoint intersection, Ray inRay) {
@@ -340,6 +365,7 @@ public class Render {
             }
         }
     }
+
 
 
 }

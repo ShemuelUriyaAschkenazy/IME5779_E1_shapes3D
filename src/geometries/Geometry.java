@@ -12,6 +12,7 @@ abstract public class Geometry implements Intersectable {
     protected Color _emission;
     protected Material _material;
 
+
     /**
      * constructor
      *
