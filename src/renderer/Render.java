@@ -1,5 +1,6 @@
 package renderer;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import elements.LightSource;
 import geometries.*;
 import primitives.*;
@@ -28,6 +29,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class Render {
     private ImageWriter _imageWriter;
     private Scene _scene;
+    private BoundingVolumeHierarchy _boundingVolumeHierarchy;
 
     private final int MAX_CALC_COLOR_LEVEL = 10;
     private final double MIN_CALC_COLOR_K = 0.005;
@@ -41,15 +43,7 @@ public class Render {
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
         this._scene = scene;
-
-    }
-
-    private void createBoundingVolume(){
-        List <BoundingVolumeHierarchy> boundingVolumeHierarchyList = new ArrayList<>();
-        for (Intersectable g : _scene.getGeometries().getIntersectableList()){
-            boundingVolumeHierarchyList.add(new BoundingVolumeHierarchy((Geometry)g));
-        }
-
+        BoundingVolumeHierarchy boundingVolumeHierarchy = new BoundingVolumeHierarchy(_scene.getGeometries().getIntersectableList());
     }
 
 
@@ -60,26 +54,26 @@ public class Render {
      * @param j amount pixels im y axis in the imagine view plane
      */
     public void renderImage(int i, int j) {
-        ThreadPoolExecutor pool = (ThreadPoolExecutor)Executors.newCachedThreadPool();
+        ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         java.awt.Color bg = _scene.getBackground().getColor();
         for (int m = 0; m < i; m++) {
             final int m1 = m;
             for (int n = 0; n < j; n++) {
                 final int n1 = n;
-            //    pool.execute(new Runnable() {
-              //      @Override
-                //    public void run() {
+    //            pool.execute(new Runnable() {
+      //              @Override
+        //            public void run() {
                         Ray ray;
                         ray = _scene.getCamera().constructRayThroughPixel
                                 (_imageWriter.getNx(), _imageWriter.getNy(), m1, n1, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
                         GeoPoint closestPoint = getClosestPoint(ray);
                         _imageWriter.writePixel(m1, n1, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
                     }
-          //      });
+  //              });
             }
         //}
-      //  pool.shutdown();
-    }
+//        pool.shutdown();
+   }
 
     private Color calcColor(GeoPoint intersection, Ray inRay) {
         return calcColor(intersection, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(_scene.getAmbientLight().getIntensity());
@@ -133,9 +127,6 @@ public class Render {
         if (kkr > MIN_CALC_COLOR_K && reflectedRay != null) {
             double radius = mat.getKDG();
             color = color.add(reflectedColor(reflectedRay, radius, normal, level, kkr).scale(kr));
-//            }
-//            reflectedLight = reflectedLight.scale(1.0 / reflectedRayList.size());
-//            color = color.add(reflectedLight);
         }
         //     }
 
@@ -334,6 +325,8 @@ public class Render {
      * @return
      */
     private GeoPoint getClosestPoint(Ray ray) {
+        if (!_boundingVolumeHierarchy.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+            return null;
         Point3D p0 = ray.getPoint();
         List<GeoPoint> intersectionPoint = _scene.getGeometries().findIntersections(ray);
         if (intersectionPoint == null)
@@ -350,6 +343,7 @@ public class Render {
         return closestPoint;
     }
 
+
     /**
      * function to draw a grid on our image, by painting the interval pixels
      *
@@ -364,7 +358,6 @@ public class Render {
             }
         }
     }
-
 
 
 }

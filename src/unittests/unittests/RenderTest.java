@@ -9,6 +9,8 @@ import renderer.ImageWriter;
 import renderer.Render;
 import scene.Scene;
 
+import java.util.List;
+
 public class RenderTest {
     @Test
     public void basicRendering() {
