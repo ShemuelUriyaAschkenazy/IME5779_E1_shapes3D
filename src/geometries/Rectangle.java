@@ -33,6 +33,50 @@ public class Rectangle extends Plane {
         return _height;
     }
 
+
+    public double getMaxX()
+    {        
+        return Math.max(_point.getX().getCoordinate(),
+                Math.max( _point.add(_widthV).getX().getCoordinate(), 
+                        Math.max(_point.add(_heightV).getX().getCoordinate(),
+                                _point.add(_heightV).add(_widthV).getX().getCoordinate())));
+    }
+    public double getMinX()
+    {
+        return Math.min(_point.getX().getCoordinate(),
+                Math.min( _point.add(_widthV).getX().getCoordinate(),
+                        Math.min(_point.add(_heightV).getX().getCoordinate(),
+                                _point.add(_heightV).add(_widthV).getX().getCoordinate())));
+    }
+    public double getMaxY()
+    {
+        return Math.max(_point.getY().getCoordinate(),
+                Math.max( _point.add(_widthV).getY().getCoordinate(),
+                        Math.max(_point.add(_heightV).getY().getCoordinate(),
+                                _point.add(_heightV).add(_widthV).getY().getCoordinate())));
+    }
+    public double getMinY()
+    {
+        return Math.min(_point.getY().getCoordinate(),
+                Math.min( _point.add(_widthV).getY().getCoordinate(),
+                        Math.min(_point.add(_heightV).getY().getCoordinate(),
+                                _point.add(_heightV).add(_widthV).getY().getCoordinate())));
+    }
+    public double getMaxZ()
+    {
+        return Math.max(_point.getZ().getCoordinate(),
+                Math.max( _point.add(_widthV).getZ().getCoordinate(),
+                        Math.max(_point.add(_heightV).getZ().getCoordinate(),
+                                _point.add(_heightV).add(_widthV).getZ().getCoordinate())));
+    }
+    public double getMinZ()
+    {
+        return Math.min(_point.getZ().getCoordinate(),
+                Math.min( _point.add(_widthV).getZ().getCoordinate(),
+                        Math.min(_point.add(_heightV).getZ().getCoordinate(),
+                                _point.add(_heightV).add(_widthV).getZ().getCoordinate())));
+    }
+    
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         List<GeoPoint> intersectionsWithPlane = super.findIntersections(ray);

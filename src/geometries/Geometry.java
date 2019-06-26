@@ -50,4 +50,12 @@ abstract public class Geometry implements Intersectable {
     public Material getMaterial() {
         return _material;
     }
+
+    public abstract double getMaxX();
+    public abstract double getMinX();
+    public abstract double getMaxY();
+    public abstract double getMinY();
+    public abstract double getMaxZ();
+    public abstract double getMinZ();
 }
+

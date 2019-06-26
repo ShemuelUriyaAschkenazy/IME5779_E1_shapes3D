@@ -324,9 +324,9 @@ public class RenderTest {
 
         //   scene.addLightSource(new PointLight(new Color(50, 50, 50), new Point3D(0, 0, 50), 1, 0.0001, 0.000001));
         //scene.addLightSource(new SpotLight(new Color(150, 150, 150), new Point3D(-500, 500, 0), 1, 0.000001, 0.0000000001, new Vector(0.5, -0.5, 1)));
-        ImageWriter imageWriter = new ImageWriter("spheresOnMirrors", 1000, 1000, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("spheresOnMirrors", 1000, 1000, 1000, 1000);
         Render render = new Render(imageWriter, scene);
-        render.renderImage(500, 500);
+        render.renderImage(1000, 1000);
         imageWriter.writeToImage();
     }
 

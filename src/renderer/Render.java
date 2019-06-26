@@ -42,9 +42,15 @@ public class Render {
         this._imageWriter = imageWriter;
         this._scene = scene;
 
-//TODO
     }
 
+    private void createBoundingVolume(){
+        List <BoundingVolumeHierarchy> boundingVolumeHierarchyList = new ArrayList<>();
+        for (Intersectable g : _scene.getGeometries().getIntersectableList()){
+            boundingVolumeHierarchyList.add(new BoundingVolumeHierarchy((Geometry)g));
+        }
+
+    }
 
 
     /**
@@ -54,32 +60,25 @@ public class Render {
      * @param j amount pixels im y axis in the imagine view plane
      */
     public void renderImage(int i, int j) {
-        final int MAX_T = 100;
-        ThreadPoolExecutor pool = (ThreadPoolExecutor)Executors.newFixedThreadPool(MAX_T);
+        ThreadPoolExecutor pool = (ThreadPoolExecutor)Executors.newCachedThreadPool();
         java.awt.Color bg = _scene.getBackground().getColor();
         for (int m = 0; m < i; m++) {
             final int m1 = m;
             for (int n = 0; n < j; n++) {
                 final int n1 = n;
-
-                pool.execute(new Thread() {
-                    @Override
-                    public void run() {
-                        //System.out.println("start thread "+Thread.currentThread().getId());
+            //    pool.execute(new Runnable() {
+              //      @Override
+                //    public void run() {
                         Ray ray;
                         ray = _scene.getCamera().constructRayThroughPixel
                                 (_imageWriter.getNx(), _imageWriter.getNy(), m1, n1, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
                         GeoPoint closestPoint = getClosestPoint(ray);
                         _imageWriter.writePixel(m1, n1, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
-                        //System.out.println("finish thread "+Thread.currentThread().getId());
                     }
-                });
+          //      });
             }
-
-                //System.out.println("Maximum threads inside pool " + pool.getMaximumPoolSize());
-
-        }
-        pool.shutdown();
+        //}
+      //  pool.shutdown();
     }
 
     private Color calcColor(GeoPoint intersection, Ray inRay) {

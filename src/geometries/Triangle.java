@@ -66,6 +66,36 @@ public class Triangle extends Plane {
     }
 
     @Override
+    public double getMaxX() {
+        return Math.max(p1.getX().getCoordinate(), Math.max(p2.getX().getCoordinate(), p3.getX().getCoordinate()));
+    }
+
+    @Override
+    public double getMinX() {
+        return Math.min(p1.getX().getCoordinate(), Math.min(p2.getX().getCoordinate(), p3.getX().getCoordinate()));
+    }
+
+    @Override
+    public double getMaxY() {
+        return Math.max(p1.getY().getCoordinate(), Math.max(p2.getY().getCoordinate(), p3.getY().getCoordinate()));
+    }
+
+    @Override
+    public double getMinY() {
+        return Math.min(p1.getY().getCoordinate(), Math.min(p2.getY().getCoordinate(), p3.getY().getCoordinate()));
+    }
+
+    @Override
+    public double getMaxZ() {
+        return Math.max(p1.getZ().getCoordinate(), Math.max(p2.getZ().getCoordinate(), p3.getZ().getCoordinate()));
+    }
+
+    @Override
+    public double getMinZ() {
+        return Math.min(p1.getZ().getCoordinate(), Math.min(p2.getZ().getCoordinate(), p3.getZ().getCoordinate()));
+    }
+
+    @Override
     public String toString() {
         return "Triangle{" +
                 "p1=" + p1 +

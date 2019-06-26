@@ -51,6 +51,19 @@ public class Sphere extends RadialGeometry {
         return point3D.subtract(this._center).normalize();
     }
 
+    @Override
+    public double getMaxX() { return _center.getX().getCoordinate()+(_radius); }
+    @Override
+    public double getMinX() { return _center.getX().getCoordinate()-(_radius); }
+    @Override
+    public double getMaxY() { return _center.getY().getCoordinate()+(_radius); }
+    @Override
+    public double getMinY() { return _center.getY().getCoordinate()-(_radius); }
+    @Override
+    public double getMaxZ() { return _center.getZ().getCoordinate()+(_radius); }
+    @Override
+    public double getMinZ() { return _center.getZ().getCoordinate()-(_radius); }
+
     /**
      * function that produce list of  Intersections points between the ray and the sphere
      *
@@ -58,6 +71,7 @@ public class Sphere extends RadialGeometry {
      * @return list of Intersections points between the ray and the sphere
      * @throws Exception
      */
+
     @Override
     public List<GeoPoint> findIntersections(Ray ray) {
         Point3D p0 = ray.getPoint();

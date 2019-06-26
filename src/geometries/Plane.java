@@ -111,4 +111,58 @@ public class Plane extends Geometry {
             return null;
         }
     }
+
+    @Override
+    public double getMaxX() {
+        //assume that normal is normalized, if X axis of normal equal 1, that the normal is (1,0,0),
+        // i.e the plane is parallel to YZ plane, and there is no move on X axis.
+        if (Util.isZero(_normal.getHead().getX().getCoordinate() - 1))
+            return _point.getX().getCoordinate();
+        return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public double getMinX() {
+        //assume that normal is normalized, if X axis of normal equal 1, that the normal is (1,0,0),
+        // i.e the plane is parallel to YZ plane, and there is no move on X axis.
+        if (Util.isZero(_normal.getHead().getX().getCoordinate() - 1))
+            return _point.getX().getCoordinate();
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    @Override
+    public double getMaxY() {
+        //assume that normal is normalized, if Y axis of normal equal 1, that the normal is (1,0,0),
+        // i.e the plane is parallel to XZ plane, and there is no move on Y axis.
+        if (Util.isZero(_normal.getHead().getY().getCoordinate() - 1))
+            return _point.getY().getCoordinate();
+        return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public double getMinY() {
+        //assume that normal is normalized, if Y axis of normal equal 1, that the normal is (1,0,0),
+        // i.e the plane is parallel to XZ plane, and there is no move on Y axis.
+        if (Util.isZero(_normal.getHead().getY().getCoordinate() - 1))
+            return _point.getY().getCoordinate();
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    @Override
+    public double getMaxZ() {
+        //assume that normal is normalized, if Z axis of normal equal 1, that the normal is (1,0,0),
+        // i.e the plane is parallel to XY plane, and there is no move on Z axis.
+        if (Util.isZero(_normal.getHead().getZ().getCoordinate() - 1))
+            return _point.getZ().getCoordinate();
+        return Double.POSITIVE_INFINITY;
+    }
+
+    @Override
+    public double getMinZ() {
+        //assume that normal is normalized, if Z axis of normal equal 1, that the normal is (1,0,0),
+        // i.e the plane is parallel to XY plane, and there is no move on Z axis.
+        if (Util.isZero(_normal.getHead().getZ().getCoordinate() - 1))
+            return _point.getZ().getCoordinate();
+        return Double.NEGATIVE_INFINITY;
+    }
 }

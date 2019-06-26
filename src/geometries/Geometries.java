@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class Geometries implements Intersectable {
 
+
     List<Intersectable> intersectableList = new ArrayList<>();
 
     /**
@@ -22,6 +23,10 @@ public class Geometries implements Intersectable {
     public Geometries(Intersectable... geometries) {
         for (Intersectable g : geometries)
             intersectableList.add(g);
+    }
+
+    public List<Intersectable> getIntersectableList() {
+        return intersectableList;
     }
 
     /**
