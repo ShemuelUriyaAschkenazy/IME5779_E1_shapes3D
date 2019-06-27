@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoundingVolumeHierarchy {
+
     private Geometry _geometry;
+
     private List<BoundingVolumeHierarchy> _boundingVolumeList = new ArrayList<>();
     private boolean _isLeaf = false;
     private Point3D _minP, _maxP;
@@ -25,6 +27,18 @@ public class BoundingVolumeHierarchy {
     }
 
     public BoundingVolumeHierarchy() {
+    }
+
+    public boolean is_isLeaf() {
+        return _isLeaf;
+    }
+
+    public List<BoundingVolumeHierarchy> get_boundingVolumeList() {
+        return _boundingVolumeList;
+    }
+
+    public Geometry get_geometry() {
+        return _geometry;
     }
 
     public double get_xMax() {
@@ -67,7 +81,7 @@ public class BoundingVolumeHierarchy {
 
     public BoundingVolumeHierarchy(List<Intersectable> intersectables) {
         List<Geometry> geometries = new ArrayList<>();
-       // List<Intersectable> intersectables2 = ((Geometries) (intersectables.get(0))).getIntersectableList();
+        // List<Intersectable> intersectables2 = ((Geometries) (intersectables.get(0))).getIntersectableList();
         for (Intersectable i : intersectables) {
             geometries.add((Geometry) i);
         }
@@ -99,7 +113,7 @@ public class BoundingVolumeHierarchy {
 
         if (this._boundingVolumeList.size() > 1)
             splitBounds(this);
-        else _isLeaf = true;
+        //else _isLeaf = true;
     }
 
     private void splitBounds(BoundingVolumeHierarchy b) {
@@ -164,19 +178,19 @@ public class BoundingVolumeHierarchy {
         if (childMin._boundingVolumeList.size() > 1)
             b._boundingVolumeList.add(childMin);
         else if (childMin._boundingVolumeList.size() == 1) {
-            childMiddle._isLeaf = true;
+            //childMiddle._isLeaf = true;
             b._boundingVolumeList.add(childMin._boundingVolumeList.get(0));
         }
         if (childMax._boundingVolumeList.size() > 1)
             b._boundingVolumeList.add(childMax);
         else if (childMax._boundingVolumeList.size() == 1) {
-            childMiddle._isLeaf = true;
+            //childMiddle._isLeaf = true;
             b._boundingVolumeList.add(childMax._boundingVolumeList.get(0));
         }
         if (childMiddle._boundingVolumeList.size() > 1)
             b._boundingVolumeList.add(childMiddle);
         else if (childMiddle._boundingVolumeList.size() == 1) {
-            childMiddle._isLeaf = true;
+            //childMiddle._isLeaf = true;
             b._boundingVolumeList.add(childMiddle._boundingVolumeList.get(0));
         }
 
@@ -256,12 +270,12 @@ public class BoundingVolumeHierarchy {
 
         if (!((_tmin < t1) && (_tmax > t0))) return false;
 
-        if (this._isLeaf) return true;
+       // if (this._isLeaf) return true;
 
-        for (BoundingVolumeHierarchy bound : this._boundingVolumeList)
-            if (bound.isIntersect(r, t0, t1)) return true;
+//        for (BoundingVolumeHierarchy bound : this._boundingVolumeList)
+  //          if (bound.isIntersect(r, t0, t1)) return true;
 
-        return false;
+        return true;
     }
 
 

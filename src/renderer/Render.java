@@ -67,7 +67,7 @@ public class Render {
                 Ray ray;
                 ray = _scene.getCamera().constructRayThroughPixel
                         (_imageWriter.getNx(), _imageWriter.getNy(), m1, n1, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
-                GeoPoint closestPoint = getClosestPoint(ray);
+                GeoPoint closestPoint = getClosestPoint(_boundingVolumeHierarchy ,ray);
                 _imageWriter.writePixel(m1, n1, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
             }
             //              });
@@ -156,7 +156,7 @@ public class Render {
         List<Ray> reflectedRayList = reflectedRayList(reflectedRay, radius, normal);
         Color reflectedLight = Color.BLACK;
         for (Ray ray : reflectedRayList) {
-            GeoPoint reflectedPoint = getClosestPoint(ray);
+            GeoPoint reflectedPoint = getClosestPoint(_boundingVolumeHierarchy,ray);
             if (reflectedPoint != null)
                 reflectedLight = reflectedLight.add(calcColor(reflectedPoint, reflectedRay, level - 1, kkr));
         }
@@ -191,7 +191,7 @@ public class Render {
         List<Ray> refractedRayList = refractedRayList(refractedRay, radius, normal);
         Color refractedLight = Color.BLACK;
         for (Ray ray : refractedRayList) {
-            GeoPoint refractedPoint = getClosestPoint(ray);
+            GeoPoint refractedPoint = getClosestPoint(_boundingVolumeHierarchy,ray);
             if (refractedPoint != null)
                 refractedLight = refractedLight.add(calcColor(refractedPoint, refractedRay, level - 1, kkt));
         }
@@ -325,11 +325,42 @@ public class Render {
      * @param ray
      * @return
      */
-    private GeoPoint getClosestPoint(Ray ray) {
-        if (!_boundingVolumeHierarchy.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+    private GeoPoint getClosestPoint(BoundingVolumeHierarchy b,Ray ray) {
+        List<GeoPoint> intersectionPoint = new ArrayList<>();
+        List<GeoPoint> intersectionPoint1 = new ArrayList<>();
+        if (!b.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+            return null;
+        else {
+            for (BoundingVolumeHierarchy b2 : b.get_boundingVolumeList()) {
+                if (b2.is_isLeaf()) {
+                    GeoPoint gp=getClosestPointByBounder(b2,ray);
+                    if (gp!=null)
+                    intersectionPoint.add(gp);
+                }
+                else {
+                    GeoPoint gp= getClosestPoint(b2, ray);
+                    if (gp!=null)
+                    intersectionPoint.add(getClosestPoint(b2, ray));
+                }
+            }
+        }
+        if (intersectionPoint.size()==0)
             return null;
         Point3D p0 = ray.getPoint();
-        List<GeoPoint> intersectionPoint = _scene.getGeometries().findIntersections(ray);
+        GeoPoint closestPoint = intersectionPoint.get(0);
+        double distance = p0.distanceInSquare(closestPoint.getPoint());
+        for (GeoPoint gp : intersectionPoint) {
+            double temp = p0.distanceInSquare(gp.getPoint());
+            if (temp < distance) {
+                closestPoint = gp;
+                distance = temp;
+            }
+        }
+        return closestPoint;
+    }
+        private GeoPoint getClosestPointByBounder(BoundingVolumeHierarchy boundingVolumeHierarchy,Ray ray) {
+            List<GeoPoint> intersectionPoint = boundingVolumeHierarchy.get_geometry().findIntersections(ray);
+            Point3D p0 = ray.getPoint();
         if (intersectionPoint == null)
             return null;
         GeoPoint closestPoint = intersectionPoint.get(0);
@@ -343,6 +374,7 @@ public class Render {
         }
         return closestPoint;
     }
+    
 
 
     /**
