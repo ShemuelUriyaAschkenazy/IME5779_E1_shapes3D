@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BoundingVolumeHierarchy {
     private Geometry _geometry;
-    private List<BoundingVolumeHierarchy> _boundingVolumeList= new ArrayList<>();
+    private List<BoundingVolumeHierarchy> _boundingVolumeList = new ArrayList<>();
     private boolean _isLeaf = false;
     private Point3D _minP, _maxP;
     private double _xMax, _xMin;
@@ -66,11 +66,10 @@ public class BoundingVolumeHierarchy {
     }
 
     public BoundingVolumeHierarchy(List<Intersectable> intersectables) {
-        List<Geometry> geometries= new ArrayList<>();
-        List<Intersectable> intersectables2=((Geometries)(intersectables.get(0))).getIntersectableList();
-        for (Intersectable i:intersectables2)
-        {
-            geometries.add((Geometry)i);
+        List<Geometry> geometries = new ArrayList<>();
+        List<Intersectable> intersectables2 = ((Geometries) (intersectables.get(0))).getIntersectableList();
+        for (Intersectable i : intersectables2) {
+            geometries.add((Geometry) i);
         }
         _xMax = geometries.get(0).getMaxX();
         _xMin = geometries.get(0).getMinX();
@@ -104,7 +103,7 @@ public class BoundingVolumeHierarchy {
     }
 
     private void splitBounds(BoundingVolumeHierarchy b) {
-        final double dx = b._xMax - b._xMin;
+        double dx = b._xMax - b._xMin;
         double dy = b._yMax - b._yMin;
         double dz = b._zMax - b._zMin;
         double greatest = Math.max(dx, Math.max(dy, dz));
@@ -114,11 +113,11 @@ public class BoundingVolumeHierarchy {
         BoundingVolumeHierarchy childMiddle = new BoundingVolumeHierarchy();
 
         List<BoundingVolumeHierarchy> main = new ArrayList<>();
-        main= (ArrayList<BoundingVolumeHierarchy>)((ArrayList)(b._boundingVolumeList)).clone();
+        main = (ArrayList<BoundingVolumeHierarchy>) ((ArrayList) (b._boundingVolumeList)).clone();
 
         if (greatest == dx) {
             for (BoundingVolumeHierarchy bv : main) {
-                    if ((bv.get_xMin()) > b.get_xMin() + dx / 2) {
+                if ((bv.get_xMin()) > b.get_xMin() + dx / 2) {
                     childMax._boundingVolumeList.add(bv);
                     b._boundingVolumeList.remove(bv);
                 } else if (bv.get_xMax() < b.get_xMin() + dx / 2) {
@@ -158,6 +157,10 @@ public class BoundingVolumeHierarchy {
             }
         }
 
+        childMin.setValues(childMin);
+        childMax.setValues(childMax);
+        childMiddle.setValues(childMiddle);
+
         if (childMin._boundingVolumeList.size() > 1)
             b._boundingVolumeList.add(childMin);
         else if (childMin._boundingVolumeList.size() == 1) {
@@ -176,13 +179,48 @@ public class BoundingVolumeHierarchy {
             childMiddle._isLeaf = true;
             b._boundingVolumeList.add(childMiddle._boundingVolumeList.get(0));
         }
+
+        if (this._boundingVolumeList.size() == 1) {
+            for (BoundingVolumeHierarchy bv : _boundingVolumeList.get(0)._boundingVolumeList)
+                _boundingVolumeList.add(bv);
+            _boundingVolumeList.remove(0);
+            return;
+        }
+
         for (BoundingVolumeHierarchy bv : b._boundingVolumeList) {
-            if (bv._boundingVolumeList.size()>1)
+            if (bv._boundingVolumeList.size() > 1) {
                 System.out.println(bv);
-                //splitBounds(bv);
+                splitBounds(bv);
+            }
         }
     }
 
+    private void setValues(BoundingVolumeHierarchy b) {
+        if (b._boundingVolumeList.size() < 1)
+            return;
+        b._xMax = b._boundingVolumeList.get(0).get_xMax();
+        b._xMin = b._boundingVolumeList.get(0).get_xMin();
+        b._yMax = b._boundingVolumeList.get(0).get_yMax();
+        b._yMin = b._boundingVolumeList.get(0).get_xMin();
+        b._zMax = b._boundingVolumeList.get(0).get_zMax();
+        b._zMin = b._boundingVolumeList.get(0).get_zMin();
+        for (BoundingVolumeHierarchy bv : b._boundingVolumeList) {
+            if (bv.get_xMin() < b._xMin)
+                b._xMin = bv.get_xMin();
+            if (bv.get_yMin() < _yMin)
+                b._yMin = bv.get_yMin();
+            if (bv.get_zMin() < b._zMin)
+                b._zMin = bv.get_zMin();
+            if (bv.get_xMax() > b._xMax)
+                b._xMax = bv.get_xMax();
+            if (bv.get_yMax() > b._yMax)
+                b._yMax = bv.get_yMax();
+            if (bv.get_zMax() > b._zMax)
+                b._zMax = bv.get_zMax();
+        }
+        b._minP = new Point3D(b._xMin, b._yMin, b._zMin);
+        b._maxP = new Point3D(b._xMax, b._yMax, b._zMax);
+    }
 
     public boolean isIntersect(Ray r, double t0, double t1) {
         double _tmin, _tmax, _tymin, _tymax, _tzmin, _tzmax;
@@ -216,13 +254,15 @@ public class BoundingVolumeHierarchy {
         //System.out.println(r.getPoint().add(r.getVector().scale(_tmax)));
 
         if (!(_tmin < t1) && (_tmax > t0)) return false;
-        if (this._isLeaf) return true;
+        return true;
 
-        for(BoundingVolumeHierarchy bound : this._boundingVolumeList)
-            if (bound.isIntersect(r,t0,t1)) return true;
-
-            return false;
-
+//        if (!(_tmin < t1) && (_tmax > t0)) return false;
+//        if (this._isLeaf) return true;
+//
+//        for (BoundingVolumeHierarchy bound : this._boundingVolumeList)
+//            if (bound.isIntersect(r, t0, t1)) return true;
+//
+//        return false;
     }
 
 

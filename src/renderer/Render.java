@@ -3,6 +3,7 @@ package renderer;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import elements.LightSource;
 import geometries.*;
+import geometries.Rectangle;
 import primitives.*;
 
 import static geometries.Intersectable.GeoPoint;
@@ -43,7 +44,7 @@ public class Render {
     public Render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
         this._scene = scene;
-        BoundingVolumeHierarchy boundingVolumeHierarchy = new BoundingVolumeHierarchy(_scene.getGeometries().getIntersectableList());
+        this._boundingVolumeHierarchy = new BoundingVolumeHierarchy(_scene.getGeometries().getIntersectableList());
     }
 
 
@@ -325,7 +326,7 @@ public class Render {
      * @return
      */
     private GeoPoint getClosestPoint(Ray ray) {
-        if (!_boundingVolumeHierarchy.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+        if (_boundingVolumeHierarchy.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
             return null;
         Point3D p0 = ray.getPoint();
         List<GeoPoint> intersectionPoint = _scene.getGeometries().findIntersections(ray);
