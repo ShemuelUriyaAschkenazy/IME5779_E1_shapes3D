@@ -67,8 +67,8 @@ public class BoundingVolumeHierarchy {
 
     public BoundingVolumeHierarchy(List<Intersectable> intersectables) {
         List<Geometry> geometries = new ArrayList<>();
-        List<Intersectable> intersectables2 = ((Geometries) (intersectables.get(0))).getIntersectableList();
-        for (Intersectable i : intersectables2) {
+       // List<Intersectable> intersectables2 = ((Geometries) (intersectables.get(0))).getIntersectableList();
+        for (Intersectable i : intersectables) {
             geometries.add((Geometry) i);
         }
         _xMax = geometries.get(0).getMaxX();
@@ -180,14 +180,15 @@ public class BoundingVolumeHierarchy {
             b._boundingVolumeList.add(childMiddle._boundingVolumeList.get(0));
         }
 
-        if (this._boundingVolumeList.size() == 1) {
+        if (b._boundingVolumeList.size() == 1) {
             for (BoundingVolumeHierarchy bv : _boundingVolumeList.get(0)._boundingVolumeList)
                 _boundingVolumeList.add(bv);
             _boundingVolumeList.remove(0);
             return;
         }
 
-        for (BoundingVolumeHierarchy bv : b._boundingVolumeList) {
+        main = (ArrayList<BoundingVolumeHierarchy>) ((ArrayList) (b._boundingVolumeList)).clone();
+        for (BoundingVolumeHierarchy bv : main) {
             if (bv._boundingVolumeList.size() > 1) {
                 System.out.println(bv);
                 splitBounds(bv);
@@ -253,16 +254,14 @@ public class BoundingVolumeHierarchy {
         //System.out.println(r.getPoint().add(r.getVector().scale(_tmin)));
         //System.out.println(r.getPoint().add(r.getVector().scale(_tmax)));
 
-        if (!(_tmin < t1) && (_tmax > t0)) return false;
-        return true;
+        if (!((_tmin < t1) && (_tmax > t0))) return false;
 
-//        if (!(_tmin < t1) && (_tmax > t0)) return false;
-//        if (this._isLeaf) return true;
-//
-//        for (BoundingVolumeHierarchy bound : this._boundingVolumeList)
-//            if (bound.isIntersect(r, t0, t1)) return true;
-//
-//        return false;
+        if (this._isLeaf) return true;
+
+        for (BoundingVolumeHierarchy bound : this._boundingVolumeList)
+            if (bound.isIntersect(r, t0, t1)) return true;
+
+        return false;
     }
 
 

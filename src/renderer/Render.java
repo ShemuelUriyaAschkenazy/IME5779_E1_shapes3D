@@ -61,20 +61,20 @@ public class Render {
             final int m1 = m;
             for (int n = 0; n < j; n++) {
                 final int n1 = n;
-    //            pool.execute(new Runnable() {
-      //              @Override
-        //            public void run() {
-                        Ray ray;
-                        ray = _scene.getCamera().constructRayThroughPixel
-                                (_imageWriter.getNx(), _imageWriter.getNy(), m1, n1, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
-                        GeoPoint closestPoint = getClosestPoint(ray);
-                        _imageWriter.writePixel(m1, n1, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
-                    }
-  //              });
+                //            pool.execute(new Runnable() {
+                //              @Override
+                //            public void run() {
+                Ray ray;
+                ray = _scene.getCamera().constructRayThroughPixel
+                        (_imageWriter.getNx(), _imageWriter.getNy(), m1, n1, _scene.getDistCameraScreen(), _imageWriter.getWidth(), _imageWriter.getHeight());
+                GeoPoint closestPoint = getClosestPoint(ray);
+                _imageWriter.writePixel(m1, n1, closestPoint == null ? bg : calcColor(closestPoint, ray).getColor());
             }
+            //              });
+        }
         //}
 //        pool.shutdown();
-   }
+    }
 
     private Color calcColor(GeoPoint intersection, Ray inRay) {
         return calcColor(intersection, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(_scene.getAmbientLight().getIntensity());
@@ -326,7 +326,7 @@ public class Render {
      * @return
      */
     private GeoPoint getClosestPoint(Ray ray) {
-        if (_boundingVolumeHierarchy.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+        if (!_boundingVolumeHierarchy.isIntersect(ray, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
             return null;
         Point3D p0 = ray.getPoint();
         List<GeoPoint> intersectionPoint = _scene.getGeometries().findIntersections(ray);
